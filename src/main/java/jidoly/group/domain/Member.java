@@ -5,12 +5,14 @@ import jidoly.group.domain.base.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseEntity {
+@ToString(exclude = "password")
+public class Member /*extends BaseEntity*/ {
 
     @Id @GeneratedValue
     @Column(name = "member_id")

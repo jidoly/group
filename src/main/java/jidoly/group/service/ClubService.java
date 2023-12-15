@@ -33,7 +33,6 @@ public class ClubService {
         if (clubRepository.findByClubName(newClubName).isPresent()) {
             throw new RuntimeException("Club name already exists: " + newClubName);
         }
-        club.updateClubName(newClubName);
-        club.updateInfo(newInfo);
+        club.updateClubNameAndInfo(newClubName,newInfo);
     }
 }

@@ -3,13 +3,16 @@ package jidoly.group.service;
 import jidoly.group.domain.Club;
 import jidoly.group.domain.Member;
 import jidoly.group.repository.ClubRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -25,12 +28,12 @@ class ClubServiceTest {
         //given
         Club club = clubService.createClub("킹", "안녕하세요");
 
-        Optional<Club> result = clubRepository.findByClubName("킹");
-        System.out.println("result = " + result);
-//        clubService.changeClubNameOrInfo(0L, "king", "hihi");
         //when
+        clubService.changeClubNameOrInfo(1L, "king", "hihi");
 
         //then
+        Club club1 = clubRepository.findById(1L).get();
+        assertThat(club1.getClubName()).isEqualTo("king");
 
     }
 

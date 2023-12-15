@@ -27,10 +27,6 @@ public class MemberServiceTest {
 
     @BeforeEach
     void before(){
-        Member member1 = new Member("member1", "10", "kim");
-        Member member2 = new Member("member2", "10", "lee");
-        Member member3 = new Member("member3", "10", "park");
-        Member member4 = new Member("member4", "10", "jin");
         memberService.registerMember("member1", "10", "kim");
         memberService.registerMember("member2", "20", "lee");
     }

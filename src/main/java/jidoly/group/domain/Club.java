@@ -8,11 +8,13 @@ import jidoly.group.domain.base.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Club extends BaseEntity {
+@ToString
+public class Club /*extends BaseEntity*/ {
 
     @Id @GeneratedValue
     @Column(name = "club_id")
@@ -31,10 +33,9 @@ public class Club extends BaseEntity {
     public static Club createClub(String clubName, String info) {
         return new Club(clubName, info);
     }
-    public void updateClubName(String clubName) {
+    public void updateClubNameAndInfo(String clubName, String clubInfo) {
         this.clubName = clubName;
-    }
-    public void updateInfo(String clubInfo) {
         this.info = clubInfo;
     }
+
 }
