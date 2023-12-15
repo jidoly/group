@@ -6,8 +6,10 @@ import jidoly.group.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -15,6 +17,7 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public Member registerMember(String username, String password, String nick) {
         if (memberRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("username already exists"); // 여기 MVC에서 message로 대체

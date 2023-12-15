@@ -14,11 +14,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Club extends BaseEntity {
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
     @Column(name = "club_id")
     private Long id;
 
-    private String name;
+    private String clubName;
     private String info;
+
+
+    public Club(String clubName, String info) {
+        this.clubName = clubName;
+        this.info = info;
+    }
+    
+    /*생성 메서드*/
+    public static Club createClub(String clubName, String info) {
+        return new Club(clubName, info);
+    }
+    public void updateClubName(String clubName) {
+        this.clubName = clubName;
+    }
+    public void updateInfo(String clubInfo) {
+        this.info = clubInfo;
+    }
 }
