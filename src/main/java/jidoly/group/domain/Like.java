@@ -28,14 +28,22 @@ public class Like {
     @JoinColumn(name = "club_id")
     private Club club;
 
-    public Like(Board board, Member member) {
-        this.board = board;
+    private Like(Member member, Board board) {
         this.member = member;
+        this.board = board;
     }
 
+    public static Like addLikeBoard(Member member, Board board) {
+        return new Like(member, board);
+    }
 
-    public Like(Member member, Club club) {
+    private Like(Member member, Club club) {
         this.member = member;
         this.club = club;
     }
+    public static Like likeClub(Member member, Club club) {
+        return new Like(member, club);
+    }
+
+
 }

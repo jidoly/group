@@ -30,7 +30,7 @@ public class Join {
     @Enumerated(EnumType.STRING)
     private JoinStatus status;
 
-    public Join(Member member, Club club) {
+    private Join(Member member, Club club) {
         this.member = member;
         this.club = club;
         this.status = JoinStatus.WAIT;

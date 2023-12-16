@@ -4,31 +4,33 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class File {
+@ToString
+public class Comment {
 
-    @Id @GeneratedValue
-    @Column(name = "file_id")
+    @Id
+    @GeneratedValue
+    @Column(name = "comment_id")
     private Long id;
 
-    //이부분 이후에 컬렉션으로 대체할지 고민
-    private String uploadFileName;
-    private String storeFileName;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id")
-    private Club club;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
 
-
+    public Comment(String content, Member member, Board board) {
+        this.content = content;
+        this.member = member;
+        this.board = board;
+    }
+//    public
 }

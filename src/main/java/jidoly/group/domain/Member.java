@@ -24,7 +24,7 @@ public class Member /*extends BaseEntity*/ {
     @Enumerated
     private Rank rank;
 
-    public Member(String username, String password, String nick) {
+    private Member(String username, String password, String nick) {
         this.username = username;
         this.password = password;
         this.nick = nick;
