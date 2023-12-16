@@ -31,12 +31,22 @@ public class Board /*extends BaseEntity*/ {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-//
-//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Like> likes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<File> files = new ArrayList<>();
+
+    /* 연관관계 편의메소드*/
+
+    public void addFiles(File file) {
+        files.add(file);
+        file.setBoard(this);
+    }
+
 
     /* 생성 메소드 */
-
     private Board(Club club, Member member, String title, String content) {
         this.club = club;
         this.member = member;
@@ -44,12 +54,13 @@ public class Board /*extends BaseEntity*/ {
         this.content = content;
     }
 
-    public static Board createBoard(Club club, Member member, String title, String content) {
-        return new Board(club, member, title, content);
+    public static Board createBoard(Club club, Member member, String title, String content, File... files) {
+        Board board = new Board(club, member, title, content);
+        for (File file : files) {
+            board.addFiles(file);
+        }
+        return board;
     }
-
-
-
 
     /* 비지니스 메소드 */
 
@@ -62,17 +73,16 @@ public class Board /*extends BaseEntity*/ {
     }
 
     /**
-     * 좋아요 / 취소 / 갯수조회
+     *  좋아요 추가 / 취소
      */
-//    public void addLikeBoard(Member member) {
-//        Like like = Like.addLikeBoard(member, this);
-//        likes.add(like);
-//    }
-//
-//    public void removeLikeBoard(Member member) {
-//        likes.removeIf(like -> like.getBoard().equals(this) && like.getMember().equals(member));
-//    }
-//
+    public void addLike(Member member) {
+        Like like = Like.addLikeBoard(member, this);
+        likes.add(like);
+    }
+
+    public void removeLike(Member member) {
+        likes.removeIf(like -> like.getBoard().equals(this) && like.getMember().equals(member));
+    }
 
 
 }

@@ -1,11 +1,18 @@
 package jidoly.group.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jidoly.group.domain.Board;
 import jidoly.group.domain.Club;
+import jidoly.group.domain.Like;
+import jidoly.group.domain.Member;
 import jidoly.group.repository.ClubRepository;
+import jidoly.group.repository.LikeRepository;
+import jidoly.group.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -13,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClubService {
 
     private final ClubRepository clubRepository;
+    private final MemberRepository memberRepository;
+    private final LikeRepository likeRepository;
 
     @Transactional
     public Club createClub(String name, String info) {
@@ -35,4 +44,24 @@ public class ClubService {
         }
         club.updateClubNameAndInfo(newClubName,newInfo);
     }
+
+    @Transactional
+    public void likeClub(Long memberId, Long clubId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
+
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new RuntimeException("해당 클럽을 찾을 수 없습니다."));
+
+        //좋아요 중복 금지 - Exist하면, 다시 눌렀을떄 취소 하는걸로
+        Optional<Like> likeExist = likeRepository.findByMemberIdAndClubId(memberId, clubId);
+        if (likeExist.isPresent()) {
+            Long likeId = likeExist.get().getId();
+            likeRepository.deleteById(likeId);
+        } else {
+            likeRepository.save(Like.addLikeClub(member, club));
+        }
+    }
+
+//    public
 }

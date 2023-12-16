@@ -1,20 +1,18 @@
 package jidoly.group.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
-@Getter
+@Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(exclude = {"member", "club", "board"})
 public class File {
 
     @Id @GeneratedValue
     @Column(name = "file_id")
     private Long id;
 
-    //이부분 이후에 컬렉션으로 대체할지 고민
     private String uploadFileName;
     private String storeFileName;
 
@@ -29,6 +27,15 @@ public class File {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     private Board board;
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public File(String uploadFileName, String storeFileName) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
+    }
 
 
 }
