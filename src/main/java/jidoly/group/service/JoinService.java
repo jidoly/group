@@ -1,5 +1,6 @@
 package jidoly.group.service;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jidoly.group.domain.Club;
 import jidoly.group.domain.Join;
@@ -9,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -16,10 +19,17 @@ public class JoinService {
 
     private final JoinRepository joinRepository;
 
+
     //가입 신청시
-    public Join applyJoin(Member member, Club club) {
-        Join join = Join.createJoin(member, club);
-        return joinRepository.save(join);
+    @Transactional
+    public Long applyJoin(Join join) {
+        Optional<Join> exist = joinRepository.findByMemberIdAndClubId(join.getMember().getId(), join.getClub().getId());
+        if (!exist.isPresent()) {
+            joinRepository.save(join);
+            return join.getId();
+        } else {
+            throw new EntityExistsException("이미 존재하는 요청입니다 id: " + exist.get().getId());
+        }
     }
 
     /**

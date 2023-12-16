@@ -18,14 +18,15 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Member registerMember(String username, String password, String nick) {
-        if (memberRepository.findByUsername(username).isPresent()) {
+    public Long registerMember(Member member) {
+        if (memberRepository.findByUsername(member.getUsername()).isPresent()) {
             throw new RuntimeException("username already exists"); // 여기 MVC에서 message로 대체
         }
+        String encodedPassword = passwordEncoder.encode(member.getPassword());
+        member.setEncodePassword(encodedPassword);
 
-        String encodedPassword = passwordEncoder.encode(password);
-        Member member = Member.createMember(username, encodedPassword, nick);
-        return memberRepository.save(member);
+        memberRepository.save(member);
+        return member.getId();
     }
 
     public Member findMemberByUsername(String username) {

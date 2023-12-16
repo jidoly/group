@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,17 +24,26 @@ public class ClubService {
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
 
+    public List<Club> findAll() {
+        return clubRepository.findAll();
+    }
+
+    public Club findById(Long clubId) {
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + clubId));
+        return club;
+    }
+
     @Transactional
-    public Club createClub(String name, String info) {
-        if (clubRepository.findByClubName(name).isPresent()) {
+    public Long createClub(Club club) {
+        if (clubRepository.findByClubName(club.getClubName()).isPresent()) {
             throw new RuntimeException("name already exists"); // 여기 MVC에서 message로 대체
         }
-
-        Club club = Club.createClub(name, info);
-        return clubRepository.save(club);
+        clubRepository.save(club);
+        return club.getId();
     }
     @Transactional
-    public void changeClubNameOrInfo(Long clubId, String newClubName, String newInfo) {
+    public Long changeClubNameOrInfo(Long clubId, String newClubName, String newInfo) {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + clubId));
 
@@ -42,7 +52,9 @@ public class ClubService {
         if (clubRepository.findByClubName(newClubName).isPresent()) {
             throw new RuntimeException("Club name already exists: " + newClubName);
         }
+
         club.updateClubNameAndInfo(newClubName,newInfo);
+        return club.getId();
     }
 
     @Transactional
@@ -63,5 +75,4 @@ public class ClubService {
         }
     }
 
-//    public
 }

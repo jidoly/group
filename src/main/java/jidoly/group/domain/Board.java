@@ -38,13 +38,15 @@ public class Board /*extends BaseEntity*/ {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     private List<File> files = new ArrayList<>();
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
     /* 연관관계 편의메소드*/
 
     public void addFiles(File file) {
         files.add(file);
-        file.setBoard(this);
+        file.addBoard(this);
     }
-
 
     /* 생성 메소드 */
     private Board(Club club, Member member, String title, String content) {
@@ -82,6 +84,11 @@ public class Board /*extends BaseEntity*/ {
 
     public void removeLike(Member member) {
         likes.removeIf(like -> like.getBoard().equals(this) && like.getMember().equals(member));
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.addBoard(this);
     }
 
 

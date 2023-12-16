@@ -30,8 +30,10 @@ public class Member /*extends BaseEntity*/ {
         this.nick = nick;
         this.rank = Rank.NORMAL; // 디폴트로 유저등급 넣어줌.
     }
-
     public static Member createMember(String username, String password, String nick) {
         return new Member(username, password, nick);
+    }
+    public void setEncodePassword(String password) {
+        this.password = password;
     }
 }

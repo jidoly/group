@@ -28,7 +28,7 @@ public class File {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    public void setBoard(Board board) {
+    public void addBoard(Board board) {
         this.board = board;
     }
 

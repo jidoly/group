@@ -14,6 +14,7 @@ public class BoardDto {
     private int likeCount;
     private String createdDate, modifiedDate;
     private List<File> files;
+    private List<Comment> comments;
 
     public BoardDto(Board board) {
         id = board.getId();
@@ -22,6 +23,6 @@ public class BoardDto {
         content = board.getContent();
         likeCount = board.getLikes().size();
         files = board.getFiles();
-
+        comments = board.getComments();
     }
 }

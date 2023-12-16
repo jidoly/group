@@ -9,7 +9,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = {"member", "board"})
 public class Comment {
 
     @Id
@@ -27,10 +27,19 @@ public class Comment {
     @JoinColumn(name = "board_id")
     private Board board;
 
-    public Comment(String content, Member member, Board board) {
+    private Comment(String content, Member member, Board board) {
         this.content = content;
         this.member = member;
         this.board = board;
     }
-//    public
+
+    public static Comment createComment(String content, Member member, Board board) {
+        return new Comment(content, member, board);
+    }
+
+    public void addBoard(Board board) {
+        this.board = board;
+    }
+
+
 }

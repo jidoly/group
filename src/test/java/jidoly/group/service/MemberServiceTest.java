@@ -1,7 +1,9 @@
 package jidoly.group.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jidoly.group.domain.Member;
 import jidoly.group.repository.MemberRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -25,42 +30,28 @@ public class MemberServiceTest {
     private PasswordEncoder passwordEncoder;
 
 
-    @BeforeEach
-    void before(){
-        memberService.registerMember("member1", "10", "kim");
-        memberService.registerMember("member2", "20", "lee");
-    }
 
     @Test
     public void testRegisterMember() {
         // given
-        String username = "testMember";
-        String password = "testPassword";
-        String nick = "testNick";
-
+        Member member1 = Member.createMember("member1", "10", "kim");
         // when
-        Member registeredMember = memberService.registerMember(username, password, nick);
-
+        Long boardId = memberService.registerMember(member1);
         // then
-        assertNotNull(registeredMember);
-        assertEquals(username, registeredMember.getUsername());
-        assertTrue(passwordEncoder.matches(password, registeredMember.getPassword()));
+        Member findMember = memberRepository.findById(boardId).get();
+        assertThat(findMember.getNick()).isEqualTo("kim");
     }
 
     @Test
     public void testFindMemberByUsername() {
         // given
-        String username = "testMember";
-        String password = "testPassword";
-        String nick = "testNick";
-        Member registeredMember = memberService.registerMember(username, password, nick);
+        Member member1 = Member.createMember("member1", "10", "kim");
+        memberService.registerMember(member1);
 
-        // when
-        Member foundMember = memberService.findMemberByUsername(username);
+        //then
+        Member findMember = memberService.findMemberByUsername("member1");
+        assertThat(findMember.getNick()).isEqualTo("kim");
 
-        // then
-        assertNotNull(foundMember);
-        assertEquals(username, foundMember.getUsername());
     }
 
     @Test
@@ -69,8 +60,8 @@ public class MemberServiceTest {
         String username = "nonExistingMember";
 
         // when
-        memberService.findMemberByUsername(username);
+        assertThrows(EntityNotFoundException.class, ()->
+                memberService.findMemberByUsername(username));
     }
 
-    // 다른 MemberService의 메서드에 대한 테스트들
 }

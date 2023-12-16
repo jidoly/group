@@ -21,9 +21,25 @@ public class BoardService {
     private final LikeRepository likeRepository;
     private final ClubRepository clubRepository;
 
+    public BoardDto findBoardById(Long id) {
+        Board board = boardRepository.findWithLikeBoardById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Board not found"));
+        BoardDto boardDto = new BoardDto(board);
+
+        return boardDto;
+    }
+
+    public List<BoardDto> findAll() {
+        List<Board> all = boardRepository.findAll();
+        List<BoardDto> collect = all.stream()
+                .map(a -> new BoardDto(a))
+                .collect(Collectors.toList());
+
+        return collect;
+    }
 
     @Transactional
-    public Board writePost(String username, String clubName, String title, String content,File... files) {
+    public Long writePost(String username, String clubName, String title, String content,File... files) {
         Club club = clubRepository.findByClubName(clubName)
                 .orElseThrow(() -> new RuntimeException("해당 클럽을 찾을 수 없습니다."));
 
@@ -32,14 +48,20 @@ public class BoardService {
 
         Board board = Board.createBoard(club, member, title, content, files);
 
-        return boardRepository.save(board);
+        boardRepository.save(board);
+
+        return board.getId();
     }
+
+    /**
+     * - 파일업데이트는 이후 버전에서 추가
+     */
     @Transactional
-    public Board updatePost(Long postId, String title, String content) {
-        Board board = boardRepository.findById(postId)
+    public Long updatePost(Long boardId, String title, String content) {
+        Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new RuntimeException("해당 게시물을 찾을 수 없습니다."));
         board.updateBoard(title, content);
-        return board;
+        return board.getId();
     }
     @Transactional
     public void addLikeToBoard(Long boardId, Member member) {
@@ -56,21 +78,12 @@ public class BoardService {
         likeRepository.deleteById(like.getId());
 
     }
-    public BoardDto findBoardById(Long id) {
-        Board board = boardRepository.findWithLikeBoardById(id)
+    @Transactional
+    public void addCommentToBoard(Long boardId, Comment comment) {
+        Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new EntityNotFoundException("Board not found"));
-        BoardDto boardDto = new BoardDto(board);
-
-        return boardDto;
-    }
-
-    public List<BoardDto> findAll() {
-        List<Board> all = boardRepository.findAll();
-        List<BoardDto> collect = all.stream()
-                .map(a -> new BoardDto(a))
-                .collect(Collectors.toList());
-
-        return collect;
+        board.addComment(comment);
+        boardRepository.save(board);
     }
 
 
