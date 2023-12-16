@@ -1,6 +1,7 @@
 package jidoly.group.domain;
 
 import jakarta.persistence.*;
+import jidoly.group.domain.base.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = "likes")
-public class Board /*extends BaseEntity*/ {
+public class Board extends BaseEntity {
 
 
     @Id

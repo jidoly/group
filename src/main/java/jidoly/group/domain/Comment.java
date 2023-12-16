@@ -1,6 +1,7 @@
 package jidoly.group.domain;
 
 import jakarta.persistence.*;
+import jidoly.group.domain.base.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"member", "board"})
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue

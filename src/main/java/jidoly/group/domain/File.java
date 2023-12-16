@@ -1,13 +1,14 @@
 package jidoly.group.domain;
 
 import jakarta.persistence.*;
+import jidoly.group.domain.base.BaseEntity;
 import lombok.*;
 
 @Entity
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"member", "club", "board"})
-public class File {
+public class File extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "file_id")

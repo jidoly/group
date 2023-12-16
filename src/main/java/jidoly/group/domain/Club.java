@@ -14,7 +14,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Club /*extends BaseEntity*/ {
+public class Club extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "club_id")

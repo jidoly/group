@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = "password")
-public class Member /*extends BaseEntity*/ {
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "member_id")
