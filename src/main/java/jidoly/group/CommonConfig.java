@@ -1,4 +1,4 @@
-package jidoly.group.com;
+package jidoly.group;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

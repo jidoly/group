@@ -29,8 +29,11 @@ public class BoardService {
         return boardDto;
     }
 
-    public List<BoardDto> findAll() {
-        List<Board> all = boardRepository.findAll();
+    public List<BoardDto> findAllold() {
+
+        List<Board> all = boardRepository.findBoardFetch();
+
+        System.err.println("all = " + all);
         List<BoardDto> collect = all.stream()
                 .map(a -> new BoardDto(a))
                 .collect(Collectors.toList());
@@ -38,15 +41,19 @@ public class BoardService {
         return collect;
     }
 
+    public List<BoardDto> findAll() {
+        List<BoardDto> boardQueryDSL = boardRepository.findBoardQueryDSL();
+        return boardQueryDSL;
+    }
+
+
     @Transactional
-    public Long writePost(String username, String clubName, String title, String content,File... files) {
-        Club club = clubRepository.findByClubName(clubName)
+    public Long writePost(Board board) {
+        Club club = clubRepository.findByClubName(board.getClub().getClubName())
                 .orElseThrow(() -> new RuntimeException("해당 클럽을 찾을 수 없습니다."));
 
-        Member member = memberRepository.findByUsername(username)
+        Member member = memberRepository.findByUsername(board.getMember().getUsername())
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
-
-        Board board = Board.createBoard(club, member, title, content, files);
 
         boardRepository.save(board);
 
