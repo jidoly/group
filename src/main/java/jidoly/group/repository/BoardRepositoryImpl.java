@@ -41,7 +41,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
                     return new BoardDto(
                             board.getId(),
                             board.getTitle(),
-                            board.getMember().getNick(),
+                            board.getMember().getNickname(),
                             board.getContent(),
                             Math.toIntExact(likeCount),
                             board.getFiles(),

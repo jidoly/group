@@ -13,14 +13,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @EnableJpaAuditing
-@EnableWebSecurity
+//@EnableWebSecurity
 @SpringBootApplication
 public class GroupApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GroupApplication.class, args);
 	}
-
-	//MVC 개발 이후에 SessionId로 수정 필요
 
 }

@@ -10,16 +10,15 @@ import java.util.Optional;
 
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom {
 
-
     @Override
     @EntityGraph(attributePaths = {"likes"})
     List<Board> findAll();
 
 
-    @EntityGraph(attributePaths = {"likes"})
-    Optional<Board> findWithLikeBoardById(long id);
+    @EntityGraph(attributePaths = {"member", "club"})
+    Optional<Board> findFetchById(long id);
 
     @EntityGraph(attributePaths = {"member", "club"})
     @Query("select b from Board b")
-    List<Board> findBoardFetch();
+    List<Board> findFetchBoard();
 }

@@ -72,5 +72,4 @@ class ClubServiceTest {
         assertThat(findClub.getClubName()).isEqualTo("헬스");
     }
 
-
 }

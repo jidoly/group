@@ -1,0 +1,12 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header(title)">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:replace="${title}">common title</title>
+<!--  <script src="https://cdn.tailwindcss.com"></script>-->
+<!--  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">-->
+<!--  <link th:href="@{/css/bootstrap.min.css}"-->
+<!--        href="css/bootstrap.min.css" rel="stylesheet">-->
+  <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/output.css}">
+  <script th:src="@{/js/common.js}"></script>
+</head>

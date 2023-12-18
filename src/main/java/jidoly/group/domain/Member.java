@@ -6,6 +6,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.lang.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,18 +24,31 @@ public class Member extends BaseEntity {
 
     private String username;
     private String password;
-    private String nick;
+    private String nickname;
     @Enumerated
     private Rank rank;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<File> files = new ArrayList<>();
+
+    /* 연관관계 편의 메소드*/
+    public void addFiles(File file) {
+        files.add(file);
+        file.addMember(this);
+    }
 
     private Member(String username, String password, String nick) {
         this.username = username;
         this.password = password;
-        this.nick = nick;
+        this.nickname = nick;
         this.rank = Rank.NORMAL; // 디폴트로 유저등급 넣어줌.
     }
-    public static Member createMember(String username, String password, String nick) {
-        return new Member(username, password, nick);
+    public static Member createMember(String username, String password, String nick, File... files) {
+        Member member = new Member(username, password, nick);
+        for (File file : files) {
+            member.addFiles(file);
+        }
+        return member;
     }
     public void setEncodePassword(String password) {
         this.password = password;

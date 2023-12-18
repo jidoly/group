@@ -1,6 +1,7 @@
 package jidoly.group.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jidoly.group.controller.member.LoginDto;
 import jidoly.group.domain.Member;
 import jidoly.group.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,12 @@ public class MemberService {
     public Member findMemberByUsername(String username) {
         return memberRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found")); // 여기도 MVC에서 message로 대체
+    }
+
+    public Member login(LoginDto loginDto) {
+        String encodePassword = passwordEncoder.encode(loginDto.getPassword());
+        return memberRepository.findByUsername(loginDto.getUsername())
+                .filter(m -> m.getPassword().equals(encodePassword))
+                .orElse(null);
     }
 }

@@ -22,7 +22,7 @@ public class BoardService {
     private final ClubRepository clubRepository;
 
     public BoardDto findBoardById(Long id) {
-        Board board = boardRepository.findWithLikeBoardById(id)
+        Board board = boardRepository.findFetchById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Board not found"));
         BoardDto boardDto = new BoardDto(board);
 
@@ -31,7 +31,7 @@ public class BoardService {
 
     public List<BoardDto> findAllold() {
 
-        List<Board> all = boardRepository.findBoardFetch();
+        List<Board> all = boardRepository.findFetchBoard();
 
         System.err.println("all = " + all);
         List<BoardDto> collect = all.stream()

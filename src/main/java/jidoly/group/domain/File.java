@@ -33,6 +33,10 @@ public class File extends BaseEntity {
         this.board = board;
     }
 
+    public void addMember(Member member) {
+        this.member = member;
+    }
+
     public File(String uploadFileName, String storeFileName) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;

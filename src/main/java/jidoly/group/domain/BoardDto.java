@@ -20,7 +20,7 @@ public class BoardDto {
 
     public BoardDto(Board board) {
         id = board.getId();
-        writer = board.getMember().getNick();
+        writer = board.getMember().getNickname();
         title = board.getTitle();
         content = board.getContent();
         likeCount = board.getLikes().size();
