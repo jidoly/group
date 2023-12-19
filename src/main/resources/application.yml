@@ -19,6 +19,6 @@ spring:
         use_sql_comments: true
 
 logging.level:
-  root: DEBUG
+#  root: DEBUG
   org.hibernate.SQL: debug
 #   org.hibernate.type: trace

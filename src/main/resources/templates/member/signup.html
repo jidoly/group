@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: common_header(~{::title})">
+  <title>회원가입</title>
+</head>
+<!--
+// v0 by Vercel.
+// https://v0.dev/t/W5ak7S2nJ9y
+-->
+
+<!--
+// v0 by Vercel.
+// https://v0.dev/t/W5ak7S2nJ9y
+-->
+<body>
+<div class="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex justify-center items-center">
+
+  <form action="" th:action th:object="${signupDto}" method="post">
+<!--  <div class="flex flex-col p-8 space-y-4 bg-white shadow-lg rounded-lg">-->
+  <div class="flex flex-col p-8 space-y-4 bg-white shadow-lg rounded-lg flex">
+    <div class="flex flex-col items-center">
+      <label class="mt-2 cursor-pointer">
+        <input type="file" class="hidden" aria-label="Upload profile picture" id="uploadInput" onchange="displayImage(this)" />
+        <img
+                th:src="@{/images/defaultUser.png}"
+                alt="no-image"
+                height="100"
+                width="100"
+                class="rounded-full"
+                style="aspect-ratio:100/100;object-fit:cover"
+                id="profileImage"
+                th:field="*{attachFile}"
+        />
+      </label>
+      <h2 class="mt-2 text-lg font-semibold">사진을 등록해주세요!</h2>
+    </div>
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+      <p class="field-error" th:each="err : ${#fields.globalErrors()}"
+         th:text="${err}">Global 오류 메시지</p>
+    </div>
+
+    <div class="gap-4">
+      <input
+              type="email"
+              class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+              th:field="*{username}"
+              placeholder="이메일@example.com"
+              required=""
+              th:errorclass="field-error"
+      />
+      <div class="field-error" th:errors="*{username}"/>
+    </div>
+    <div class="gap-4">
+      <input
+              type="text"
+              class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+              th:field="*{nickname}"
+              placeholder="닉네임을 입력하세요"
+              required=""
+              th:errorclass="field-error"
+      />
+      <div class="field-error" th:errors="*{nickname}"/>
+    </div>
+
+    <div class="gap-4">
+    <input
+            type="password"
+            class="flex h-10 w-full border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border rounded-md p-2"
+            placeholder="password"
+            th:field="*{password}"
+            th:errorclass="field-error"
+    />
+    <div class="field-error" th:errors="*{password}"/>
+    </div>
+    <div class="gap-4">
+    <input
+            type="password"
+            class="flex h-10 w-full border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border rounded-md p-2"
+            placeholder="password 확인"
+            th:field="*{validPw}"
+            th:errorclass="field-error"
+    />
+      <div class="field-error" th:errors="*{validPw}"/>
+    </div>
+
+
+    <div class="flex flex-wrap gap-2" >
+      <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 hidden-div">
+        English
+        <button class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-destructive-foreground h-9 rounded-md px-3 ml-2 bg-transparent hover:bg-transparent">
+          <svg
+                  width="50"
+          >
+          </svg>
+        </button>
+      </div>
+      <div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium bg-blue-100 text-blue-800 hidden-div">
+        Spanish
+        <button class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-destructive-foreground h-9 rounded-md px-3 ml-2 bg-transparent hover:bg-transparent">
+          <svg
+                  width="50"
+          >
+          </svg>
+        </button>
+      </div>
+      <button th:onclick="|location.href='@{/member/login}'|"
+              class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
+        뒤로가기
+      </button>
+    </div>
+    <button
+            class="inline-flex items-center justify-center text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 mt-4 bg-primary hover:bg-primary/90 text-white font-bold py-2 px-4 rounded-full"
+            type="submit"
+    >
+      Continue
+    </button>
+  </div>
+  </form>
+</div>
+</body>
+</html>

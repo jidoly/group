@@ -37,6 +37,8 @@
 */
 
 
+/* custom ver 0.1 */
+
 @font-face {
   font-family: 'GapyeongWave';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/GapyeongWave.woff2') format('woff2');
@@ -44,15 +46,24 @@
   font-style: normal;
 }
 
-/*.__className_e66fe9 {*/
-/*  font-family: GapyeongWave;*/
-/*  font-style: normal*/
-/*} */
+
 *{
   font-family: GapyeongWave;
   font-style: normal
 }
-/*테스트 */
+.hidden-div {
+  visibility: hidden;
+}
+.container {
+  max-width: 560px;
+}
+.field-error {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+
+/* custom ver 0.1 */
 
 
 
