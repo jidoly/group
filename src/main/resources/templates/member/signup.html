@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: common_header(~{::title})">
+<head th:replace="fragments/comhead :: common_header(~{::title})">
   <title>회원가입</title>
 </head>
 <!--
@@ -12,8 +12,8 @@
 // v0 by Vercel.
 // https://v0.dev/t/W5ak7S2nJ9y
 -->
-<body>
-<div class="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex justify-center items-center">
+<body class="bodyCustom">
+<div class="min-h-screen flex justify-center items-center">
 
   <form action="" th:action th:object="${signupDto}" method="post">
 <!--  <div class="flex flex-col p-8 space-y-4 bg-white shadow-lg rounded-lg">-->

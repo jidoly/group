@@ -1,20 +1,20 @@
-<!--
-// v0 by Vercel.
-// https://v0.dev/t/Hzez5VKE3Mw
--->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: common_header(~{::title})">
+<head th:replace="fragments/comhead :: common_header(~{::title})">
     <title>로그인</title>
 </head>
-<main class="min-h-screen bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex items-center justify-center">
+
+
+<body class="bodyCustom items-center">
+<div class="parents">
+
     <div
             class="border text-card-foreground w-full max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden"
             data-v0-t="card"
     >
         <form th:action method="post">
         <div class="flex flex-col space-y-1.5 p-6">
-            <div class="flex justify-center py-6">
+            <div class="flex justify-center py-4">
                 <div class="inline-flex rounded-full border px-2.5 py-0.5 w-fit text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground items-center">
                     <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -34,8 +34,9 @@
                     Secure Login
                 </div>
             </div>
-            <h3 class="font-semibold tracking-tight text-3xl text-center">Welcome</h3>
-            <p class="text-sm text-muted-foreground text-center mt-2">Enter your credentials to access your account</p>
+            <h3 class="font-title tracking-tight text-4xl text-center text-green-700">그루프</h3>
+<!--            <h1 class="my-title font-title"><a th:href="@{/temp}">그루프</a></h1>-->
+            <p class="font-base text-muted-foreground text-center mt-2">당신을 위한 모임 어플</p>
         </div>
         <div class="p-6 space-y-4">
             <div class="space-y-2">
@@ -109,5 +110,6 @@
             </svg>
         </a>
     </div>-->
-</main>
+</div>
+</body>
 </html>

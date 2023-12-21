@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-public class MainController {
+public class GroupController {
 
-    @GetMapping("/main")
-    public String main() {
-        return "main";
+    @GetMapping("/groups")
+    public String groups() {
+        return "groups/groups";
     }
+
 
 }
