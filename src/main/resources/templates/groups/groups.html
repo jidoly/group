@@ -27,54 +27,46 @@
   <!-- 검색 끝 -->
 
 
-  <h1 class="my-title2 w-full font-title">이번주 인기 그루프
   </h1>
 
-  <div class="card w-full bg-gray-100">
+    <div class="bg-gray-100 pt-3 pl-3 w-full">
+        <h1 class="w-full font-title text-2xl text-center">이번주 인기 그루프
 
-    <ul class="top">
-        <!--      <li th:each="item : ${items}" th:onclick="'|'+@{'/items/{id}/edit(id=${item.id})}|'">-->
-    <li>
-        <a th:href="@{/groups/{id} (id=${1})}">
-        <div class="cards">
-                        <span class="fire">
-                            <img alt="인기 그룹" src="/images/_img/fire.png">
-                        </span>
-          <p class="img"><img alt="인기 그룹" src="/images/test2.gif"></p>
-          <div class="club-text">
-            <p class="club-name">안녕동아리</p>
-            <p class="club-info">그룹소개</p>
-          </div>
-        </div>
-        </a>
-      </li>
-      <li onclick="location.href='cardView.do?usrIdx=${result.usrIdx}'">
-        <div class="cards">
-                        <span class="fire">
-                            <img alt="인기 그룹" src="/images/_img/fire.png">
-                        </span>
-          <p class="img"><img alt="인기 그룹" src="/images/test2.gif"></p>
-          <div class="club-text">
-            <p class="club-name">그룹이름</p>
-            <p class="club-info">그룹소개 아주아주 길다 아주 길다 길다 길다 길다 <br></br>길다길다길다길다길다길다길다길다길다길다길다길다길다</p>
-          </div>
-        </div>
-      </li>
-      <li onclick="location.href='cardView.do?usrIdx=${result.usrIdx}'">
-        <div class="cards">
-                        <span class="fire">
-                            <img alt="인기 그룹" src="/images/_img/fire.png">
-                        </span>
-          <p class="img"><img alt="인기 그룹" src="/images/test.jpg"></p>
-          <div class="club-text">
-            <p class="club-name">그룹이름</p>
-            <p class="club-info">그룹소개</p>
-          </div>
-        </div>
-      </li>
-    </ul>
+        <div class="my-club mt-2 p-1 important-height">
 
-  </div>
+            <ul>
+                <li class="margin-42">
+                    <p>1등!</p>
+                    <p class="img"><img alt="내 그룹" src="/images/test2.gif"></p>
+                    <span class="important-star important-gold">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
+                    </span>
+                    <p class="list"> 클럽이름 </p>
+
+                </li>
+                <li class="margin-42">
+                    <p>2등!</p>
+                    <p class="img"><img alt="내 그룹" src="/images/test2.gif"></p>
+                    <span class="important-star important-sliver">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
+                    </span>
+                    <p class="border blue">
+                    <p class="list"> 클럽이름 </p>
+
+                </li>
+                <li class="margin-42">
+                    <p>3등!</p>
+                    <p class="img"><img alt="내 그룹" src="/images/test2.gif"></p>
+                    <span class="important-star important-brown">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
+                    </span>
+                    <p class="border blue">
+                    <p class="list"> 클럽이름 </p>
+
+                </li>
+            </ul>
+        </div>
+    </div>
 
 
   <!-- 그룹들 -->
@@ -83,7 +75,7 @@
   <div class="deal_wrap">
     <ul class="mp_list mydeal vers">
 
-        <li th:onclick="|location.href='@{/groups/{id} (id=${1})}';|">
+      <li th:onclick="|location.href='@{/groups/group(id=${1}) }'|">
           <div>
             <p class="img"><img alt="groups" src="/images/temp.gif"></p>
 

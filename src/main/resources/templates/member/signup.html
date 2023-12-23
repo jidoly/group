@@ -20,7 +20,7 @@
   <div class="flex flex-col p-8 space-y-4 bg-white shadow-lg rounded-lg flex">
     <div class="flex flex-col items-center">
       <label class="mt-2 cursor-pointer">
-        <input type="file" class="hidden" aria-label="Upload profile picture" id="uploadInput" onchange="displayImage(this)" />
+        <input type="uploadFile" class="hidden" aria-label="Upload profile picture" id="uploadInput" onchange="displayImage(this)" />
         <img
                 th:src="@{/images/defaultUser.png}"
                 alt="no-image"
@@ -43,7 +43,7 @@
     <div class="gap-4">
       <input
               type="email"
-              class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+              class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background uploadFile:border-0 uploadFile:bg-transparent uploadFile:text-sm uploadFile:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
               th:field="*{username}"
               placeholder="이메일@example.com"
               required=""
@@ -54,7 +54,7 @@
     <div class="gap-4">
       <input
               type="text"
-              class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
+              class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background uploadFile:border-0 uploadFile:bg-transparent uploadFile:text-sm uploadFile:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
               th:field="*{nickname}"
               placeholder="닉네임을 입력하세요"
               required=""
@@ -66,7 +66,7 @@
     <div class="gap-4">
     <input
             type="password"
-            class="flex h-10 w-full border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border rounded-md p-2"
+            class="flex h-10 w-full border-input bg-background text-sm ring-offset-background uploadFile:border-0 uploadFile:bg-transparent uploadFile:text-sm uploadFile:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border rounded-md p-2"
             placeholder="password"
             th:field="*{password}"
             th:errorclass="field-error"
@@ -76,7 +76,7 @@
     <div class="gap-4">
     <input
             type="password"
-            class="flex h-10 w-full border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border rounded-md p-2"
+            class="flex h-10 w-full border-input bg-background text-sm ring-offset-background uploadFile:border-0 uploadFile:bg-transparent uploadFile:text-sm uploadFile:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 border rounded-md p-2"
             placeholder="password 확인"
             th:field="*{validPw}"
             th:errorclass="field-error"

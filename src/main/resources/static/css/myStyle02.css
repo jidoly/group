@@ -130,3 +130,171 @@
     top: -8px;
     right: -8px;
 }
+
+
+/* 상세 글 */
+
+.post {
+    border: 1px solid #ccc;
+    max-width: 600px;
+    background-color: #fff;
+}
+
+.post-header {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.user-info {
+    flex-grow: 1;
+}
+
+.post-image {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+}
+
+.post-content {
+    padding: 10px;
+}
+
+.likes {
+    margin-top: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: #555;
+    height: 41px;
+}
+
+.heart-icon {
+    width: 42px;
+    height: 21px;
+    margin-right: 5px;
+    fill: #ffffff;
+    transition: fill 0.3s;
+    cursor: pointer;
+}
+
+.heart-icon.active {
+    fill: red;
+}
+
+.comments {
+    padding: 10px;
+}
+
+.comment {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.comment-form {
+    display: flex;
+    margin-top: 10px;
+}
+
+.comment-input {
+    flex-grow: 1;
+    padding: 5px;
+}
+
+.comment-button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 8px;
+    margin: 4px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.comment-user {
+    font-family: BMJUA;
+    font-style: normal;
+    font-size: 1.125rem;
+    margin-right: 0.25rem;
+    color: #3498db;
+}
+
+
+/* important */
+.margin-42 {
+    margin-left: 42px !important;
+}
+.important-red {
+    background: red !important;
+}
+.important-gold {
+    background: #8f00c7 !important;
+}
+.important-sliver {
+    background: lightslategray !important;
+}
+.important-brown {
+    background: sandybrown !important;
+}
+.important-height {
+    height: 171px !important;
+}
+.good {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    background-color: #ffffff;
+    padding: 10px;
+}
+
+
+span.important-star {
+    position: absolute;
+    top: 95px;
+    left: 51px;
+    background: #fdcf15;
+    width: 29px;
+    height: 29px;
+    border-radius: 20px;
+    border: 2px solid #fff;
+    text-align: center;
+    line-height: 20px;
+}
+
+span.important-star svg {
+    width: 24px;
+    fill: #fff;
+}
+
+/* 닉네임 변경 버튼 */
+
+
+.change-btn {
+    border: 1px solid green !important;
+    padding: 13.5px 15px !important;
+    border-radius: 50px !important;
+    color: #fff;
+    font: 400 14px/14px "Poppins", "Noto Sans KR", sans-serif!important;
+    background: green!important;
+    display: block!important;
+    box-sizing: border-box!important;
+    text-align: center!important;
+    width: 85px!important;
+    float: right!important;
+    margin-left: 5px!important;
+
+
+}

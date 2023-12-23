@@ -37,16 +37,16 @@ public class Board extends BaseEntity {
     private List<Like> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<File> files = new ArrayList<>();
+    private List<UploadFile> uploadFiles = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
     /* 연관관계 편의메소드*/
 
-    public void addFiles(File file) {
-        files.add(file);
-        file.addBoard(this);
+    public void addFiles(UploadFile uploadFile) {
+        uploadFiles.add(uploadFile);
+        uploadFile.addBoard(this);
     }
 
     /* 생성 메소드 */
@@ -57,10 +57,10 @@ public class Board extends BaseEntity {
         this.content = content;
     }
 
-    public static Board createBoard(Club club, Member member, String title, String content, File... files) {
+    public static Board createBoard(Club club, Member member, String title, String content, UploadFile... uploadFiles) {
         Board board = new Board(club, member, title, content);
-        for (File file : files) {
-            board.addFiles(file);
+        for (UploadFile uploadFile : uploadFiles) {
+            board.addFiles(uploadFile);
         }
         return board;
     }

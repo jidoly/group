@@ -17,6 +17,8 @@ public class SignupDto {
     @NotBlank
     private String validPw;
 
+    private String pastPw;
+
     private MultipartFile attachFile;
 
 }

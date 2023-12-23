@@ -22,3 +22,6 @@ logging.level:
 #  root: DEBUG
   org.hibernate.SQL: debug
 #   org.hibernate.type: trace
+
+file:
+  dir: C:/toyProject/group/upload

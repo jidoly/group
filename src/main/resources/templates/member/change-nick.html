@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/comhead :: common_header(~{::title})">
-    <title>메인설계중</title>
+    <title>닉네임변경</title>
 </head>
 
 <!--이거 3줄은 공통! -->
@@ -16,11 +16,17 @@
             <div class="top_navi"><a href="/member/mypage"><img src="/images/_img/cont/navi_arrow.png"></a><h2>닉네임 변경</h2></div>
         </div>
         <div class="w_box no_line">
-            <ul class="form">
-                <li>
-                    <p class="overflow mb15"><input type="text" id="name" placeholder="닉네임을 입력해주세요."/><a href="#"  id=changeBtn class="btn" >변경</a></p>
-                </li>
-            </ul>
+            <form action="" th:action th:object="${signupDto}" method="post">
+                <ul class="form">
+                    <li>
+                        <p class="overflow mb15">
+                            <input type="text" th:field="*{nickname}" required="" placeholder="닉네임을 입력해주세요."/>
+                            <button class="change-btn" type="submit">변경</button>
+                        </p>
+                    </li>
+                </ul>
+                <div class="field-error" th:errors="*{nickname}"/>
+            </form>
         </div>
     </div>
     <!-- CONTENTS END -->

@@ -83,7 +83,7 @@
             <div class="gallery">
 
                 <!--이미지들 일단 페이징으로 받아와서 자바스크립트로 어떻게 post때릴지 고민해야될듯--->
-                <div class="gallery-item">
+                <div class="gallery-item" th:onclick="|location.href='@{/groups/group/board (groupId=${1}, boardId=${2})}'|">
                     <img src="https://placekitten.com/300/300" alt="Image 1" class="gallery-img">
                 </div>
                 <div class="gallery-item">
@@ -129,7 +129,7 @@
 
 
         <div class="add-sticky">
-            <a href="/groups/write" class="add_btn"></a>
+            <a th:href="@{/groups/group/write(groupId=${1})}" class="add_btn"></a>
         </div>
     <div th:replace="fragments/com/footer" />
     <div th:replace="fragments/com/bottom" />

@@ -44,7 +44,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom{
                             board.getMember().getNickname(),
                             board.getContent(),
                             Math.toIntExact(likeCount),
-                            board.getFiles(),
+                            board.getUploadFiles(),
                             board.getComments()
                     );
                 })

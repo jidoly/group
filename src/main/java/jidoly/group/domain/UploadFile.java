@@ -8,7 +8,7 @@ import lombok.*;
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(exclude = {"member", "club", "board"})
-public class File extends BaseEntity {
+public class UploadFile extends BaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "file_id")
@@ -37,7 +37,7 @@ public class File extends BaseEntity {
         this.member = member;
     }
 
-    public File(String uploadFileName, String storeFileName) {
+    public UploadFile(String uploadFileName, String storeFileName) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
     }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -18,13 +19,20 @@ public class GroupController {
         return "groups/groups";
     }
 
-    @GetMapping("/{id}")
-    public String group(@PathVariable Long id) {
+    @GetMapping("/group")
+    public String group(@RequestParam(name = "id") Long id) {
         return "groups/group";
     }
 
-    @GetMapping("/write")
-    public String wirte() {
+    @GetMapping("/group/write")
+    public String groupWrite(@RequestParam(name = "groupId") Long id) {
         return "groups/group-write";
+    }
+
+    @GetMapping("/group/board")
+    public String groupBoard(
+            @RequestParam(name = "groupId") Long groupId,
+            @RequestParam(name = "boardId") Long boardId) {
+        return "groups/group-board";
     }
 }

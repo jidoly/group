@@ -41,6 +41,10 @@
     font-style: normal;
     font-size: 22px;
 }
+.font-base-nosize{
+    font-family: BMJUA;
+    font-style: normal;
+}
 
 .font-title{
     font-family: PyeongChangPeace-Bold;
@@ -489,7 +493,7 @@ li {
     position: relative;
 }
 
-.my-club ul.top li span.star {
+span.star {
     position: absolute;
     top: 56px;
     left: 56px;
@@ -502,8 +506,8 @@ li {
     line-height: 20px;
 }
 
-.my-club ul.top li span.star svg {
-    width: 12px;
+span.star svg {
+    width: 15px;
     fill: #fff;
 }
 
@@ -513,14 +517,6 @@ li {
     margin: 0 10px;
     position: relative;
     cursor: pointer;
-}
-
-.my-club ul li:nth-child(1) {
-    /*margin-left: 5px;*/
-}
-
-.my-club ul li:last-child {
-    /*padding-right: 20px;*/
 }
 
 .my-club ul li p {

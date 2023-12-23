@@ -13,6 +13,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,14 +41,18 @@ public class MemberService {
                 .orElseThrow(() -> new EntityNotFoundException("Member not found")); // 여기도 MVC에서 message로 대체
     }
 
-    public Member login(SignupDto signupDto) {
-        String encodePassword = passwordEncoder.encode(signupDto.getPassword());
-        return memberRepository.findByUsername(signupDto.getUsername())
-                .filter(m -> m.getPassword().equals(encodePassword))
+
+    public Boolean loginCheck(String username, String password) {
+        Member member = memberRepository.findByUsername(username)
+                .filter(m -> passwordEncoder.matches(password, m.getPassword()))
                 .orElse(null);
+        if (member != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    @Transactional(readOnly = true)
     public Map<String, String> validateHandling(Errors errors) {
         Map<String, String> validatorResult = new HashMap<>();
 
@@ -58,6 +63,23 @@ public class MemberService {
         }
 
         return validatorResult;
+    }
+
+    @Transactional
+    public void updateNick(String username, String nickname) {
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+        member.changeNick(nickname);
+    }
+
+
+    @Transactional
+    public void updatePw(String username, String password) {
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found"));
+
+        String encodedPassword = passwordEncoder.encode(password);
+        member.setEncodePassword(encodedPassword);
     }
 
 }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/comhead :: common_header(~{::title})">
+  <title>그룹설계중</title>
+</head>
+
+<body class="bodyCustom">
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<div class="parents">
+  <header th:replace="fragments/com/header"/>
+  <!-- 공통 파트 -->
+
+  <a class="w-2.5 m-4 flex mr-auto" href="javascript:history.back();"><img src="/images/_img/cont/navi_arrow.png"></a>
+
+
+  <div class="post w-full h-full">
+
+    <div class="post-header">
+      <img src="/images/test2.gif" alt="User Avatar" class="user-avatar">
+      <div class="user-info">
+        <p class="font-base-nosize text-lg">username</p>
+      </div>
+    </div>
+    <img src="/images/test.jpg" alt="Post Image" class="post-image">
+    <div class="post-content">
+      <p>This is the caption for the Instagram post. #instagram #example</p>
+    </div>
+    <div class="likes" onclick="toggleLike(this)">
+      <svg class="heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 21.35l-1.45-1.32C6.14 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C16.09 3.81 17.76 3 19.5 3 22.58 3 25 5.42 25 8.5c0 3.78-4.14 6.86-8.55 11.54L12 21.35z" stroke="black" stroke-width="2"/>
+      </svg>
+      <span>120 likes</span>
+    </div>
+
+
+    <div class="comments">
+      <div class="comment">
+        <p class="comment-user">유저이름: </p>
+        <p class="font-content"> Nice photo! </p>
+      </div>
+      <div class="comment">
+        <p class="comment-user">유저이름: </p>
+        <p class="font-content"> 예쁘다! </p>
+      </div>
+
+    </div>
+    <!-- 댓글 작성 폼 -->
+    <div class="comment-form">
+      <input type="text" class="comment-input" placeholder="Add a comment...">
+      <button class="comment-button" onclick="addComment()">Post</button>
+    </div>
+
+  <script>
+    function toggleLike(element) {
+      const heartIcon = element.querySelector('.heart-icon');
+      heartIcon.classList.toggle('active');
+    }
+    function addComment() {
+      const commentInput = document.querySelector('.comment-input');
+      const commentText = commentInput.value;
+
+      if (commentText.trim() !== '') {
+        const commentsContainer = document.querySelector('.comments');
+        const newComment = document.createElement('div');
+        newComment.classList.add('comment');
+        newComment.innerHTML = `<p class="comment-user">YourUsername:</p> <p class="font-content"> ${commentText} </p>`;
+        commentsContainer.appendChild(newComment);
+
+        // 댓글 작성 후 입력 폼 초기화
+        commentInput.value = '';
+      }
+    }
+  </script>
+
+
+
+
+
+
+
+    <div class="m-28"></div>
+  <div th:replace="fragments/com/footer" />
+<div th:replace="fragments/com/bottom" />
+</div>
+</body>
+</html>

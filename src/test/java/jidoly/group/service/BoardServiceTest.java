@@ -10,13 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -111,14 +107,14 @@ class BoardServiceTest {
     @Test
     void 파일포함한전부all() throws Exception {
         //given
-        File file1 = new File("유저파일이름", "저장파일이름");
-        File file2 = new File("유저파일이름1", "저장파일이름2");
-        File[] files = {file1, file2};
+        UploadFile uploadFile1 = new UploadFile("유저파일이름", "저장파일이름");
+        UploadFile uploadFile2 = new UploadFile("유저파일이름1", "저장파일이름2");
+        UploadFile[] uploadFiles = {uploadFile1, uploadFile2};
 
         Member member = memberRepository.findByUsername("member1").get();
         Member member2 = memberRepository.findByUsername("member2").get();
         Club club = clubRepository.findByClubName("헬스").get();
-        Board board = Board.createBoard(club, member, "제목", "내용",files);
+        Board board = Board.createBoard(club, member, "제목", "내용", uploadFiles);
 
 
         Long boardId = boardService.writePost(board);
@@ -138,14 +134,14 @@ class BoardServiceTest {
     @Test
     void comment() throws Exception {
         //given
-        File file1 = new File("유저파일이름", "저장파일이름");
-        File file2 = new File("유저파일이름1", "저장파일이름2");
-        File[] files = {file1, file2};
+        UploadFile uploadFile1 = new UploadFile("유저파일이름", "저장파일이름");
+        UploadFile uploadFile2 = new UploadFile("유저파일이름1", "저장파일이름2");
+        UploadFile[] uploadFiles = {uploadFile1, uploadFile2};
 
         Member member = memberRepository.findByUsername("member1").get();
         Member member2 = memberRepository.findByUsername("member2").get();
         Club club = clubRepository.findByClubName("헬스").get();
-        Board board = Board.createBoard(club, member, "제목", "내용",files);
+        Board board = Board.createBoard(club, member, "제목", "내용", uploadFiles);
 
 
         Long boardId = boardService.writePost(board);
