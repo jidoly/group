@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/comhead :: common_header(~{::title})">
+    <title>메인설계중</title>
+</head>
+<!--이거 3줄은 공통! -->
+<body class="bodyCustom">
+<div class="parents">
+    <header th:replace="fragments/com/header"/>
+
+
+
+
+    <!--콘텐츠 시작-->
+    <div id="sub_contents" class="w-full group-one">
+
+        <div class="flex relative">
+            <a class="w-2.5 m-4" href="javascript:history.back();"><img src="/images/_img/cont/navi_arrow.png"></a>
+            <h2 class="font-base">그룹이름</h2>
+        </div>
+
+        <a href="#"  id=joinBtn class="btn" >가입신청</a>
+
+        <div class="p-5">
+            <div class="group-profile">
+                <!-- 사진 -->
+                <p class="photo gradient-border">
+						<span>
+                            <img alt="그룹 이름" src="/images/test2.gif">
+						</span>
+                </p>
+                <!-- 사진 -->
+
+                <!-- 정보 -->
+                <p class="info flex flex-col items-center">
+                    <span>123</span>
+                    <span>Posts</span>
+                </p>
+                <p class="info flex flex-col items-center">
+                    <span>123</span>
+                    <span>Members</span>
+                </p>
+                <p class="info flex flex-col items-center">
+                    <span>123</span>
+                    <span>Likes</span>
+                </p>
+                <!-- 정보 -->
+
+            </div>
+        </div>
+
+
+        <!-- 상단 끝 -->
+
+
+        <!-- 공지사항 -->
+        <div class="club_box">
+            <div class="tit_btn">
+                <p class="club_tit">공지사항</p>
+            </div>
+
+            <ul class="club_notice">
+                        <li>
+                            <div class="club_user">
+                                <div class="fm_profile" onclick="location.href='.html'">
+                                    <p class="img"><img alt="유저프로필" src="/images/test2.gif"></p>
+                                </div>
+                                <div>
+                                    <p class="user_name">유저닉네임</p>
+                                    <p class="club_text">
+                                        공지사항입니다.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+            </ul>
+        </div>
+
+
+        <!-- 갤러리 -->
+
+        <div class="container mx-auto my-8">
+            <div class="gallery">
+
+                <!--이미지들 일단 페이징으로 받아와서 자바스크립트로 어떻게 post때릴지 고민해야될듯--->
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/300/300" alt="Image 1" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/300/301" alt="Image 2" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/301/300" alt="Image 3" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/300/300" alt="Image 1" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/300/301" alt="Image 2" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/301/300" alt="Image 3" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/300/300" alt="Image 1" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/300/301" alt="Image 2" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/301/300" alt="Image 3" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/300/300" alt="Image 1" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/300/301" alt="Image 2" class="gallery-img">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://placekitten.com/301/300" alt="Image 3" class="gallery-img">
+                </div>
+                <!-- 추가적인 이미지들 -->
+
+
+            </div>
+        </div>
+
+            <!-- 갤러리 -->
+
+
+        <div class="add-sticky">
+            <a href="/groups/write" class="add_btn"></a>
+        </div>
+    <div th:replace="fragments/com/footer" />
+    <div th:replace="fragments/com/bottom" />
+    </div>
+</div>
+</body>
+</html>

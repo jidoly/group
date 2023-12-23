@@ -7,8 +7,7 @@
 <body class="bodyCustom">
 <div class="parents">
   <header th:replace="fragments/com/header"/>
-
-  <!--이거 3줄은 공통! -->
+  <!-- 공통 파트 -->
 
 
   <!-- 검색 -->
@@ -34,7 +33,9 @@
   <div class="card w-full bg-gray-100">
 
     <ul class="top">
-      <li onclick="location.href='cardView.do?usrIdx=${result.usrIdx}'">
+        <!--      <li th:each="item : ${items}" th:onclick="'|'+@{'/items/{id}/edit(id=${item.id})}|'">-->
+    <li>
+        <a th:href="@{/groups/{id} (id=${1})}">
         <div class="cards">
                         <span class="fire">
                             <img alt="인기 그룹" src="/images/_img/fire.png">
@@ -45,6 +46,7 @@
             <p class="club-info">그룹소개</p>
           </div>
         </div>
+        </a>
       </li>
       <li onclick="location.href='cardView.do?usrIdx=${result.usrIdx}'">
         <div class="cards">
@@ -81,8 +83,7 @@
   <div class="deal_wrap">
     <ul class="mp_list mydeal vers">
 
-        <li onclick="location.href='/trade/trade.do?trdIdx=${trade.trdIdx }';">
-
+        <li th:onclick="|location.href='@{/groups/{id} (id=${1})}';|">
           <div>
             <p class="img"><img alt="groups" src="/images/temp.gif"></p>
 
@@ -253,8 +254,10 @@
     </ul>
 
 
-<div th:replace="fragments/com/bottom" /></div>
+    <div th:replace="fragments/com/footer" />
 
+    <div th:replace="fragments/com/bottom" />
+</div>
 </div>
 </body>
 </html>

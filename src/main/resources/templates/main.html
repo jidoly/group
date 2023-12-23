@@ -93,13 +93,13 @@
     <!-- 검색 끝 -->
 
 
-    <!-- 내클럽 -->
+    <!-- 내그룹 -->
 
     <div class="w-full m-4 bg-gray-100">
         <h1 class="my-title2 w-full font-base"><a th:href="@{/temp}"> 내 그룹 > </a>
         </h1>
 
-        <div class="my-club mt-2">
+        <div class="my-club pt-6 pl-2">
 
             <ul class="top"> <!-- 즐겨찾기 되어 있을때  -->
                         <li onclick="location.href='my-clubView.do?usrIdx=${result.usrIdx}'">
@@ -154,11 +154,12 @@
             </ul>
         </div>
     </div>
-    <!-- 내친구 END -->
 
-    <!-- 내 클럽-->
+    <!-- 내그룹 끝-->
 
-    <div th:replace="fragments/com/bottom" /></div>
+    <div th:replace="fragments/com/footer" />
+
+    <div th:replace="fragments/com/bottom" />
 
 </div>
 </body>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/comhead :: common_header(~{::title})">
+  <title>그룹설계중</title>
+</head>
+
+<body class="bodyCustom">
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<div class="parents">
+  <header th:replace="fragments/com/header"/>
+  <!-- 공통 파트 -->
+
+  <!-- 컨텐츠 시작 -->
+  <div id="sub_contents" class="board head_mg mb140 w-full">
+
+
+    <div class="navi">
+      <div class="top_navi"><a href="javascript:history.back();"><img src="/images/_img/cont/navi_arrow.png"></a>
+          <h2 class="text-2xl">글쓰기</h2>
+<!--        <c:if test="${tradeInfo != null }">-->
+<!--          <h2>중고 거래 수정하기</h2>-->
+<!--        </c:if>-->
+      </div>
+    </div>
+    <div class="bbs_write w_box top no_line">
+      <form name="frm" id="frm" autocomplete="off" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" name="trdIdx" value="${tradeInfo.trdIdx }"/>
+        <input type="hidden" name="mode" id="mode" />
+
+        <input type="text" id="trdTitle" name="trdTitle" placeholder="제목을 입력해주세요" value="" class="mb10"/>
+        <textarea type="text" rows="7" id="trdContent" name="trdContent" placeholder="내용을 입력하세요."></textarea>
+
+        <div class="add_photo">
+          <input type="file"  accept="image/*" class="file" name="input_usr_file" id="input_usr_file" onchange="addFile(this);" style="display: none" multiple/>
+          <a href="javascript:openFile();" class="add">
+            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M194.6 32H317.4C338.1 32 356.4 45.22 362.9 64.82L373.3 96H448C483.3 96 512 124.7 512 160V416C512 451.3 483.3 480 448 480H64C28.65 480 0 451.3 0 416V160C0 124.7 28.65 96 64 96H138.7L149.1 64.82C155.6 45.22 173.9 32 194.6 32H194.6zM256 384C309 384 352 341 352 288C352 234.1 309 192 256 192C202.1 192 160 234.1 160 288C160 341 202.1 384 256 384z"/></svg></span>
+              <span class="count" id="count"><b>0</b> /5</span>
+          </a>
+
+          <ul class="file_wrap">
+              <li id="file_id_${file.fileIdx }" class="filebox">
+                <!--
+                    <span class="file_name">${fn:split(file.fileUsrFile,'|')[0]}</span>
+                -->
+<!--                <span><img src="/images/_img/board.png" width="65" height="65"></span>-->
+<!--                <a href="javascript:delfile(${file.fileIdx });" class="close"></a>-->
+                <input type="hidden" name="fileIdxArr" value="${file.fileIdx }"/>
+                <input type="hidden"  name="delArr" value="N" id="${file.fileIdx }_del"/>
+              </li>
+            </td>
+
+          </ul>
+        </div>
+
+      </form>
+      <p class="btn mt25">
+          <a href="#" onclick="javascript:submitForm('mod');" class="btn">저장</a>
+      </p>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+  <div class="m-24"></div>
+
+<div th:replace="fragments/com/footer" />
+<div th:replace="fragments/com/bottom" />
+</div>
+</body>
+</html>

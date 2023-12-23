@@ -1,0 +1,1038 @@
+/**
+     main ~550
+     groups 551~
+ */
+
+/* ------------------------------------------------------------ 폰트 시작 ------------------------------------------------------------ */
+
+
+@font-face {
+    font-family: 'PyeongChangPeace';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Light.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Light.eot?#iefix') format('embedded-opentype'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Light.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Light.woff') format('woff'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Light.ttf') format("truetype");
+    font-display: swap;
+}
+@font-face {
+    font-family: 'PyeongChangPeace-Bold';
+    font-weight: 700;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Bold.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Bold.eot?#iefix') format('embedded-opentype'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Bold.woff2') format('woff2'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Bold.woff') format('woff'),
+    url('https://cdn.jsdelivr.net/gh/webfontworld/PyeongChang/PyeongChangPeace-Bold.ttf') format("truetype");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'BMJUA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMJUA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.font-base{
+    font-family: BMJUA;
+    font-style: normal;
+    font-size: 22px;
+}
+
+.font-title{
+    font-family: PyeongChangPeace-Bold;
+    font-style: normal;
+    font-weight: 700;
+}
+.font-content{
+    font-family: PyeongChangPeace;
+    font-style: normal;
+    font-weight: 300;
+}
+/* ------------------------------------------------------------ 폰트 끝 ------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------ 공통 로직 ------------------------------------------------------------ */
+
+.hidden-div {
+    visibility: hidden;
+}
+.container {
+    max-width: 560px;
+}
+.field-error {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+/* ------------------------------------------------------------ 공통 로직 끝 ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------ 공통 클래스 시작 ------------------------------------------------------------ */
+
+/*최상위 바디*/
+.bodyCustom{
+    min-height: 100vh; /* min-h-screen 대신 min-height: 100vh 사용 */
+    background: linear-gradient(to right, #fde047, #00bc1f, #079ee2); /* 시작, 중간, 끝 색상 설정 */
+    display: flex;
+    justify-content: center;
+    /*align-items: center;*/
+}
+
+
+/*최상위 부모*/
+.parents{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 460px;
+    width: 100%;
+    position: relative;
+    background: white;
+}
+
+.common{
+    margin: 3px;
+    width: 100%;
+}
+    /* 그라데이션 */
+.gradient{
+    background: linear-gradient(to right, #fff8cc, #dcf2e9); /* 시작, 중간, 끝 색상 설정 */
+    /*background: linear-gradient(to right, #fde047, #00bc1f, #079ee2); !* 시작, 중간, 끝 색상 설정 *!*/
+}
+    /* 메뉴*/
+div.navi .top_navi h2				{font-family: BMJUA; font-size: 24px; display: inline-block; vertical-align:middle; color:#000; margin-top:-11px}
+
+
+.gradient-border {
+    /* 그라데이션 설정 (상단에서 하단으로 흰색에서 파란색으로) */
+    background: linear-gradient(to bottom, lightpink, greenyellow,mediumpurple);
+    /* 둥근 테두리 설정 */
+    border-radius: 61px;
+    /* 이미지를 가운데 정렬하기 위한 설정 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 이미지에 대한 스타일 설정 */
+.gradient-border img {
+    /* 둥근 테두리를 따라 이미지를 자르지 않도록 설정 */
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+
+/* 마이페이지 - 메인 */
+.profile {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.profile .photo {
+    width: 93px;
+    height: 93px;
+}
+/* ------------------------------------------------------------ 공통 클래스 끝 ------------------------------------------------------------ */
+
+
+
+/* ------------------------------------------------------------ 바텀메뉴 시작 ------------------------------------------------------------ */
+.bottom_menu					{position: sticky; z-index: 10; bottom: 0; left: 0; width: 100%; padding: 12px 0 8px; background: #fff; box-shadow: 0px 0px 30px rgba(0,0,0,0.15); -webkit-box-shadow: 0px 0px 30px rgba(0,0,0,0.15); -moz-box-shadow: 0px 0px 30px rgba(0,0,0,0.15); -ms-box-shadow: 0px 0px 30px rgba(0,0,0,0.15);}
+.bottom_menu p					{display: flex; justify-content: space-between; align-items: center;}
+.bottom_menu p a				{display: block; width: 33%; text-align: center;}
+.bottom_menu p a img			{display: block; margin: 0 auto; fill: #bbb; height: 25px; width: 25px;}
+.bottom_menu p a span			{text-align: center; font: 400 12px/12px "Roboto", "Noto Sans KR", sans-serif; color: #888;}
+/* ------------------------------------------------------------ 바텀메뉴 끝 ------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------ 메인페이지 시작 ------------------------------------------------------------ */
+
+.my-title {
+    font-size: 30px;
+    color: #0a8800;
+    font-weight: 700;
+}
+
+header .head			{background: #fde047; padding: 18px 15px 16px; height: 58px;box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; position: relative;}
+
+.my-title2{
+    font-size: 25px;
+    font-weight: normal;
+    text-align: left;
+    margin: 20px 0px 0px 20px;
+
+}
+/* ------------------------------------------------------------ 메인 페이지 끝 ------------------------------------------------------------ */
+
+
+
+
+/* ------------------------------------------------------------ 슬라이더 ------------------------------------------------------------ */
+
+.slide {
+    /* layout */
+    display: flex;
+    flex-wrap: nowrap;
+    /* 컨테이너의 내용물이 컨테이너 크기(width, height)를 넘어설 때 보이지 않도록 하기 위해 hidden을 준다. */
+    overflow: hidden;
+
+    /* position */
+    /* slide_button의 position absolute가 컨테이너 안쪽에서 top, left, right offset이 적용될 수 있도록 relative를 준다. (기본값이 static인데, static인 경우 그 상위 컨테이너로 나가면서 현재 코드에선 html을 기준으로 offset을 적용시키기 때문) */
+    position: relative;
+
+    /* size */
+    width: 90%;
+    margin: 10px;
+
+    /* slide drag를 위해 DOM요소가 드래그로 선택되는것을 방지 */
+    user-select: none;
+}
+.slide_item {
+    /* layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* position - 버튼 클릭시 left offset값을 적용시키기 위해 */
+    position: relative;
+    left: 0px;
+
+    /* size */
+    width: 100%;
+    height: 150px;
+    /* flex item의 flex-shrink는 기본값이 1이므로 컨테이너 크기에 맞게 줄어드는데, 슬라이드를 구현할 것이므로 줄어들지 않도록 0을 준다. */
+    flex-shrink: 0;
+
+    /* transition */
+    transition: left 0.15s;
+
+    border-radius: 20px;
+}
+.slide_button {
+    /* layout */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* position */
+    position: absolute;
+    /* 버튼이 중앙에 위치하게 하기위해 계산 */
+    top: calc(50% - 16px);
+
+    /* size */
+    width: 32px;
+    height: 32px;
+
+    /* style */
+    border-radius: 100%;
+    background-color: #cccc;
+    cursor: pointer;
+}
+
+.slide_prev_button {
+    left: 10px;
+}
+.slide_next_button {
+    right: 10px;
+}
+
+/* 각 슬라이드가 변경되는 것을 시각적으로 확인하기 쉽도록 각 슬라이드별 색상 적용 */
+.slide_item.item1 {
+    background-color: darkgoldenrod;
+}
+.slide_item.item2 {
+    background-color: aqua;
+}
+.slide_item.item3 {
+    background-color: blueviolet;
+}
+.slide_item.item4 {
+    background-color: burlywood;
+}
+.slide_item.item5 {
+    background-color: cornflowerblue;
+}
+.slide_item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* 페이지네이션 스타일 */
+ul,
+li {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.slide_pagination {
+    /* layout */
+    display: flex;
+    gap: 5px;
+
+    /* position */
+    position: absolute;
+    bottom: 0;
+    /* left:50%, translateX(-50%)를 하면 가로 가운데로 위치시킬 수 있다. */
+    left: 50%;
+    transform: translateX(-50%);
+}
+.slide_pagination > li {
+    /* 현재 슬라이드가 아닌 것은 투명도 부여 */
+    color: #7fb5ff88;
+    cursor: pointer;
+    font-size: 25px;
+}
+.slide_pagination > li.active {
+    /* 현재 슬라이드 색상은 투명도 없이 */
+    color: #7fb5ff;
+}
+
+.slide_item_duplicate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 0px;
+    width: 100%;
+    height: 300px;
+    flex-shrink: 0;
+    transition: left 0.15s;
+}
+
+/* ------------------------------------------------------------ 슬라이드 끝 ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------ 카드섹션 ------------------------------------------------------------ */
+
+.card {
+    margin: 10px 1px 3px;
+    overflow-x: auto;
+}
+
+.card ul {
+    display: flex;
+}
+
+.card ul.top {
+    padding: 14px;
+    position: relative;
+}
+
+.card ul.top li span.fire {
+    position: absolute;
+    top: 118px;
+    left: 104px;
+    background: #ffea15;
+    width: 34px;
+    height: 31px;
+    border-radius: 80px;
+    text-align: center;
+    line-height: 20px;
+    border: 2px outset #e8286b;
+}
+
+.card ul.top li span.fire img {
+    width: 19px;
+    margin: 0px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card ul li {
+    margin: 12px;
+    position: relative;
+    cursor: pointer;
+    background: white;
+    display: flex;
+    border: 3px solid;
+    border-image: linear-gradient(to bottom, #f3c6cb, #d1eaa1, #c0a7f5);
+    border-image-slice: 1;
+}
+
+.card ul li .cards{
+    height: 150px;
+    width: 308px;
+    display: flex;
+}
+
+.card ul li .club-text{
+    margin: 15px;
+    font-family: BMJUA;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+}
+
+
+.club-text .club-info{
+
+    font-family: PyeongChangPeace;
+    font-weight: normal;
+    font-size: 13px;
+    color: #333;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.card ul li p.img {
+    width: 316px;
+    height: 153px;
+    background: #ddd;
+    margin-bottom: 10px;
+    display: flex;
+    border: 3px solid;
+    border-image: linear-gradient(to bottom, #f3c6cb, #d1eaa1, #c0a7f5);
+    border-image-slice: 1;
+}
+
+.card ul li p.img img {
+    display: block;
+    width: 100%;
+}
+
+
+.card ul li p.border {
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    display: block;
+    width: 81px;
+    height: 81px;
+    border-radius: 90px;
+    border: 2px solid transparent;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    z-index: -1;
+}
+
+.card ul li p.border.blue {
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #005ab6 0%, #007eff 100%);
+}
+
+.card ul li p.border.green {
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #0a8800 0%, #00bc1f 100%);
+}
+
+.card ul li p.border.red {
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #cf2200 0%, #fc2f00 100%);
+}
+
+/* ------------------------------------------------------------ 카드 끝 ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------ 검색 시작 ------------------------------------------------------------ */
+
+.main-search {
+    margin: 39px;
+    width: 80%;
+}
+
+.group-search {
+    margin: 5px 0px 5px 20px;
+    width: 91%;
+}
+
+.search {
+    display: flex;
+}
+
+.search .input_box {
+    position: relative;
+    width: calc(100% - 100px);
+    padding-left: 5px
+}
+
+.search .input_box.one {
+    width: 100%;
+    padding: 0
+}
+
+.search .input_box a {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 14px;
+    height: 20px;
+    transform: translateY(-50%);
+    fill: #888
+}
+
+
+/* ------------------------------------------------------------ 검색 끝 ------------------------------------------------------------ */
+
+
+
+/* ------------------------------------------------------------ 공통 로직 끝 ------------------------------------------------------------ */
+
+/* ------------------------------------------------------------ 내 클럽메뉴 시작------------------------------------------------------------ */
+
+
+.my-club {
+    overflow-x: auto;
+}
+
+.my-club ul {
+    display: flex;
+}
+
+.my-club ul.top {
+    margin-bottom: 14px;
+    position: relative;
+}
+
+.my-club ul.top li span.star {
+    position: absolute;
+    top: 56px;
+    left: 56px;
+    background: #fdcf15;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid #fff;
+    text-align: center;
+    line-height: 20px;
+}
+
+.my-club ul.top li span.star svg {
+    width: 12px;
+    fill: #fff;
+}
+
+.my-club ul li {
+    width: 75px;
+    height: 119px;
+    margin: 0 10px;
+    position: relative;
+    cursor: pointer;
+}
+
+.my-club ul li:nth-child(1) {
+    /*margin-left: 5px;*/
+}
+
+.my-club ul li:last-child {
+    /*padding-right: 20px;*/
+}
+
+.my-club ul li p {
+    text-align: center;
+    font-family: PyeongChangPeace;
+    font-size: 15px;
+    color: #333;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+}
+
+.my-club ul li p.img {
+    width: 75px;
+    height: 75px;
+    border-radius: 80px;
+    overflow: hidden;
+    background: #ddd;
+    border: 2px solid green;
+}
+
+.my-club ul li p.img img {
+    display: block;
+    width: 100%;
+}
+
+.my-club ul li p.img img::before {
+    content: '';
+    width: 75px;
+    height: 75px;
+    display: block;
+}
+
+.my-club ul li p.border {
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    display: block;
+    width: 81px;
+    height: 81px;
+    border-radius: 90px;
+    border: 2px solid transparent;
+    background-origin: border-box;
+    background-clip: content-box, border-box;
+    z-index: -1;
+}
+
+.my-club ul li p.border.blue {
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #005ab6 0%, #007eff 100%);
+}
+
+.my-club ul li p.border.green {
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #0a8800 0%, #00bc1f 100%);
+}
+
+.my-club ul li p.border.red {
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #cf2200 0%, #fc2f00 100%);
+}
+
+/* ------------------------------------------------------------ 내 클럽메뉴 끝 ------------------------------------------------------------ */
+
+
+
+/* ------------------------------------------------------------ groups ------------------------------------------------------------ */
+
+.deal_wrap .mydeal.vers li {
+    padding: 20px 7px;
+    border-bottom: 2px solid #dfdfdf;
+}
+
+.deal_wrap .mydeal.vers {
+    border-top: 1px solid #eee;
+    margin-top: 15px
+}
+
+#sub_contents.deal {
+    position: relative
+}
+
+.navi.tp {
+    position: absolute;
+    top: 0;
+    z-index: 1
+}
+
+.navi.tp .top_navi {
+    border-bottom: none
+}
+
+.navi.tp .top_navi a {
+    padding-left: 2px
+}
+
+.view_middle {
+    padding: 25px 15px 0
+}
+
+.view_middle p.tt {
+    font: 500 18px/24px "Roboto", "Noto Sans KR", sans-serif;
+    color: #333;
+}
+
+.view_middle span {
+    display: inline-block;
+    font: 300 12px/16px "Roboto", "Noto Sans KR", sans-serif;
+    color: #888;
+    margin-bottom: 0px;
+}
+
+.view_middle span::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    background: #ccc;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0px 5px;
+}
+
+.view_middle span:last-child::after {
+    display: none
+}
+
+.price_box {
+    width: 100%;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    box-shadow: 0px 0px 30px rgba(0,0,0,0.15);
+    -webkit-box-shadow: 0px 0px 30px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 0px 30px rgba(0,0,0,0.15);
+    -ms-box-shadow: 0px 0px 30px rgba(0,0,0,0.15);
+    display: flex;
+    padding: 6px 15px 6px 0;
+    align-items: center;
+}
+
+.price_box a.heart_check {
+    fill: #ddd;
+    height: 50px;
+    width: 65px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #eee
+}
+
+.price_box a.heart_check.on {
+    fill: #e71b00;
+}
+
+.price_box p {
+    width: calc(100% - 65px);
+    padding: 0 0 0 15px;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box
+}
+
+.price_box p a {
+    margin-left: auto
+}
+
+.price_box p span {
+    font: 600 18px/22px"Roboto", "Noto Sans KR", sans-serif;
+    color: #333;
+    display: block;
+    width: calc(100% - 85px);
+    word-break: break-word;
+}
+
+
+.mp_list li > div {
+    justify-content: space-between;
+}
+
+.mp_list li > div > div {
+    width: calc(75% - 10px)
+}
+
+.mydeal.vers li > div {
+    width: calc(75% - 10px);
+}
+
+
+/* 내게시글 */
+.mp_list li {
+    padding: 16px 0px 0px;
+    border-bottom: 6px solid #eee;
+    cursor: pointer;
+}
+
+.mp_list li > div {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    padding: 0 15px
+}
+
+.mp_list li > div > div {
+    display: flex;
+    align-content: space-between;
+    height: 130px;
+    width: auto;
+    padding: 5px 0;
+    box-sizing: border-box;
+}
+
+.mp_list li .blue {
+    font: 400 13px/20px "Roboto", "Noto Sans KR", sans-serif;
+    color: #1583fd;
+    margin-bottom: 2px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    word-break: break-all;
+}
+
+.mp_list li .tit {
+    font: 500 16px/20px "Roboto", "Noto Sans KR", sans-serif;
+    color: #333;
+    height: 20px;
+    overflow: hidden;
+}
+
+.mp_list li .tit.w90 {
+    /*width: calc(100% - 25px);*/
+}
+
+.mp_list li .bottom {
+    font: 300 12px/20px "Roboto", "Noto Sans KR", sans-serif;
+    color: #888;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-right: 17px
+}
+
+.mp_list li .bottom span {
+    font-size: 11px;
+    font-family: PyeongChangPeace;
+    word-break: keep-all;
+    display: flex;
+}
+
+.mp_list li .bottom span::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    background: #ccc;
+    margin: 0 5px;
+    border-radius: 10px;
+    vertical-align: 3px;
+}
+
+.mp_list li .bottom span:last-child::after {
+    display: none;
+}
+
+
+.mp_list li .bottom span svg {
+    width: 14px;
+    fill: #888888;
+    vertical-align: -1px;
+    margin-right: 2px;
+}
+
+.mp_list li .bottom span .heart {
+    width: 14px;
+    fill: red;
+    vertical-align: -1px;
+    margin-right: 2px;
+}
+
+.mp_list li .bottom span svg.luv {
+    fill: #e71b00;
+}
+
+.mp_list li p.img {
+    width: 25%;
+    border-radius: 10px;
+    overflow: hidden;
+    min-width: 100px;
+    margin-left: 10px;
+}
+
+.mp_list li p.img img {
+    display: block;
+    width: 100%;
+    border: 7px solid #c596dd;
+}
+
+.mp_list .btn_area {
+    display: table;
+    width: 100%;
+    box-sizing: border-box;
+    table-layout: fixed;
+    border-top: 1px solid #eee;
+    margin-top: 16px
+}
+
+.mp_list .btn_area a {
+    display: table-cell;
+    box-sizing: border-box;
+    text-align: center;
+    border-right: 1px solid #eee;
+    font: 600 15px/15px "Roboto", "Noto Sans KR", sans-serif;
+    color: #333;
+    padding: 12px 0
+}
+
+.mp_list .btn_area a:last-child {
+    border-right: none
+}
+
+/* 거래내역 */
+.mp_list.mydeal li p.img {
+    /*!*border: 7px solid #0c6f00;*!*/
+    /*border: 3px solid;*/
+    /*border-image: linear-gradient(to bottom, #f3c6cb, #d1eaa1, #c0a7f5);*/
+    /*border-image-slice: 1;*/
+    /*border-radius: 4px;*/
+
+    min-width: 205px;
+}
+
+.mp_list.mydeal li p.group-info {
+    font-family: PyeongChangPeace;
+    text-align: left;
+    color: #888888;
+    font-size: 15px;
+    margin-top: 7px;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+
+.mp_list.mydeal li .ok_label {
+    margin-left: 5px;
+    display: inline-block;
+    background: #f6f6f6;
+    padding: 5px 5px;
+    border-radius: 4px;
+    font: 400 12px/12px"Roboto", "Noto Sans KR", sans-serif;
+    box-sizing: border-box;
+    vertical-align: bottom;
+}
+
+.mp_list.mydeal li.ok a.deal {
+    color: #ccc
+}
+
+.mydeal.vers li {
+    border-bottom: 1px solid #eee;
+    padding: 20px 11px;
+    display: flex;
+    align-items: center;
+}
+
+.mydeal.vers li > div {
+    display: flex;
+    flex-wrap: wrap;
+    height: 141px;
+    padding: 5px 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.mydeal.vers li > div > div {
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+}
+
+a.heart_btn {
+    position: absolute;
+    top: 3px;
+    right: 5px;
+    width: 20px;
+    height: 20px;
+    fill: #e71b00;
+    display: inline-block;
+    z-index: 1;
+}
+
+
+/* ------------------------------------------------------------ groups 끝 ------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------ 마이페이지 ------------------------------------------------------------ */
+
+
+.profile .photo span {
+    display: flex;
+    width: 85px;
+    height: 85px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #ddd;
+    overflow: hidden;
+}
+
+
+.profile .info {
+    width: calc(100% - 85px);
+    padding: 8px 0px 0 20px;
+    box-sizing: border-box;
+    font-size: 0;
+    word-break: break-all;
+}
+
+.profile .info span {
+    display: block;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.profile .info span.nickname {
+    font-family: BMJUA;
+    font-size: x-large;
+    color: #333;
+    margin-bottom: 8px
+}
+.profile .info span.username {
+    font-size: small;
+    color: #333;
+    margin-bottom: 8px
+}
+
+.profile .info span.depart {
+    display: inline-block;
+    margin-bottom: 0
+}
+
+.profile .info span.depart::after {
+    content: '';
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    background: #ccc;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin: 0px 8px;
+}
+
+.profile .info span.depart:last-child::after {
+    display: none
+}
+
+
+
+/* ------------------------------------------------------------ FOOTER ------------------------------------------------------------ */
+footer					{padding: 40px 0 40px; font-family:BMJUA;}
+footer p				{padding: 0 15px; word-break: keep-all;}
+footer p.f_menu			{border-top:1px solid #ddd; border-bottom: 1px solid #ddd; padding-top:10px; padding-bottom:10px; background: #f7f7f7;}
+footer p.f_menu a		{display: inline-block; margin:6px 15px 6px 0; color: #333; font-weight: 400; }
+footer p.f_menu a.group-footer	{color:green;  font-weight:500;}
+footer div.copy			{margin-top:10px;}
+footer div.copy p		{color: #999; font-weight: 400; margin:10px 0;}
+footer div.copy p span	{display:inline-block; padding-right:10px; margin-right:10px; position:relative;}
+footer div.copy p span:last-child	{margin-right:0; padding-right:0;}
+footer div.copy p span::after		{position:absolute; content:''; width:1px; height:10px; background:#ddd; top:50%; margin-top:-5px; right:0; }
+footer div.copy p span:last-child::after	{display:none;}
+
+
+#sub_contents footer {padding-top:20px}
+/* ------------------------------------------------------------ FOOTER END ------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------ BTN ------------------------------------------------------------ */
+.btn a				{width: 100%; border:1px solid green; padding: 12px 22px; margin-bottom: 10px; border-radius: 50px; color: #fff; font: 400 15px/17px "Poppins", "Noto Sans KR", sans-serif; background: green; display: block; box-sizing: border-box; text-align: center;}
+.btn a:last-child	{margin-bottom: 0;}
+.btn a:focus		{color: #fff;}
+.btn a.line			{border:1px solid green; color:green; background:#fff}
+
+a.btn_mini	{font: 400 14px/14px"Roboto", "Noto Sans KR", sans-serif;padding: 11px 10px 10px 10px;box-sizing:border-box; border-radius:10px;height: 36px;display: inline-block;}
+a.r_btn		{display:inline-block; box-sizing:border-box; font:400 12px/12px "Roboto", "Noto Sans KR", sans-serif; text-align:center; border-radius: 20px;padding:10px 12px 9px 12px; width: auto !important;}
+
+a.bt_green  {background:green; color:#fff; border: 1px solid green;}
+a.bt_red	{background:#e71b00; color:#fff; border: 1px solid #e71b00;}
+a.bt_gray	{background:#f7f7f7; color:#888; border: 1px solid #f7f7f7;}
+a.bt_gray:focus {color:#888;}
+a.bt_gray02 {background:#dddddd; color:#888; border: 1px solid #ddd;}
+a.bt_gray02:focus {color:#888;}
+a.bt_greenL	{background:#fff; color:green; border:1px solid green}
+a.bt_greenL:focus {color:green;}
+a.bt_grayL	{background:#f8f8f8; color:#888; border:1px solid #ddd}
+a.bt_grayL:focus {color:#888;}
+a.bt_black	{background:#333; color:#fff;}
+a.bt_black:focus	{background:#333; color:#fff;}
+a.bt_white			{background:#fff; color:#333; border:1px solid #ddd}
+a.bt_white:focus	{color:#333;}
+
+.two_btn {display:flex;justify-content: space-between;}
+.two_btn a {margin-bottom:0;width: calc(50% - 3px);}
+
+.three_btn {display:flex;justify-content: space-between;}
+.three_btn a {margin-bottom:0;width: calc(33% - 3px);}
+
+.nk_btn {display:flex;justify-content: space-between;}
+.nk_btn a {margin-bottom:0}
+.nk_btn a + a{margin-left:5px}
+
+.sbtn_mini			{font: 400 14px/14px"Roboto", "Noto Sans KR", sans-serif;padding: 7px 8px 5px 8px; box-sizing:border-box; border-radius:4px;min-width: 50px;text-align: center;display: inline-block;}
+
+
+/* ------------------------------------------------------------ BTN END ------------------------------------------------------------ */

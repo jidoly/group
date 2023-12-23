@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
@@ -61,4 +60,18 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
+    @GetMapping("/mypage")
+    public String mypage() {
+        return "member/mypage";
+    }
+
+    @GetMapping("/mypage/changeNick")
+    public String changeNick() {
+        return "member/change-nick";
+    }
+
+    @GetMapping("/mypage/changePassword")
+    public String changePassword() {
+        return "member/change-password";
+    }
 }

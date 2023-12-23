@@ -24,7 +24,6 @@ public class Board extends BaseEntity {
 
     private String title;
     private String content;
-    private int likecount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/comhead :: common_header(~{::title})">
+    <title>메인설계중</title>
+</head>
+
+<!--이거 3줄은 공통! -->
+<body class="bodyCustom">
+<div class="parents">
+    <header th:replace="fragments/com/header"/>
+
+
+    <!-- CONTENTS BEGIN -->
+    <div id="sub_contents" class="my_main head_mg w-full">
+        <div class="navi">
+            <div class="top_navi"><a href="/member/mypage"><img src="/images/_img/cont/navi_arrow.png"></a><h2>닉네임 변경</h2></div>
+        </div>
+        <div class="w_box no_line">
+            <ul class="form">
+                <li>
+                    <p class="overflow mb15"><input type="text" id="name" placeholder="닉네임을 입력해주세요."/><a href="#"  id=changeBtn class="btn" >변경</a></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- CONTENTS END -->
+
+    <div class="m-96"></div>
+
+    <div th:replace="fragments/com/bottom" /></div>
+
+</div>
+</body>
+</html>
