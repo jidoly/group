@@ -134,6 +134,7 @@ div.navi .top_navi h2				{font-family: BMJUA; font-size: 24px; display: inline-b
     display: flex;
     width: 100%;
     align-items: center;
+    margin-left: 10px;
 }
 
 .profile .photo {

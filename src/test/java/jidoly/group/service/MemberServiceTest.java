@@ -1,14 +1,19 @@
 package jidoly.group.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jidoly.group.domain.Club;
+import jidoly.group.domain.Join;
 import jidoly.group.domain.UploadFile;
 import jidoly.group.domain.Member;
+import jidoly.group.repository.ClubRepository;
 import jidoly.group.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +30,12 @@ public class MemberServiceTest {
     private MemberRepository memberRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JoinService joinService;
+    @Autowired ClubService clubService;
+    @Autowired
+    ClubRepository clubRepository;
 
 
 
@@ -67,6 +78,34 @@ public class MemberServiceTest {
         // when
         assertThrows(EntityNotFoundException.class, ()->
                 memberService.findMemberByUsername(username));
+    }
+
+    @Test
+    void findMyGroups() throws Exception {
+        //given
+        Member member1 = Member.createMember("member1", "10", "kim");
+        Member member2 = Member.createMember("member2", "20", "lee");
+        Club club1 = Club.createClub("헬스", "냠냠");
+        Club club2 = Club.createClub("음악", "룰루");
+        memberService.registerMember(member1);
+        memberService.registerMember(member2);
+        clubService.createClub(club1);
+        clubService.createClub(club2);
+
+        Join join = Join.createJoin(member1, club1);
+        Join join2 = Join.createJoin(member1, club2);
+        joinService.applyJoin(join);
+        joinService.applyJoin(join2);
+
+
+
+
+        //when
+        List<Join> myGroups = memberService.findMyGroups(member1.getId());
+
+        //then
+        System.err.println(myGroups);
+
     }
 
 }

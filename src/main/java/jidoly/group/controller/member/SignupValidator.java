@@ -1,7 +1,7 @@
 package jidoly.group.controller.member;
 
+import jidoly.group.controller.member.dto.SignupDto;
 import jidoly.group.repository.MemberRepository;
-import jidoly.group.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

@@ -18,6 +18,8 @@ import java.util.Optional;
 public class JoinService {
 
     private final JoinRepository joinRepository;
+    
+    /* create 할때도 넣어야됨 status = Manage */
 
 
     //가입 신청시
@@ -32,11 +34,9 @@ public class JoinService {
         }
     }
 
-    /**
-     *파라미터로 받아서 중복 제거하는게 나을까?
-     */
     //가입 승인
     public void acceptJoin(Member member, Club club) {
+        /*권한 체크해야됨*/
         Join join = joinRepository.findByMemberIdAndClubId(member.getId(), club.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Club not found with id: "));
 
@@ -45,12 +45,14 @@ public class JoinService {
 
     //가입 거절
     public void denyJoin(Member member, Club club) {
+        /*권한 체크해야됨*/
         Join join = joinRepository.findByMemberIdAndClubId(member.getId(), club.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Club not found with id: "));
         join.denied();
     }
     //매니저 승격
     public void setManagerJoin(Member member, Club club) {
+        /*권한 체크해야됨*/
         Join join = joinRepository.findByMemberIdAndClubId(member.getId(), club.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Club not found with id: "));
         join.setManager();

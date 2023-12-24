@@ -1,4 +1,15 @@
+
+
+let originalImageSrc; // 이전 이미지의 URL을 저장할 변수
 function displayImage(input) {
+    const submitBtn = document.getElementById('submitBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    // submitBtn이 존재하는지 확인하고 스타일을 변경
+    if (submitBtn) {
+        submitBtn.style.display = 'inline-block';
+    }
+
     const preview = document.getElementById('profileImage');
     const file = input.files[0];
 
@@ -6,6 +17,7 @@ function displayImage(input) {
         const reader = new FileReader();
 
         reader.onload = function (e) {
+            originalImageSrc = preview.src;
             preview.src = e.target.result;
         };
 
@@ -14,36 +26,49 @@ function displayImage(input) {
         // 파일이 선택되지 않았을 때, 기본 이미지로 변경하거나 다른 작업을 수행할 수 있습니다.
         preview.src = '/images/defaultUser.png';
     }
+
+    // cancelBtn이 존재하는지 확인하고 스타일을 변경
+    if (cancelBtn) {
+        cancelBtn.style.display = 'inline-block';
+        cancelBtn.addEventListener('click', function() {
+            // 취소 버튼을 누르면 이전 이미지로 복원
+            if (originalImageSrc) {
+                preview.src = originalImageSrc;
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('cancelBtn').style.display = 'none';
+            }
+        });
+    }
 }
 
 /* main slide */
-document.addEventListener('DOMContentLoaded', function () {
-    const mainNotice = document.querySelector('.main-notice');
-    const slickSlides = document.querySelectorAll('.slick-slide');
-    let currentSlide = 0;
-
-    function nextSlide() {
-        currentSlide = (currentSlide + 1) % slickSlides.length;
-        updateSlider();
-    }
-
-    function updateSlider() {
-        const translateValue = -currentSlide * 100 + '%';
-        mainNotice.style.transform = 'translateX(' + translateValue + ')';
-    }
-
-    // Adjust the interval duration as needed
-    const interval = setInterval(nextSlide, 1300);
-
-    // Pause on hover
-    mainNotice.addEventListener('mouseenter', function () {
-        clearInterval(interval);
-    });
-
-    mainNotice.addEventListener('mouseleave', function () {
-        interval = setInterval(nextSlide, 1300);
-    });
-});
+// document.addEventListener('DOMContentLoaded', function () {
+//     const mainNotice = document.querySelector('.main-notice');
+//     const slickSlides = document.querySelectorAll('.slick-slide');
+//     let currentSlide = 0;
+//
+//     function nextSlide() {
+//         currentSlide = (currentSlide + 1) % slickSlides.length;
+//         updateSlider();
+//     }
+//
+//     function updateSlider() {
+//         const translateValue = -currentSlide * 100 + '%';
+//         mainNotice.style.transform = 'translateX(' + translateValue + ')';
+//     }
+//
+//     // Adjust the interval duration as needed
+//     const interval = setInterval(nextSlide, 1300);
+//
+//     // Pause on hover
+//     mainNotice.addEventListener('mouseenter', function () {
+//         clearInterval(interval);
+//     });
+//
+//     mainNotice.addEventListener('mouseleave', function () {
+//         interval = setInterval(nextSlide, 1300);
+//     });
+// });
 /* main end*/
 
 /* file */

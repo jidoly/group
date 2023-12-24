@@ -42,6 +42,8 @@ public class Member extends BaseEntity {
         this.nickname = nick;
         this.rank = Rank.NORMAL; // 디폴트로 유저등급 넣어줌.
     }
+
+    /* 생성 메소드 */
     public static Member createMember(String username, String password, String nick, UploadFile... uploadFiles) {
         Member member = new Member(username, password, nick);
         for (UploadFile uploadFile : uploadFiles) {

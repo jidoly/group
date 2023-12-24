@@ -36,11 +36,21 @@ public class UploadFile extends BaseEntity {
     public void addMember(Member member) {
         this.member = member;
     }
+    public void addClub(Club club) {
+        this.club = club;
+    }
 
     public UploadFile(String uploadFileName, String storeFileName) {
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
     }
+
+
+    /* 생성 메소드 */
+    public static UploadFile createEmptyFile() {
+        return new UploadFile();
+    }
+
 
 
 }

@@ -20,7 +20,7 @@ public class GroupController {
     }
 
     @GetMapping("/group")
-    public String group(@RequestParam(name = "id") Long id) {
+    public String group(@RequestParam(name = "groupId") Long groupId) {
         return "groups/group";
     }
 

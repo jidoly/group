@@ -24,12 +24,12 @@ public class FileStore {
         ArrayList<UploadFile> storeFileResult = new ArrayList<>();
         for (MultipartFile multipartFile : multipartFiles) {
             if(!multipartFile.isEmpty()){
-                storeFileResult.add(storeFIle(multipartFile));
+                storeFileResult.add(storeFile(multipartFile));
             }
         }
         return storeFileResult;
     }
-    public UploadFile storeFIle(MultipartFile multipartFile) throws IOException {
+    public UploadFile storeFile(MultipartFile multipartFile) throws IOException {
         if(multipartFile.isEmpty()){
             return null;
         }

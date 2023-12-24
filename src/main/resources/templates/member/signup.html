@@ -15,12 +15,12 @@
 <body class="bodyCustom">
 <div class="min-h-screen flex justify-center items-center">
 
-  <form action="" th:action th:object="${signupDto}" method="post">
+  <form action="" th:action th:object="${signupDto}" method="post" enctype="multipart/form-data">
 <!--  <div class="flex flex-col p-8 space-y-4 bg-white shadow-lg rounded-lg">-->
   <div class="flex flex-col p-8 space-y-4 bg-white shadow-lg rounded-lg flex">
     <div class="flex flex-col items-center">
       <label class="mt-2 cursor-pointer">
-        <input type="uploadFile" class="hidden" aria-label="Upload profile picture" id="uploadInput" onchange="displayImage(this)" />
+        <input type="file" class="hidden" th:field="*{attachFile}" onchange="displayImage(this)" />
         <img
                 th:src="@{/images/defaultUser.png}"
                 alt="no-image"

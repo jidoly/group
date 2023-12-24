@@ -1,11 +1,18 @@
 package jidoly.group.controller.member;
 
+import jidoly.group.com.CustomUser;
+import jidoly.group.controller.member.dto.MyGroupDto;
+import jidoly.group.controller.member.dto.SignupDto;
+import jidoly.group.domain.FileStore;
+import jidoly.group.domain.Join;
 import jidoly.group.domain.Member;
+import jidoly.group.domain.UploadFile;
 import jidoly.group.repository.MemberRepository;
 import jidoly.group.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +22,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -27,6 +36,7 @@ public class MemberController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
     private final SignupValidator signupValidator;
+    private final FileStore fileStore;
 
     @InitBinder
     public void validatorBinder(WebDataBinder binder) {
@@ -44,7 +54,7 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String register(@Validated @ModelAttribute("signupDto") SignupDto signupDto, Errors errors, Model model) {
+    public String register(@Validated @ModelAttribute("signupDto") SignupDto signupDto, Errors errors, Model model) throws IOException {
 
         /* 검증 */
         if (errors.hasErrors()) {
@@ -58,26 +68,41 @@ public class MemberController {
         }
 
         /**
-         * 여기서 파일 저장하는 서비스 부르고, 저장된 userfilename, srvfilename두개 넘겨줘야됨.
+         * 여기서 파일 저장하는 서비스 부르고, 저장된 파일이름 넘겨주기
          */
-        Member member = Member.createMember(signupDto.getUsername(), signupDto.getPassword(), signupDto.getNickname());
+        UploadFile uploadFile = UploadFile.createEmptyFile();
+        MultipartFile attachFile = signupDto.getAttachFile();
+        if (attachFile != null && !attachFile.isEmpty()) {
+            uploadFile = fileStore.storeFile(attachFile);
+        }
+        Member member = Member.createMember(signupDto.getUsername(), signupDto.getPassword(), signupDto.getNickname(), uploadFile);
         Long member1 = memberService.registerMember(member);
-        System.err.println("회원가입 성공 : " + member1);
+        log.debug("회원가입 성공 = {}", member1);
         return "redirect:/member/login";
     }
 
     @GetMapping("/mypage")
     @PreAuthorize("isAuthenticated()")
-    public String mypage(Model model, Principal principal) {
+    public String mypage(@ModelAttribute("signupDto") SignupDto signupDto, Model model, @AuthenticationPrincipal CustomUser customUser) {
 
-        String username = principal.getName();
+        String username = customUser.getUsername();
+        Long userId = customUser.getId();
+
         Member member = memberService.findMemberByUsername(username);
+        System.err.println("음.. member가 어떻게 들어오려나 " + member);
+        List<Join> myGroups = memberService.findMyGroups(userId);
+        List<MyGroupDto> myGroupDto = MyGroupDto.fromJoinList(myGroups);
 
         /* 엔티티를 그대로 넘기는건 좋은 프렉티스가 아니므로 Dto에 담아서 전달*/
-        SignupDto signupDto = new SignupDto();
         signupDto.setUsername(member.getUsername());
         signupDto.setNickname(member.getNickname());
-        signupDto.setAttachFile((MultipartFile) member.getUploadFiles().get(0)); /*프로필 사진*/
+        List<UploadFile> uploadFiles = member.getUploadFiles();
+        if (!uploadFiles.isEmpty()) {
+            UploadFile lastUploadFile = uploadFiles.get(uploadFiles.size() - 1);
+            signupDto.setFileName(lastUploadFile.getStoreFileName());
+        }
+        model.addAttribute("member", signupDto);
+        model.addAttribute("myGroupDto", myGroupDto);
         return "member/mypage";
     }
 
@@ -134,6 +159,27 @@ public class MemberController {
 
         /* 다 통과되면 비밀번호 변경*/
         memberService.updatePw(sessionName, password);
+
+        return "redirect:/member/mypage";
+    }
+    @PostMapping("/mypage/changeImage")
+    @PreAuthorize("isAuthenticated()")
+    public String changeImage(@ModelAttribute("signupDto") SignupDto signupDto, BindingResult bindingResult,
+                             Principal principal) throws IOException {
+
+        if (bindingResult.hasErrors()) {
+            return "/member/mypage";
+        }
+
+
+        UploadFile uploadFile = UploadFile.createEmptyFile();
+        MultipartFile attachFile = signupDto.getAttachFile();
+        if (attachFile != null && !attachFile.isEmpty()) {
+            uploadFile = fileStore.storeFile(attachFile);
+        }
+        String username = principal.getName();
+        System.err.println(uploadFile);
+        memberService.changeImage(username, uploadFile);
 
         return "redirect:/member/mypage";
     }

@@ -1,8 +1,10 @@
 package jidoly.group.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jidoly.group.controller.member.SignupDto;
+import jidoly.group.domain.Join;
 import jidoly.group.domain.Member;
+import jidoly.group.domain.UploadFile;
+import jidoly.group.repository.JoinRepository;
 import jidoly.group.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,8 +14,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,8 +23,8 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
     private final PasswordEncoder passwordEncoder;
+    private final JoinRepository joinRepository;
 
     @Transactional
     public Long registerMember(Member member) {
@@ -82,4 +84,16 @@ public class MemberService {
         member.setEncodePassword(encodedPassword);
     }
 
+    public List<Join> findMyGroups(Long userId) {
+        return joinRepository.findMyGroups(userId);
+    }
+
+    @Transactional
+    public void changeImage(String username, UploadFile uploadFile) {
+        Member member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Member not found with username: " + username));
+        member.getUploadFiles().clear();
+        System.err.println(uploadFile);
+        member.addFiles(uploadFile);
+    }
 }

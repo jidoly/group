@@ -296,5 +296,23 @@ span.important-star svg {
     float: right!important;
     margin-left: 5px!important;
 
+}
 
+.mypage-imagebtn {
+    border: 1px solid green;
+    padding: 13.5px 15px;
+    border-radius: 50px;
+    color: #fff;
+    font: 400 14px/14px "Poppins", "Noto Sans KR", sans-serif;
+    background: green;
+    display: block;
+    box-sizing: border-box;
+    text-align: center;
+    width: 85px;
+    float: right;
+    margin: 5px;
+}
+.cancelBtn{
+    background: white!important;
+    color: black;
 }
