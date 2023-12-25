@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/comhead :: common_header(~{::title})">
+  <title>메인설계중</title>
+</head>
+<!--이거 3줄은 공통! -->
+<body class="bodyCustom">
+<div class="parents">
+  <header th:replace="fragments/com/header"/>
+
+
+
+  <!--컨텐츠 시작-->
+  <!-- 컨텐츠 시작 -->
+  <div id="sub_contents" class="board head_mg mb140 w-full">
+
+
+    <div class="navi">
+      <div class="top_navi"><a href="javascript:history.back();"><img src="/images/_img/cont/navi_arrow.png"></a>
+        <h2 class="text-2xl">그루프 생성</h2>
+      </div>
+    </div>
+    <div class="bbs_write w_box top no_line">
+      <form action="" th:action th:object="${groupDto}" method="post" enctype="multipart/form-data">
+
+        <div class="flex flex-col items-center">
+          <label class="mt-2 cursor-pointer">
+            <input type="file" class="hidden" th:field="*{attachFile}" onchange="displayImage(this)" />
+            <img
+                    th:src="@{/images/defaultUser.png}"
+                    alt="no-image"
+                    height="100"
+                    width="100"
+                    class="rounded-full"
+                    style="aspect-ratio:100/100;object-fit:cover"
+                    id="profileImage"
+            />
+          </label>
+          <h2 class="mt-2 text-lg font-semibold">사진을 등록해주세요!</h2>
+        </div>
+
+        <input class="create-group"
+               th:field="*{groupName}"
+               type="text"
+               placeholder="그루프 이름"
+               th:errorclass="field-error"
+               required=""
+        />
+        <div class="field-error" th:errors="*{groupName}"/>
+
+        <textarea class="font-base-nosize text-xl"
+                  type="text"
+                  rows="7"
+                  th:field="*{info}"
+                  placeholder="그루프를 소개하세요."
+                  required=""
+                  th:errorclass="field-error"
+        >
+        </textarea>
+        <div class="field-error" th:errors="*{info}"/>
+
+        <button class="change-btn" type="submit">저장</button>
+      </form>
+
+    </div>
+
+  </div>
+
+  <!--컨텐츠 끝-->
+
+
+
+
+  <div class="m-44"></div>
+
+  <div th:replace="fragments/com/bottom" />
+</div>
+</body>
+</html>

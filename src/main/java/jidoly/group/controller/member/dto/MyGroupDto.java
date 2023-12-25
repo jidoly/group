@@ -20,7 +20,7 @@ public class MyGroupDto {
         myGroupDto.setGroupId(join.getClub().getId());
         myGroupDto.setGroupName(join.getClub().getClubName());
 
-        // 여기서는 업로드 파일이 하나만 있다고 가정하고, 필요에 따라 수정할 수 있습니다.
+        // 여기서는 업로드 파일이 하나만 있다고 가정하고, 필요에 따라 수정할 수 있다.
         List<UploadFile> uploadFiles = join.getClub().getUploadFiles();
         if (!uploadFiles.isEmpty()) {
             myGroupDto.setStoreFileName(uploadFiles.get(0).getStoreFileName());

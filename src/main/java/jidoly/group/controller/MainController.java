@@ -1,4 +1,4 @@
-package jidoly.group.controller.member;
+package jidoly.group.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

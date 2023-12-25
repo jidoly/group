@@ -1,6 +1,7 @@
 package jidoly.group.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jidoly.group.domain.*;

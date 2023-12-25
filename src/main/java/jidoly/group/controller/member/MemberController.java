@@ -1,6 +1,7 @@
 package jidoly.group.controller.member;
 
 import jidoly.group.com.CustomUser;
+import jidoly.group.controller.member.dto.MemberDto;
 import jidoly.group.controller.member.dto.MyGroupDto;
 import jidoly.group.controller.member.dto.SignupDto;
 import jidoly.group.domain.FileStore;
@@ -70,11 +71,9 @@ public class MemberController {
         /**
          * 여기서 파일 저장하는 서비스 부르고, 저장된 파일이름 넘겨주기
          */
-        UploadFile uploadFile = UploadFile.createEmptyFile();
-        MultipartFile attachFile = signupDto.getAttachFile();
-        if (attachFile != null && !attachFile.isEmpty()) {
-            uploadFile = fileStore.storeFile(attachFile);
-        }
+        UploadFile uploadFile = (signupDto.getAttachFile() != null && !signupDto.getAttachFile().isEmpty())
+                ? fileStore.storeFile(signupDto.getAttachFile())
+                : UploadFile.createEmptyFile();
         Member member = Member.createMember(signupDto.getUsername(), signupDto.getPassword(), signupDto.getNickname(), uploadFile);
         Long member1 = memberService.registerMember(member);
         log.debug("회원가입 성공 = {}", member1);
@@ -89,19 +88,12 @@ public class MemberController {
         Long userId = customUser.getId();
 
         Member member = memberService.findMemberByUsername(username);
-        System.err.println("음.. member가 어떻게 들어오려나 " + member);
         List<Join> myGroups = memberService.findMyGroups(userId);
         List<MyGroupDto> myGroupDto = MyGroupDto.fromJoinList(myGroups);
 
         /* 엔티티를 그대로 넘기는건 좋은 프렉티스가 아니므로 Dto에 담아서 전달*/
-        signupDto.setUsername(member.getUsername());
-        signupDto.setNickname(member.getNickname());
-        List<UploadFile> uploadFiles = member.getUploadFiles();
-        if (!uploadFiles.isEmpty()) {
-            UploadFile lastUploadFile = uploadFiles.get(uploadFiles.size() - 1);
-            signupDto.setFileName(lastUploadFile.getStoreFileName());
-        }
-        model.addAttribute("member", signupDto);
+        MemberDto memberDto = new MemberDto(member);
+        model.addAttribute("member", memberDto);
         model.addAttribute("myGroupDto", myGroupDto);
         return "member/mypage";
     }

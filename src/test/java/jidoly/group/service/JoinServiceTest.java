@@ -40,12 +40,14 @@ class JoinServiceTest {
     void before() {
         Member member1 = Member.createMember("member1", "10", "kim");
         Member member2 = Member.createMember("member2", "20", "lee");
+        Member member3= Member.createMember("member3", "20", "qee");
         Club club1 = Club.createClub("헬스", "냠냠");
         Club club2 = Club.createClub("음악", "룰루");
         memberService.registerMember(member1);
         memberService.registerMember(member2);
-        clubService.createClub(club1);
-        clubService.createClub(club2);
+        memberService.registerMember(member3);
+        clubService.createClub(member3.getId(), club1);
+        clubService.createClub(member3.getId(), club2);
     }
 
     @Test

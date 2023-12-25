@@ -1,5 +1,6 @@
 package jidoly.group.domain;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 
 import java.util.List;
@@ -11,20 +12,22 @@ public class BoardDto {
     private String title;
     private String writer;
     private String content;
-    private int likeCount;
-    private String createdDate, modifiedDate;
+    private String createdDate;
+    private String modifiedDate;
     private List<UploadFile> uploadFiles;
     private List<Comment> comments;
+    private int likeCount;
+
 
 
     public BoardDto(Board board) {
         id = board.getId();
-        writer = board.getMember().getNickname();
         title = board.getTitle();
         content = board.getContent();
-        likeCount = board.getLikes().size();
         uploadFiles = board.getUploadFiles();
         comments = board.getComments();
+        writer = board.getMember().getNickname();
+        likeCount = board.getLikes().size();
     }
 
     public BoardDto(Long id, String title, String writer, String content, int likeCount, List<UploadFile> uploadFiles, List<Comment> comments) {
@@ -35,5 +38,14 @@ public class BoardDto {
         this.likeCount = likeCount;
         this.uploadFiles = uploadFiles;
         this.comments = comments;
+    }
+    public BoardDto(Long id, String title, String writer, String content, List<UploadFile> uploadFiles, List<Comment> comments, int likeCount) {
+        this.id = id;
+        this.title = title;
+        this.writer = writer;
+        this.content = content;
+        this.uploadFiles = uploadFiles;
+        this.comments = comments;
+        this.likeCount = likeCount;
     }
 }

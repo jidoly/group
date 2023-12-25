@@ -2,9 +2,12 @@ package jidoly.group.controller.member.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jidoly.group.domain.Member;
 import jidoly.group.domain.UploadFile;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Data
 public class SignupDto {
@@ -22,6 +25,6 @@ public class SignupDto {
 
     private MultipartFile attachFile;
 
-    private String fileName;
+    private String storeFileName;
 
 }

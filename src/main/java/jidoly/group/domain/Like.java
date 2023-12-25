@@ -39,6 +39,7 @@ public class Like {
         this.club = club;
     }
 
+
     /* 비지니스 로직 */
 
     public static Like addLikeBoard(Member member, Board board) {

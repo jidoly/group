@@ -67,7 +67,7 @@
     top: 64px;
 }
 
-.group-one .add_btn {
+.add_btn {
     display: block;
     position: sticky;
     width: 50px;
@@ -316,3 +316,34 @@ span.important-star svg {
     background: white!important;
     color: black;
 }
+
+.create-group {
+    font-family: BMJUA!important;
+    font-style: normal!important;
+    font-size: x-large!important;
+    margin-bottom: 5px;
+}
+
+.groups-img-box {
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+    width: 205px;
+    height: 121px;
+    display: flex;
+    padding: 4px;
+}
+.groups-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.groups-img-box-gra {
+    background: linear-gradient(to bottom, lightpink, greenyellow,mediumpurple);
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

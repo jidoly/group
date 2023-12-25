@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -40,8 +41,8 @@ class BoardServiceTest {
         Club club2 = Club.createClub("음악", "룰루");
         memberService.registerMember(member1);
         memberService.registerMember(member2);
-        clubService.createClub(club1);
-        clubService.createClub(club2);
+        clubService.createClub(member1.getId(), club1);
+        clubService.createClub(member1.getId(), club2);
     }
 
     @Test
@@ -87,15 +88,16 @@ class BoardServiceTest {
         Long boardId = boardService.writePost(board);
         Long boardId2 = boardService.writePost(board);
         //when
-        boardService.addLikeToBoard(boardId, member);
-        boardService.addLikeToBoard(boardId, member2);
+        boardService.likeBoard(member.getId(), boardId);
+        //위에 끝나고나서,
+        boardService.likeBoard(member2.getId(), boardId);
 
         System.err.println(boardService.findBoardById(boardId));
         int likeCount = boardService.findBoardById(boardId).getLikeCount();
         assertThat(likeCount).isEqualTo(2);
 
         //다시 좋아요 누르면 -> 취소
-        boardService.removeLikeFromBoard( boardId,member);
+        boardService.likeBoard(member.getId(), boardId);
         BoardDto boardDto = boardService.findBoardById(boardId);
         assertThat(boardDto.getLikeCount()).isEqualTo(1);
 
@@ -119,8 +121,8 @@ class BoardServiceTest {
 
         Long boardId = boardService.writePost(board);
         //when
-        boardService.addLikeToBoard(boardId, member);
-        boardService.addLikeToBoard(boardId, member2);
+        boardService.likeBoard(member.getId(), boardId);
+        boardService.likeBoard(member2.getId(), boardId);
 
         //when
         List<BoardDto> boardDtos = boardService.findAll();

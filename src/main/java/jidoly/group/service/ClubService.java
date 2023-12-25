@@ -1,10 +1,7 @@
 package jidoly.group.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import jidoly.group.domain.Board;
-import jidoly.group.domain.Club;
-import jidoly.group.domain.Like;
-import jidoly.group.domain.Member;
+import jidoly.group.domain.*;
 import jidoly.group.repository.ClubRepository;
 import jidoly.group.repository.LikeRepository;
 import jidoly.group.repository.MemberRepository;
@@ -35,10 +32,14 @@ public class ClubService {
     }
 
     @Transactional
-    public Long createClub(Club club) {
-        if (clubRepository.findByClubName(club.getClubName()).isPresent()) {
-            throw new RuntimeException("name already exists"); // 여기 MVC에서 message로 대체
-        }
+    public Long createClub(Long userId,Club club) {
+
+        Member member = memberRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        ;
+        Join join = Join.createJoin(member, club);
+        join.setManager();
+        club.addJoins(join);
         clubRepository.save(club);
         return club.getId();
     }
@@ -69,9 +70,11 @@ public class ClubService {
         Optional<Like> likeExist = likeRepository.findByMemberIdAndClubId(memberId, clubId);
         if (likeExist.isPresent()) {
             Long likeId = likeExist.get().getId();
+            club.removeLike(member);
             likeRepository.deleteById(likeId);
         } else {
-            likeRepository.save(Like.addLikeClub(member, club));
+            club.addLike(member);
+            clubRepository.save(club);
         }
     }
 

@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardRepositoryCustom {
 
     @Override
-    @EntityGraph(attributePaths = {"likes"})
+    @EntityGraph(attributePaths = {"member", "club"})
     List<Board> findAll();
 
 

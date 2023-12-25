@@ -11,7 +11,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "joins")
-@ToString
+@ToString(of = "id")
 public class Join {
 
     @Id
@@ -41,6 +41,11 @@ public class Join {
         return new Join(member, club);
     }
 
+
+    /* 연관관계 편의 메소드*/
+    public void addClub(Club club) {
+        this.club = club;
+    }
 
     /*비지니스 로직*/
     /**

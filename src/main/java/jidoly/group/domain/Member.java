@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = "password")
+@ToString(exclude = {"password"})
 public class Member extends BaseEntity {
 
     @Id @GeneratedValue

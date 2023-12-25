@@ -6,14 +6,16 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(exclude = "likes")
+@ToString(exclude = {"comments"})
 public class Board extends BaseEntity {
 
 
@@ -86,6 +88,8 @@ public class Board extends BaseEntity {
     public void removeLike(Member member) {
         likes.removeIf(like -> like.getBoard().equals(this) && like.getMember().equals(member));
     }
+
+
 
     public void addComment(Comment comment) {
         comments.add(comment);

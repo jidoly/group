@@ -544,6 +544,7 @@ span.star svg {
 .my-club ul li p.img img {
     display: block;
     width: 100%;
+    height: 100%;
 }
 
 .my-club ul li p.img img::before {
@@ -847,7 +848,7 @@ span.star svg {
     /*border-image-slice: 1;*/
     /*border-radius: 4px;*/
 
-    min-width: 205px;
+    /*min-width: 205px;*/
 }
 
 .mp_list.mydeal li p.group-info {

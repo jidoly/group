@@ -31,10 +31,21 @@ public class Club extends BaseEntity {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<UploadFile> uploadFiles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<Join> joins = new ArrayList<>();
+
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<Like> likes = new ArrayList<>();
+
     /* 연관관계 편의 메소드*/
     public void addFiles(UploadFile uploadFile) {
         uploadFiles.add(uploadFile);
         uploadFile.addClub(this);
+    }
+
+    public void addJoins(Join join) {
+        joins.add(join);
+        join.addClub(this);
     }
     
     /*생성 메서드*/
@@ -49,6 +60,18 @@ public class Club extends BaseEntity {
     public void updateClubNameAndInfo(String clubName, String clubInfo) {
         this.clubName = clubName;
         this.info = clubInfo;
+    }
+
+    /**
+     *  좋아요 추가 / 취소
+     */
+    public void addLike(Member member) {
+        Like like = Like.addLikeClub(member, this);
+        likes.add(like);
+    }
+
+    public void removeLike(Member member) {
+        likes.removeIf(like -> like.getClub().equals(this) && like.getMember().equals(member));
     }
 
 }

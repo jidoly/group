@@ -26,7 +26,7 @@
                       <label class="cursor-pointer">
                             <input type="file" class="hidden" th:field="*{attachFile}" onchange="displayImage(this)" />
                             <img
-                                    th:src="${member.fileName != null} ? '/upload/' + ${member.fileName} : '/images/test2.gif'"
+                                    th:src="${member.getStoreFileName != null} ? '/upload/' + ${member.getStoreFileName} : '/images/test2.gif'"
                                     alt="프로필 사진"
                                     id="profileImage"
                             >

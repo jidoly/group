@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,9 +30,9 @@ public class BoardService {
         return boardDto;
     }
 
-    public List<BoardDto> findAllold() {
+    public List<BoardDto> findAll() {
 
-        List<Board> all = boardRepository.findFetchBoard();
+        List<Board> all = boardRepository.findAll();
 
         System.err.println("all = " + all);
         List<BoardDto> collect = all.stream()
@@ -41,7 +42,7 @@ public class BoardService {
         return collect;
     }
 
-    public List<BoardDto> findAll() {
+    public List<BoardDto> findAllDsl() {
         List<BoardDto> boardQueryDSL = boardRepository.findBoardQueryDSL();
         return boardQueryDSL;
     }
@@ -85,6 +86,27 @@ public class BoardService {
         likeRepository.deleteById(like.getId());
 
     }
+
+    @Transactional
+    public void likeBoard(Long memberId, Long boardId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new RuntimeException("해당 게시글을 찾을 수 없습니다."));
+
+        //좋아요 중복 금지 - Exist하면, 다시 눌렀을떄 취소 하는걸로
+        Optional<Like> likeExist = likeRepository.findByMemberIdAndBoardId(memberId, boardId);
+        if (likeExist.isPresent()) {
+            Long likeId = likeExist.get().getId();
+            board.removeLike(member);
+            likeRepository.deleteById(likeId);
+        } else {
+            board.addLike(member);
+            boardRepository.save(board);
+        }
+    }
+    
     @Transactional
     public void addCommentToBoard(Long boardId, Comment comment) {
         Board board = boardRepository.findById(boardId)
