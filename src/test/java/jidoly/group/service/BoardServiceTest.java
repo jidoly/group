@@ -92,7 +92,6 @@ class BoardServiceTest {
         //위에 끝나고나서,
         boardService.likeBoard(member2.getId(), boardId);
 
-        System.err.println(boardService.findBoardById(boardId));
         int likeCount = boardService.findBoardById(boardId).getLikeCount();
         assertThat(likeCount).isEqualTo(2);
 
@@ -126,9 +125,6 @@ class BoardServiceTest {
 
         //when
         List<BoardDto> boardDtos = boardService.findAll();
-        for (BoardDto boardDto : boardDtos) {
-            System.err.println("boardDto = " + boardDto);
-        }
         //then
 
     }

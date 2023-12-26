@@ -1,7 +1,6 @@
 package jidoly.group.controller.group;
 
-import jidoly.group.com.CustomUser;
-import jidoly.group.controller.member.dto.SignupDto;
+import jidoly.group.sequrity.CustomUser;
 import jidoly.group.domain.Club;
 import jidoly.group.domain.FileStore;
 import jidoly.group.domain.UploadFile;
@@ -16,12 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,16 +40,14 @@ public class GroupController {
         List<GroupDto> groupList = all.stream()
                 .map(club -> new GroupDto(club))
                 .collect(Collectors.toList());
-        System.err.println(groupList);
 
         /**
-         * top3 정렬
+         * top3
          */
         List<GroupDto> top3 = likeRepository.findTop3ClubsByLikes().stream()
                 .map(clubService::findById)
                 .map(GroupDto::new)
                 .collect(Collectors.toList());
-        System.err.println(top3);
 
         model.addAttribute("groupList", groupList);
         model.addAttribute("top3", top3);
@@ -70,10 +63,11 @@ public class GroupController {
                                BindingResult bindingResult) throws IOException {
 
         if (clubRepository.existsByClubName(groupDto.getGroupName())) {
-            bindingResult.rejectValue("groupName","groupNameDuple", "중복된 클럽명이 존재합니다.");
+            bindingResult.rejectValue("groupName","duplicate");
             return "groups/create-group";
         }
         if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
             return "groups/create-group";
         }
 
@@ -81,7 +75,7 @@ public class GroupController {
                 ? fileStore.storeFile(groupDto.getAttachFile())
                 : UploadFile.createEmptyFile();
         Club club = Club.createClub(groupDto.getGroupName(), groupDto.getInfo(), uploadFile);
-        System.err.println(club);
+
         clubService.createClub(sessionUser.getId(),club);
 
         return "redirect:/groups";

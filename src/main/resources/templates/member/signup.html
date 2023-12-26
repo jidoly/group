@@ -57,9 +57,9 @@
               class="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background uploadFile:border-0 uploadFile:bg-transparent uploadFile:text-sm uploadFile:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 w-full"
               th:field="*{nickname}"
               placeholder="닉네임을 입력하세요"
-              required=""
+
               th:errorclass="field-error"
-      />
+      /><!--required=""-->
       <div class="field-error" th:errors="*{nickname}"/>
     </div>
 
@@ -104,7 +104,7 @@
           </svg>
         </button>
       </div>
-      <button th:onclick="|location.href='@{/member/login}'|"
+      <button type="button" th:onclick="|location.href='@{/member/login}'|"
               class="inline-flex items-center justify-center text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3">
         뒤로가기
       </button>

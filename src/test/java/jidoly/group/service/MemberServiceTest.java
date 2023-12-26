@@ -47,7 +47,6 @@ public class MemberServiceTest {
         UploadFile uploadFile2 = new UploadFile("유저파일이름1", "저장파일이름2");
         UploadFile[] uploadFiles = {uploadFile1, uploadFile2};
         Member member2 = Member.createMember("member2", "20", "lee", uploadFiles);
-        System.err.println(member2);
         // when
         Long boardId = memberService.registerMember(member1);
         Long boardId2 = memberService.registerMember(member2);

@@ -1,11 +1,10 @@
-package jidoly.group.com;
+package jidoly.group.sequrity;
 
 import jidoly.group.domain.Member;
 import jidoly.group.repository.MemberRepository;
 import jidoly.group.service.MemberService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

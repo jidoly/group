@@ -1,6 +1,6 @@
 package jidoly.group.controller.member;
 
-import jidoly.group.com.CustomUser;
+import jidoly.group.sequrity.CustomUser;
 import jidoly.group.controller.member.dto.MemberDto;
 import jidoly.group.controller.member.dto.MyGroupDto;
 import jidoly.group.controller.member.dto.SignupDto;
@@ -45,8 +45,14 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
-        return "member/login";
+    public String loginPage(@RequestParam(value = "error", required = false) String error,
+                            @RequestParam(value = "exception", required = false) String exception,
+                            Model model) {
+
+        /* 에러와 예외를 모델에 담아 view resolve */
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
+        return "/member/login";
     }
 
     @GetMapping("/signup")
@@ -59,6 +65,7 @@ public class MemberController {
 
         /* 검증 */
         if (errors.hasErrors()) {
+            log.info("errors={}", errors);
             /* 유효성 검사를 통과하지 못한 필드와 메세지 핸들링 */
             Map<String, String> validatorResult = memberService.validateHandling(errors);
             for (String key : validatorResult.keySet()) {
@@ -89,9 +96,8 @@ public class MemberController {
 
         Member member = memberService.findMemberByUsername(username);
         List<Join> myGroups = memberService.findMyGroups(userId);
-        List<MyGroupDto> myGroupDto = MyGroupDto.fromJoinList(myGroups);
+        List<MyGroupDto> myGroupDto = MyGroupDto.makeMyGroupDtoList(myGroups); // 이거 즐겨찾기로 변경
 
-        /* 엔티티를 그대로 넘기는건 좋은 프렉티스가 아니므로 Dto에 담아서 전달*/
         MemberDto memberDto = new MemberDto(member);
         model.addAttribute("member", memberDto);
         model.addAttribute("myGroupDto", myGroupDto);
@@ -109,7 +115,7 @@ public class MemberController {
                              Principal principal) {
         String changeNick = signupDto.getNickname();
         if (memberRepository.existsByNickname(changeNick)) {
-            bindingResult.rejectValue("nickname","nickNameDuple", "중복된 닉네임이 존재합니다.");
+            bindingResult.rejectValue("nickname","duplicate");
             return "member/change-nick";
         }
 
@@ -134,18 +140,15 @@ public class MemberController {
         String sessionName = principal.getName();
         String pastPw = signupDto.getPastPw();
 
-        System.err.println("signupDto = " + signupDto);
-        System.err.println("sessionName = " + sessionName);
-
         /* 과거 비밀번호 맞는지 검사*/
         if (!memberService.loginCheck(sessionName, pastPw)) {
-            bindingResult.rejectValue("pastPw", "passwordFail", "암호가 틀렸습니다.");
+            bindingResult.rejectValue("pastPw", "passwordFail");
             return "member/change-password";
         }
 
         /* 비밀번호 일치하는지 검사 */
         if (!password.equals(validPw)) {
-            bindingResult.rejectValue("validPw", "passwordFail", "비밀번호가 동일하지 않습니다.");
+            bindingResult.rejectValue("validPw", "passwordFail");
             return "member/change-password";
         }
 
@@ -160,6 +163,7 @@ public class MemberController {
                              Principal principal) throws IOException {
 
         if (bindingResult.hasErrors()) {
+            log.error("errors={}", bindingResult);
             return "/member/mypage";
         }
 
@@ -170,7 +174,6 @@ public class MemberController {
             uploadFile = fileStore.storeFile(attachFile);
         }
         String username = principal.getName();
-        System.err.println(uploadFile);
         memberService.changeImage(username, uploadFile);
 
         return "redirect:/member/mypage";

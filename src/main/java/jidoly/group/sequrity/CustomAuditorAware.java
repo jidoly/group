@@ -1,4 +1,4 @@
-package jidoly.group.com;
+package jidoly.group.sequrity;
 
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;

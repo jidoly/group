@@ -15,24 +15,23 @@ public class MyGroupDto {
     private String storeFileName;
 
     // 생성자나 정적 팩토리 메서드를 이용하여 MyGroupDto 객체 생성
-    public static MyGroupDto fromJoin(Join join) {
+    public static MyGroupDto makeMygroupDto(Join join) {
         MyGroupDto myGroupDto = new MyGroupDto();
         myGroupDto.setGroupId(join.getClub().getId());
         myGroupDto.setGroupName(join.getClub().getClubName());
 
-        // 여기서는 업로드 파일이 하나만 있다고 가정하고, 필요에 따라 수정할 수 있다.
         List<UploadFile> uploadFiles = join.getClub().getUploadFiles();
         if (!uploadFiles.isEmpty()) {
-            myGroupDto.setStoreFileName(uploadFiles.get(0).getStoreFileName());
+            String storeFileName = uploadFiles.get(uploadFiles.size() - 1).getStoreFileName();
+            myGroupDto.setStoreFileName(storeFileName);
         }
 
         return myGroupDto;
     }
 
-    // 여러 Join 엔티티 리스트를 MyGroupDto 리스트로 변환하는 메서드
-    public static List<MyGroupDto> fromJoinList(List<Join> joinList) {
+    public static List<MyGroupDto> makeMyGroupDtoList(List<Join> joinList) {
         return joinList.stream()
-                .map(MyGroupDto::fromJoin)
+                .map(MyGroupDto::makeMygroupDto)
                 .collect(Collectors.toList());
     }
 

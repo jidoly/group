@@ -34,7 +34,6 @@ public class BoardService {
 
         List<Board> all = boardRepository.findAll();
 
-        System.err.println("all = " + all);
         List<BoardDto> collect = all.stream()
                 .map(a -> new BoardDto(a))
                 .collect(Collectors.toList());

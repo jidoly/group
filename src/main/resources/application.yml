@@ -19,6 +19,10 @@ spring:
         default_batch_fetch_size: 100
         use_sql_comments: true
 
+  messages:
+    basename: messages,errors
+
+
 logging.level:
 #  root: DEBUG
   org.hibernate.SQL: debug

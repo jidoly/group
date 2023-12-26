@@ -73,11 +73,8 @@ class ClubServiceTest {
         clubService.createClub(member3.getId(), club2);
         clubService.likeClub(memberId, clubId);
         //when
-        System.err.println("================ 1 ===================");
         List<Club> all = clubService.findAll();
         Club findClub = clubService.findById(clubId);
-        System.err.println("================== 2 =================");
-        System.err.println(all);
         //then
         assertThat(all.size()).isEqualTo(2);
         assertThat(findClub.getClubName()).isEqualTo("헬스");

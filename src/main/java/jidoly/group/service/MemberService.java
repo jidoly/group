@@ -93,7 +93,6 @@ public class MemberService {
         Member member = memberRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException("Member not found with username: " + username));
         member.getUploadFiles().clear();
-        System.err.println(uploadFile);
         member.addFiles(uploadFile);
     }
 }

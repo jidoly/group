@@ -25,7 +25,8 @@
     <!-- 카드 섹션 -->
 
     <div class="w-full">
-        <h1 class="my-title2 w-full font-base"><a th:href="@{/temp}">(닉네임)님,
+        <h1 class="my-title2 w-full font-base"><a th:href="@{/groups}">
+            <span class="text-cyan-500" th:text="${member.nickname}">닉네임</span>님,
             <br> 현재 인기있는
             <br> 그룹들을 추천해드려요 ></a>
         </h1>
@@ -33,39 +34,18 @@
         <div class="card w-full bg-gray-100">
 
             <ul class="top">
-                <li onclick="location.href='cardView.do?usrIdx=${result.usrIdx}'">
+                <li th:each="club : ${top3}" th:onclick="|location.href='@{/groups/group(groupId=${club.groupId}) }'|">
                     <div class="cards">
                         <span class="fire">
                             <img alt="인기 그룹" src="/images/_img/fire.png">
                         </span>
-                        <p class="img"><img alt="인기 그룹" src="/images/test2.gif"></p>
+                        <p class="img">
+                            <img th:src="${club.storeFileName != null} ? '/upload/' + ${club.storeFileName} : '/images/noImage.jpg'"
+                                 th:alt="${club.groupName}">
+                        </p>
                         <div class="club-text">
-                            <p class="club-name">안녕동아리</p>
-                            <p class="club-info">그룹소개</p>
-                        </div>
-                    </div>
-                </li>
-                <li onclick="location.href='cardView.do?usrIdx=${result.usrIdx}'">
-                    <div class="cards">
-                        <span class="fire">
-                            <img alt="인기 그룹" src="/images/_img/fire.png">
-                        </span>
-                        <p class="img"><img alt="인기 그룹" src="/images/test2.gif"></p>
-                        <div class="club-text">
-                            <p class="club-name">그룹이름</p>
-                            <p class="club-info">그룹소개 아주아주 길다 아주 길다 길다 길다 길다 <br></br>길다길다길다길다길다길다길다길다길다길다길다길다길다</p>
-                        </div>
-                    </div>
-                </li>
-                <li onclick="location.href='cardView.do?usrIdx=${result.usrIdx}'">
-                    <div class="cards">
-                        <span class="fire">
-                            <img alt="인기 그룹" src="/images/_img/fire.png">
-                        </span>
-                        <p class="img"><img alt="인기 그룹" src="/images/test.jpg"></p>
-                        <div class="club-text">
-                            <p class="club-name">그룹이름</p>
-                            <p class="club-info">그룹소개</p>
+                            <p class="club-name" th:text="${club.groupName}">안녕동아리</p>
+                            <p class="club-info" th:text="${club.info}">그룹소개</p>
                         </div>
                     </div>
                 </li>
@@ -83,8 +63,12 @@
             <div class="search w-full main-search flex flex-col">
                 <p class="font-base mb-2">찾으시는 그룹이 있나요?</p>
                 <p class="input_box one">
-                    <input name="searchKeyword" type="text" value="" placeholder="그룹 이름으로 검색해보세요!" ><a href="#" id="schButton">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"></path></svg></a>
+                    <input name="searchKeyword" type="text" value="" placeholder="그룹 이름으로 검색해보세요!"><a href="#"
+                                                                                                      id="schButton">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path d="M500.3 443.7l-119.7-119.7c27.22-40.41 40.65-90.9 33.46-144.7C401.8 87.79 326.8 13.32 235.2 1.723C99.01-15.51-15.51 99.01 1.724 235.2c11.6 91.64 86.08 166.7 177.6 178.9c53.8 7.189 104.3-6.236 144.7-33.46l119.7 119.7c15.62 15.62 40.95 15.62 56.57 0C515.9 484.7 515.9 459.3 500.3 443.7zM79.1 208c0-70.58 57.42-128 128-128s128 57.42 128 128c0 70.58-57.42 128-128 128S79.1 278.6 79.1 208z"></path>
+                    </svg>
+                </a>
                 </p>
             </div>
         </form>
@@ -102,64 +86,39 @@
         <div class="my-club pt-6 pl-2">
 
             <ul class="top"> <!-- 즐겨찾기 되어 있을때  -->
-                        <li onclick="location.href='my-clubView.do?usrIdx=${result.usrIdx}'">
-                            <span class="star">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
-                            </span>
-                            <p class="img"><img alt="내 그룹" src="/images/test2.gif"></p>
+                <li th:each="group : ${likeGroups}" th:if="${group.likeStatus == 'Liked'}"
+                    th:onclick="|location.href='@{/groups/group(groupId=${group.groupId}) }'|">
+                        <span class="star">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path
+                                    d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
+                        </span>
+                    <p class="img">
+                        <img alt="프로필 사진"
+                             th:src="${group.storeFileName != null} ? '/upload/' + ${group.storeFileName} : '/images/noImage.jpg'">
+                    </p>
 
-                            <p class="list"> 클럽이름 </p>
-
-                        </li>
-                <li onclick="location.href='my-clubView.do?usrIdx=${result.usrIdx}'">
-                            <span class="star">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
-                            </span>
-                    <p class="img"><img alt="내 그룹" src="/images/test2.gif"></p>
-
-                    <p class="list"> 클럽이름 </p>
+                    <p class="list" th:text="${group.groupName}"> 클럽이름 </p>
 
                 </li>
-                <li onclick="location.href='my-clubView.do?usrIdx=${result.usrIdx}'">
-                            <span class="star">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
-                            </span>
-                    <p class="img"><img alt="내 그룹" src="/images/test2.gif"></p>
-
-                    <p class="list"> 클럽이름 </p>
-
-                </li>
-                <li onclick="location.href='my-clubView.do?usrIdx=${result.usrIdx}'">
-                            <span class="star">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
-                            </span>
-                    <p class="img"><img alt="내 그룹" src="/images/test2.gif"></p>
-
-                    <p class="list"> 클럽이름 </p>
-
-                </li>
-
             </ul>
-
             <ul>
-                        <li onclick="location.href='my-clubView.do?usrIdx=${result.usrIdx}'">
-                            <p class="img"><img alt="내 그룹" src="/images/test2.gif"></p>
-                            <p class="border blue">
-    <!--                        <p class="border red"></p>-->
-    <!--                        <p class="border green">-->
-
-                            <p class="list"> 클럽이름 </p>
-
-                        </li>
+                <li th:each="group : ${likeGroups}" th:if="${group.likeStatus == 'Not Liked'}"
+                    th:onclick="|location.href='@{/groups/group(groupId=${group.groupId}) }'|">
+                    <p class="img">
+                        <img alt="프로필 사진"
+                             th:src="${group.storeFileName != null} ? '/upload/' + ${group.storeFileName} : '/images/noImage.jpg'">
+                    </p>
+                    <p class="list" th:text="${group.groupName}"> 클럽이름 </p>
+                </li>
             </ul>
         </div>
     </div>
 
     <!-- 내그룹 끝-->
 
-    <div th:replace="fragments/com/footer" />
+    <div th:replace="fragments/com/footer"/>
 
-    <div th:replace="fragments/com/bottom" />
+    <div th:replace="fragments/com/bottom"/>
 
 </div>
 </body>

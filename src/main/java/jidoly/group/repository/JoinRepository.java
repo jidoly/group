@@ -13,7 +13,8 @@ public interface JoinRepository extends JpaRepository<Join, Long> {
 
     Optional<Join> findByMemberIdAndClubId(Long memberId, Long clubId);
 
-    @Query("SELECT j FROM Join j LEFT JOIN FETCH j.club c WHERE j.member.id = :userId AND (j.status = 'JOINED' OR j.status = 'MANAGED')")
+//    @Query("SELECT j FROM Join j LEFT JOIN FETCH j.club c WHERE j.member.id = :userId AND (j.status = 'JOINED' OR j.status = 'MANAGED')")
+    @Query("SELECT j FROM Join j WHERE j.member.id = :userId AND (j.status = 'JOINED' OR j.status = 'MANAGED')")
     List<Join> findMyGroups(@Param("userId") Long userId);
 
 }
