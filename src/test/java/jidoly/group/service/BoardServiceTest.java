@@ -1,6 +1,7 @@
 package jidoly.group.service;
 
 import jakarta.persistence.EntityManager;
+import jidoly.group.controller.board.BoardWriteDto;
 import jidoly.group.domain.*;
 import jidoly.group.repository.BoardRepository;
 import jidoly.group.repository.ClubRepository;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -46,12 +48,13 @@ class BoardServiceTest {
     }
 
     @Test
-    void writePostAndLikePostTest() {
+    void writePostAndLikePostTest() throws IOException {
         // given
         Member member = memberRepository.findByUsername("member1").get();
         Club club = clubRepository.findByClubName("헬스").get();
-        Board board = Board.createBoard(club, member, "제목", "내용");
-        Long boardId = boardService.writePost(board);
+        Board board = Board.createBoard(club, member, "제목", "내용", BoardCategory.BOARD);
+        BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
+        Long boardId = boardService.writePost(boardWriteDto);
         //when
         Board findBoard = boardRepository.findById(boardId)
                 .orElseThrow(() -> new RuntimeException("못 찾았음"));
@@ -62,11 +65,12 @@ class BoardServiceTest {
 
 
     @Test
-    public void updatePostTest() {
+    public void updatePostTest() throws IOException {
         Member member = memberRepository.findByUsername("member1").get();
         Club club = clubRepository.findByClubName("헬스").get();
-        Board board = Board.createBoard(club, member, "제목", "내용");
-        Long boardId = boardService.writePost(board);
+        Board board = Board.createBoard(club, member, "제목", "내용", BoardCategory.BOARD);
+        BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
+        Long boardId = boardService.writePost(boardWriteDto);
         //when
         Board findBoard = boardRepository.findById(boardId)
                 .orElseThrow(() -> new RuntimeException("못 찾았음"));
@@ -84,9 +88,10 @@ class BoardServiceTest {
         Member member = memberRepository.findByUsername("member1").get();
         Member member2 = memberRepository.findByUsername("member2").get();
         Club club = clubRepository.findByClubName("헬스").get();
-        Board board = Board.createBoard(club, member, "제목", "내용");
-        Long boardId = boardService.writePost(board);
-        Long boardId2 = boardService.writePost(board);
+        Board board = Board.createBoard(club, member, "제목", "내용", BoardCategory.BOARD);
+        BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
+        Long boardId = boardService.writePost(boardWriteDto);
+        Long boardId2 = boardService.writePost(boardWriteDto);
         //when
         boardService.likeBoard(member.getId(), boardId);
         //위에 끝나고나서,
@@ -115,10 +120,11 @@ class BoardServiceTest {
         Member member = memberRepository.findByUsername("member1").get();
         Member member2 = memberRepository.findByUsername("member2").get();
         Club club = clubRepository.findByClubName("헬스").get();
-        Board board = Board.createBoard(club, member, "제목", "내용", uploadFiles);
+        Board board = Board.createBoard(club, member, "제목", "내용", BoardCategory.BOARD, uploadFiles);
 
 
-        Long boardId = boardService.writePost(board);
+        BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
+        Long boardId = boardService.writePost(boardWriteDto);
         //when
         boardService.likeBoard(member.getId(), boardId);
         boardService.likeBoard(member2.getId(), boardId);
@@ -139,10 +145,11 @@ class BoardServiceTest {
         Member member = memberRepository.findByUsername("member1").get();
         Member member2 = memberRepository.findByUsername("member2").get();
         Club club = clubRepository.findByClubName("헬스").get();
-        Board board = Board.createBoard(club, member, "제목", "내용", uploadFiles);
+        Board board = Board.createBoard(club, member, "제목", "내용",BoardCategory.BOARD, uploadFiles);
 
 
-        Long boardId = boardService.writePost(board);
+        BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
+        Long boardId = boardService.writePost(boardWriteDto);
 
         Comment comment = Comment.createComment("hihi", member, board);
         Comment comment2 = Comment.createComment("hihi", member, board);

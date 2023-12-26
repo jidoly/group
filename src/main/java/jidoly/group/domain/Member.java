@@ -46,8 +46,12 @@ public class Member extends BaseEntity {
     /* 생성 메소드 */
     public static Member createMember(String username, String password, String nick, UploadFile... uploadFiles) {
         Member member = new Member(username, password, nick);
-        for (UploadFile uploadFile : uploadFiles) {
-            member.addFiles(uploadFile);
+        if (uploadFiles != null) {
+            for (UploadFile uploadFile : uploadFiles) {
+                if (uploadFile != null) {
+                    member.addFiles(uploadFile);
+                }
+            }
         }
         return member;
     }

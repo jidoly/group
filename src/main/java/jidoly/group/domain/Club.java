@@ -37,6 +37,9 @@ public class Club extends BaseEntity {
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
     private List<Like> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "club", cascade = CascadeType.ALL)
+    private List<Board> boards = new ArrayList<>();
+
     /* 연관관계 편의 메소드*/
     public void addFiles(UploadFile uploadFile) {
         uploadFiles.add(uploadFile);
@@ -47,12 +50,20 @@ public class Club extends BaseEntity {
         joins.add(join);
         join.addClub(this);
     }
+    public void addBoards(Board board) {
+        boards.add(board);
+        board.addClub(this);
+    }
     
     /*생성 메서드*/
     public static Club createClub(String clubName, String info, UploadFile... uploadFiles) {
         Club club = new Club(clubName, info);
-        for (UploadFile uploadFile : uploadFiles) {
-            club.addFiles(uploadFile);
+        if (uploadFiles != null) {
+            for (UploadFile uploadFile : uploadFiles) {
+                if (uploadFile != null) {
+                    club.addFiles(uploadFile);
+                }
+            }
         }
         return club;
     }

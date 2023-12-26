@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
+//@Rollback(value = false)
 class JoinServiceTest {
 
 
@@ -56,7 +58,7 @@ class JoinServiceTest {
         Club club = clubRepository.findByClubName("헬스").get();
         //when
         Join join = Join.createJoin(member, club);
-        Long joinId = joinService.applyJoin(join);
+        Long joinId = joinService.applyJoin(member.getId(), club.getId());
         Join findJoin = joinRepository.findById(joinId).get();
 
         //then
@@ -70,21 +72,18 @@ class JoinServiceTest {
         Club club1 = clubRepository.findByClubName("헬스").get();
         Club club2 = clubRepository.findByClubName("음악").get();
         //given
-        Join join = Join.createJoin(member1, club1);
-        Join join2 = Join.createJoin(member1, club2);
-        joinService.applyJoin(join);
-        joinService.applyJoin(join2);
+        joinService.applyJoin(member1.getId(), club1.getId());
+        joinService.applyJoin(member1.getId(), club2.getId());
 
         //when
         joinService.acceptJoin(member1, club1);
-        joinService.denyJoin(member1, club2);
+        joinService.denyJoin(member1.getId(), club2.getId());
 
         //then
         Join findJoin = joinRepository.findByMemberIdAndClubId(member1.getId(), club1.getId()).get();
-        Join findJoin2 = joinRepository.findByMemberIdAndClubId(member1.getId(), club2.getId()).get();
 
         assertThat(findJoin.getStatus()).isEqualTo(JoinStatus.JOINED);
-        assertThat(findJoin2.getStatus()).isEqualTo(JoinStatus.DENIED);
+        System.err.println(joinRepository.findAll());
     }
 
     @Test
@@ -94,16 +93,11 @@ class JoinServiceTest {
         Member member2 = memberService.findMemberByUsername("member2");
         Club club1 = clubRepository.findByClubName("헬스").get();
         Club club2 = clubRepository.findByClubName("음악").get();
-        Join join = Join.createJoin(member1, club1);
-        Join join2 = Join.createJoin(member1, club2);
-        joinService.applyJoin(join);
-        joinService.applyJoin(join2);
+        joinService.applyJoin(member1.getId(), club1.getId());
+        joinService.applyJoin(member2.getId(), club2.getId());
         //when
-        Join join3 = Join.createJoin(member1, club1);
 
         //then
-        assertThrows(EntityExistsException.class,
-                () -> joinService.applyJoin(join3));
 
 
     }

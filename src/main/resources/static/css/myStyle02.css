@@ -42,9 +42,7 @@
 }
 
 .group-one > div > h2 {
-    text-align: center;
     font-size: 1.875rem;
-    width: 87%;
     margin-top: 1rem;
     font-weight: bold;
 }
@@ -320,8 +318,8 @@ span.important-star svg {
 .create-group {
     font-family: BMJUA!important;
     font-style: normal!important;
-    font-size: x-large!important;
-    margin-bottom: 5px;
+    font-size: 1.25rem!important;
+    margin-bottom: 7px;
 }
 
 .groups-img-box {
@@ -347,3 +345,73 @@ span.important-star svg {
     align-items: center;
 }
 
+.write-select {
+    width: 100%;
+    padding: 12px 40px 12px 22px;
+    border-radius: 50px;
+    color: #888;
+    font: 400 14px/20px "Roboto", "Noto Sans KR", sans-serif;
+    transition: all .3s;
+    height: auto;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #f8f8f8 url(/images/_img/cont/sel_arrow.png)no-repeat right 22px top 50%/15px;
+    margin-bottom: 18px;
+}
+
+.group-body .toast-message {
+    font-family: BMJUA;
+    font-size: small;
+    position: absolute;
+    top: 10%;
+    left: 40%;
+    padding: 10px;
+    background: rgba(253, 224, 71, 0.5);
+
+}
+.group-like {
+    margin-top: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    color: #555;
+    height: 41px;
+    margin-left: 117px;
+}
+
+.write-btn {
+    width: 100%;
+    border: 1px solid green;
+    padding: 12px 22px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+    color: #fff;
+    font: 400 15px/17px "Poppins", "Noto Sans KR", sans-serif;
+    background: green;
+    display: block;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.write-img {
+    --tw-bg-opacity: 1;
+    background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+    padding: 3px;
+    width: 125px;
+    height: 125px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    margin-left: 6px;
+    background: linear-gradient(to bottom, lightpink, greenyellow,mediumpurple);
+    display: flex;
+}
+
+.write-img > img{
+    width: 100%;
+    height: 100%;
+}

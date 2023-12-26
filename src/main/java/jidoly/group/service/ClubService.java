@@ -58,8 +58,9 @@ public class ClubService {
         return club.getId();
     }
 
+    /* 처음 눌렀을때 -> 좋아요 저장, true 반환 / 두번째 -> 좋아요 취소, false반환 */
     @Transactional
-    public void likeClub(Long memberId, Long clubId) {
+    public boolean likeClub(Long memberId, Long clubId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
 
@@ -72,9 +73,11 @@ public class ClubService {
             Long likeId = likeExist.get().getId();
             club.removeLike(member);
             likeRepository.deleteById(likeId);
+            return false;
         } else {
             club.addLike(member);
             clubRepository.save(club);
+            return true;
         }
     }
 

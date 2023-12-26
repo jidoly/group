@@ -93,10 +93,8 @@ public class MemberServiceTest {
         clubService.createClub(member3.getId(), club1);
         clubService.createClub(member3.getId(), club2);
 
-        Join join = Join.createJoin(member1, club1);
-        Join join2 = Join.createJoin(member1, club2);
-        joinService.applyJoin(join);
-        joinService.applyJoin(join2);
+        joinService.applyJoin(member1.getId(), club1.getId());
+        joinService.applyJoin(member1.getId(), club2.getId());
 
 
 

@@ -1,12 +1,15 @@
 package jidoly.group.controller.group;
 
+import jakarta.persistence.EntityNotFoundException;
+import jidoly.group.controller.board.BoardWriteDto;
+import jidoly.group.domain.*;
+import jidoly.group.repository.JoinRepository;
 import jidoly.group.sequrity.CustomUser;
-import jidoly.group.domain.Club;
-import jidoly.group.domain.FileStore;
-import jidoly.group.domain.UploadFile;
 import jidoly.group.repository.ClubRepository;
 import jidoly.group.repository.LikeRepository;
+import jidoly.group.service.BoardService;
 import jidoly.group.service.ClubService;
+import jidoly.group.service.JoinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -15,9 +18,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,6 +37,9 @@ public class GroupController {
     private final ClubRepository clubRepository;
     private final LikeRepository likeRepository;
     private final FileStore fileStore;
+    private final JoinRepository joinRepository;
+    private final JoinService joinService;
+    private final BoardService boardService;
 
     @GetMapping
     public String groups(Model model) {
@@ -41,9 +51,7 @@ public class GroupController {
                 .map(club -> new GroupDto(club))
                 .collect(Collectors.toList());
 
-        /**
-         * top3
-         */
+        /* top 3 */
         List<GroupDto> top3 = likeRepository.findTop3ClubsByLikes().stream()
                 .map(clubService::findById)
                 .map(GroupDto::new)
@@ -53,6 +61,10 @@ public class GroupController {
         model.addAttribute("top3", top3);
         return "groups/groups";
     }
+
+    /**
+     * 그룹 생성 페이지
+     */
     @GetMapping("/createGroup")
     public String showCreateGroups(@ModelAttribute("groupDto") GroupDto groupDto) {
         return "groups/create-group";
@@ -73,7 +85,7 @@ public class GroupController {
 
         UploadFile uploadFile = (groupDto.getAttachFile() != null && !groupDto.getAttachFile().isEmpty())
                 ? fileStore.storeFile(groupDto.getAttachFile())
-                : UploadFile.createEmptyFile();
+                : null;
         Club club = Club.createClub(groupDto.getGroupName(), groupDto.getInfo(), uploadFile);
 
         clubService.createClub(sessionUser.getId(),club);
@@ -81,15 +93,84 @@ public class GroupController {
         return "redirect:/groups";
     }
 
-
+    /**
+     * 그룹상세 페이지
+     */
     @GetMapping("/group")
-    public String group(@RequestParam(name = "groupId") Long groupId) {
+    public String group(@RequestParam(name = "groupId") Long groupId,
+                        @AuthenticationPrincipal CustomUser sessionUser,
+                        Model model) {
+
+        /* 그룹 정보 */
+        GroupDto group = new GroupDto(clubService.findById(groupId));
+        model.addAttribute("group", group);
+
+        /* 가입 정보 - 관리자, 가입여부용 */
+        String joinStatus = joinRepository.findByMemberIdAndClubId(sessionUser.getId(), groupId)
+                .map(join -> join.getStatus() != null ? join.getStatus().toString() : "no")
+                .orElse("no");
+        model.addAttribute("joinStatus", joinStatus);
+        model.addAttribute("memberId", sessionUser.getId());
+
+        /* 좋아요 여부 */
+        boolean isLikeExist = likeRepository.findByMemberIdAndClubId(sessionUser.getId(), groupId)
+                .isPresent();
+        model.addAttribute("isLikeExist", isLikeExist);
+        /* 게시판 정보 */
+
         return "groups/group";
     }
 
+    /**
+     * 그룹 가입 / 취소 페이지
+     */
+    @PostMapping("group/joinGroup")
+    public String joinGroup(@RequestParam("groupId") Long groupId,
+                            @RequestParam("memberId") Long memberId,
+                            RedirectAttributes redirectAttributes,Model model) {
+
+        /* repository 에서 조회 -> 존재 X 신청, 존재 O 취소 */
+        joinRepository.findByMemberIdAndClubId(memberId, groupId)
+                .ifPresentOrElse(
+                        join -> joinService.denyJoin(memberId, groupId),
+                        () -> joinService.applyJoin(memberId, groupId)
+                );
+
+        redirectAttributes.addAttribute("groupId", groupId);
+
+        return "redirect:/groups/group";
+    }
+
     @GetMapping("/group/write")
-    public String groupWrite(@RequestParam(name = "groupId") Long id) {
+    public String groupWrite(@ModelAttribute("writeDto") BoardWriteDto writeDto,
+                             @RequestParam(name = "groupId") Long groupId,
+                             Model model) {
+
+        BoardCategory[] categories = writeDto.getCategory().values();
+        model.addAttribute("categories", categories);
+        model.addAttribute("groupId", groupId);
+
         return "groups/group-write";
+    }
+    @PostMapping("/group/write")
+    public String postGroupWrite(@Validated @ModelAttribute("writeDto") BoardWriteDto writeDto,
+                             RedirectAttributes redirectAttributes,
+                             BindingResult bindingResult,
+                             @AuthenticationPrincipal CustomUser sessionUser,
+                             Model model) throws IOException {
+        if (bindingResult.hasErrors()) {
+            // 유효성 검증 오류 처리, 예를 들어 오류 메시지와 함께 폼 페이지로 돌아가기
+            return "groups/group-write";
+        }
+
+        writeDto.setMemberId(sessionUser.getId());
+        Long aLong = boardService.writePost(writeDto);
+
+        System.err.println("글 등록완료 : " + aLong);
+        redirectAttributes.addAttribute("groupId", writeDto.getGroupId());
+
+
+        return "redirect:/groups/group";
     }
 
     @GetMapping("/group/board")
@@ -98,4 +179,6 @@ public class GroupController {
             @RequestParam(name = "boardId") Long boardId) {
         return "groups/group-board";
     }
+
+
 }

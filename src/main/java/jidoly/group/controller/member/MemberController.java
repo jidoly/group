@@ -80,7 +80,7 @@ public class MemberController {
          */
         UploadFile uploadFile = (signupDto.getAttachFile() != null && !signupDto.getAttachFile().isEmpty())
                 ? fileStore.storeFile(signupDto.getAttachFile())
-                : UploadFile.createEmptyFile();
+                : null;
         Member member = Member.createMember(signupDto.getUsername(), signupDto.getPassword(), signupDto.getNickname(), uploadFile);
         Long member1 = memberService.registerMember(member);
         log.debug("회원가입 성공 = {}", member1);

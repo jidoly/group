@@ -1,5 +1,4 @@
 
-
 let originalImageSrc; // 이전 이미지의 URL을 저장할 변수
 function displayImage(input) {
     const submitBtn = document.getElementById('submitBtn');
@@ -40,91 +39,50 @@ function displayImage(input) {
         });
     }
 }
+function toggleLike(element) {
 
-/* main slide */
-// document.addEventListener('DOMContentLoaded', function () {
-//     const mainNotice = document.querySelector('.main-notice');
-//     const slickSlides = document.querySelectorAll('.slick-slide');
-//     let currentSlide = 0;
-//
-//     function nextSlide() {
-//         currentSlide = (currentSlide + 1) % slickSlides.length;
-//         updateSlider();
-//     }
-//
-//     function updateSlider() {
-//         const translateValue = -currentSlide * 100 + '%';
-//         mainNotice.style.transform = 'translateX(' + translateValue + ')';
-//     }
-//
-//     // Adjust the interval duration as needed
-//     const interval = setInterval(nextSlide, 1300);
-//
-//     // Pause on hover
-//     mainNotice.addEventListener('mouseenter', function () {
-//         clearInterval(interval);
-//     });
-//
-//     mainNotice.addEventListener('mouseleave', function () {
-//         interval = setInterval(nextSlide, 1300);
-//     });
-// });
-/* main end*/
+    const content = $('.likes').data('content');
+    const contentId = $('.likes').data('content-id');
+    const heartIcon = $('.heart-icon');
+    let likeCount;
+
+    $.ajax({
+        type: 'POST',
+        url: '/rest/like',
+        data: {
+            contentId: contentId,
+            content: content
+        },
+        // response 1: 좋아요 2: 취소
+        success: function (response) {
+            // 공통 - 색바꾸기
+            heartIcon.toggleClass('active');
+
+            // 1: 좋아요시
+            if (response == 1) {
+                toastr.success("좋아요를 눌렀습니다!");
+                likeCount = parseInt($('#like-count').text());
+                likeCount++;
+                $('#like-count').text(likeCount);
+            } else {
+                toastr.success("좋아요를 취소했습니다!");
+                likeCount = parseInt($('#like-count').text());
+                likeCount--;
+                $('#like-count').text(likeCount);
+            }
+
+        },
+        error: function (error) {
+            // 오류 응답 처리
+            console.log("에러발생");
+        }
+    });
+}
 
 /* file */
 function openFile(){
     $("#input_usr_file").trigger("click");
 }
-
-var fileNo = 0;
-var filesArr = new Array();
-var img;
-var maxFileCnt = 5;   // 첨부파일 최대 개수
-
-/* 첨부파일 추가 */
-function addFile(obj){
-    var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-    var delFileCnt = document.querySelectorAll('.delfile').length; // 삭제된 개수
-    var remainFileCnt = maxFileCnt - attFileCnt + delFileCnt;    // 추가로 첨부가능한 개수 (최대 파일 - 현재첨부개수 + 삭제된 수)
-    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-
-    // 첨부파일 개수 확인
-    if (curFileCnt > remainFileCnt) {
-        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
-    }
-
-    for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
-
-        const file = obj.files[i];
-        //동기화문제 해결 필요 할 수 있음
-        if (validation(file)) {
-            // 파일 배열에 담기
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                img = e.target.result;
-                var html =
-                    '<li id="file' + fileNo + '" class="filebox">'
-                    +'<span><img id="preview"width="65" height="65" src="'
-                    + img
-                    +'")no-repeat 50% 50% / cover"></span>'
-                    +'<a onclick="deleteFile(' + fileNo + ');" class="close"></a>'+
-                    '</li>';
-                $(".file_wrap").append(html);
-                filesArr.push(file);
-                fileNo++;
-                count('plus');
-            };
-            reader.readAsDataURL(file);
-
-        } else {
-            continue;
-        }
-    }
-    // 초기화
-    document.querySelector("input[type=file]").value = "";
-}
-
-
 
 
 /* 첨부파일 검증 */
@@ -147,63 +105,49 @@ function validation(obj){
     }
 }
 
-/* 첨부파일 삭제 */
-function deleteFile(num) {
-    document.querySelector("li#file" + num).remove();
-    filesArr[num].is_delete = true;
-    count('minus');
-}
 
-function delfile(index){
-    var file_id = "#file_id_"+index;
-    $(file_id).hide();
-
-    var del_id = "#"+index+"_del";
-    $(del_id).val('Y');
-    $(del_id).addClass('delfile');
-    count('minus');
-}
-
-
-/* 폼 전송 */
-
-var isRun = false;
-function submitForm(mode) {
-    if(isRun == true){ // 중복실행방지
-        layer_open('loadPop','load_Pop');
+function validateAndSubmit() {
+    const categorySelect = document.getElementById("category");
+    if (categorySelect.value === "") {
+        layer_open('sendPop','send_Pop');
+        $("#popContOne").show();
         return;
     }
-    isRun = true;
-    $('#mode').val(mode);
-    if (isSubmit()) {
-        loading("판매글을 등록 중입니다...");
-        // 폼데이터 담기
-        var form = document.querySelector("frm");
-        var formData = new FormData(frm);
-        for (var i = 0; i < filesArr.length; i++) {
-            // 삭제되지 않은 파일만 폼데이터에 담기
-            if (!filesArr[i].is_delete) {
-                formData.append("attach_file", filesArr[i]);
-            }
-        }
-        $.ajax({
-            type: "POST",
-            url: "/trade/tradeProc.do",
-            data: formData,
-            contentType: false,               // * 중요 *
-            processData: false,               // * 중요 *
-            enctype : 'multipart/form-data',  // * 중요 *
-            success: function (data) { // data    1: 등록/수정 완료    2: 거래완료 / 삭제완료
-                isRun = false;
-                location.href="/trade/tradeList.do";
-            },
-            error: function (xhr, desc, err) {
-                alert('에러가 발생 하였습니다.');
-                return;
-            }
-        });
+    // 여기에 필요한 경우 추가적인 유효성 검사 로직을 구현할 수 있습니다.
+
+    // 선택이 올바르다면 폼 제출
+    document.getElementById("frm").submit();
+}
+
+
+function layer_open(layer_id, pop_id){
+    var temp = $('#' + layer_id);
+    var bg = temp.prev().hasClass('bg');	//dimmed 레이어를 감지하기 위한 boolean 변수
+
+    if(bg){
+        $( '#' + pop_id).fadeIn();	//'bg' 클래스가 존재하면 레이어가 나타나고 배경은 dimmed 된다.
     }else{
-        isRun = false;
-        return;
+        temp.fadeIn();
     }
+
+    // 화면의 중앙에 레이어를 띄운다.
+    //if (temp.outerHeight() < $(document).height() ) temp.css('margin-top', '-'+temp.outerHeight()/2+'px');
+    //else temp.css('top', '0px');
+    //if (temp.outerWidth() < $(document).width() ) temp.css('margin-left', '-'+temp.outerWidth()/2+'px');
+    //else temp.css('left', '0px');
+
+    temp.find('a.cbtn').click(function(e){
+        if(bg){
+            $('#' + pop_id).fadeOut(); //'bg' 클래스가 존재하면 레이어를 사라지게 한다.
+        }else{
+            temp.fadeOut();
+        }
+        e.preventDefault();
+    });
+
+    $('#' + pop_id + ' .bg').click(function(e){	//배경을 클릭하면 레이어를 사라지게 하는 이벤트 핸들러
+        $('#' + pop_id).fadeOut();
+        e.preventDefault();
+    });
+
 }

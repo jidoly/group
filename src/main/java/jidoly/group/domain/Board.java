@@ -27,6 +27,10 @@ public class Board extends BaseEntity {
     private String title;
     private String content;
 
+
+    @Enumerated(EnumType.STRING)
+    private BoardCategory category;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
@@ -52,17 +56,22 @@ public class Board extends BaseEntity {
     }
 
     /* 생성 메소드 */
-    private Board(Club club, Member member, String title, String content) {
+    private Board(Club club, Member member, String title, String content, BoardCategory category) {
         this.club = club;
         this.member = member;
         this.title = title;
         this.content = content;
+        this.category = category;
     }
 
-    public static Board createBoard(Club club, Member member, String title, String content, UploadFile... uploadFiles) {
-        Board board = new Board(club, member, title, content);
-        for (UploadFile uploadFile : uploadFiles) {
-            board.addFiles(uploadFile);
+    public static Board createBoard(Club club, Member member, String title, String content, BoardCategory category, UploadFile... uploadFiles) {
+        Board board = new Board(club, member, title, content, category);
+        if (uploadFiles != null) {
+            for (UploadFile uploadFile : uploadFiles) {
+                if (uploadFile != null) {
+                    board.addFiles(uploadFile);
+                }
+            }
         }
         return board;
     }
@@ -75,6 +84,11 @@ public class Board extends BaseEntity {
     public void updateBoard(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    /* 카테고리 추가 */
+    public void addCategory(BoardCategory category) {
+        this.category = category;
     }
 
     /**
@@ -97,4 +111,7 @@ public class Board extends BaseEntity {
     }
 
 
+    public void addClub(Club club) {
+        this.club = club;
+    }
 }

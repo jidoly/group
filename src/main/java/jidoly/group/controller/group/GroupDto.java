@@ -2,6 +2,8 @@ package jidoly.group.controller.group;
 
 import jakarta.validation.constraints.NotBlank;
 import jidoly.group.domain.Club;
+import jidoly.group.domain.Join;
+import jidoly.group.domain.JoinStatus;
 import jidoly.group.domain.UploadFile;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ public class GroupDto {
     private String storeFileName;
     private int likeCount;
     private int joinCount;
+    private int boardCount;
 
     public GroupDto(Club club) {
         this.groupId = club.getId();
@@ -33,7 +36,11 @@ public class GroupDto {
             this.storeFileName = storeFileName;
         }
         this.likeCount = club.getLikes().size();
-        this.joinCount = club.getJoins().size();
+        // joinStatus != wait 인 멤버수만 계산
+        this.joinCount = (int) club.getJoins().stream()
+                .filter(join -> join.getStatus() != JoinStatus.WAIT)
+                .count();
+        this.boardCount = club.getBoards().size();
     }
 
 

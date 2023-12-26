@@ -1,5 +1,6 @@
 package jidoly.group.service;
 import jakarta.persistence.EntityNotFoundException;
+import jidoly.group.controller.board.BoardWriteDto;
 import jidoly.group.domain.*;
 import jidoly.group.repository.BoardRepository;
 import jidoly.group.repository.ClubRepository;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +23,7 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
     private final ClubRepository clubRepository;
+    private final FileStore fileStore;
 
     public BoardDto findBoardById(Long id) {
         Board board = boardRepository.findFetchById(id)
@@ -48,15 +51,21 @@ public class BoardService {
 
 
     @Transactional
-    public Long writePost(Board board) {
-        Club club = clubRepository.findByClubName(board.getClub().getClubName())
+    public Long writePost(BoardWriteDto writeDto) throws IOException {
+        Club club = clubRepository.findById(writeDto.getGroupId())
                 .orElseThrow(() -> new RuntimeException("해당 클럽을 찾을 수 없습니다."));
 
-        Member member = memberRepository.findByUsername(board.getMember().getUsername())
+        Member member = memberRepository.findById(writeDto.getMemberId())
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
 
-        boardRepository.save(board);
+        UploadFile uploadFile = (writeDto.getAttachFile() != null && !writeDto.getAttachFile().isEmpty())
+                ? fileStore.storeFile(writeDto.getAttachFile())
+                : null;
 
+        Board board = Board.createBoard(club, member, writeDto.getTitle(), writeDto.getContent(),
+                writeDto.getCategory(), uploadFile);
+
+        boardRepository.save(board);
         return board.getId();
     }
 

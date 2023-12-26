@@ -41,7 +41,6 @@ public class Join {
         return new Join(member, club);
     }
 
-
     /* 연관관계 편의 메소드*/
     public void addClub(Club club) {
         this.club = club;
@@ -54,10 +53,8 @@ public class Join {
     public void agree(){
         this.status = JoinStatus.JOINED;
     }
-    public void denied(){
-        this.status = JoinStatus.DENIED;
-    }
     public void setManager(){
         this.status = JoinStatus.MANAGED;
     }
+
 }

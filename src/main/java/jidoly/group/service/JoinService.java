@@ -5,7 +5,9 @@ import jakarta.persistence.EntityNotFoundException;
 import jidoly.group.domain.Club;
 import jidoly.group.domain.Join;
 import jidoly.group.domain.Member;
+import jidoly.group.repository.ClubRepository;
 import jidoly.group.repository.JoinRepository;
+import jidoly.group.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,20 +20,22 @@ import java.util.Optional;
 public class JoinService {
 
     private final JoinRepository joinRepository;
+    private final MemberRepository memberRepository;
+    private final ClubRepository clubRepository;
     
     /* create 할때도 넣어야됨 status = Manage */
 
 
     //가입 신청시
     @Transactional
-    public Long applyJoin(Join join) {
-        Optional<Join> exist = joinRepository.findByMemberIdAndClubId(join.getMember().getId(), join.getClub().getId());
-        if (!exist.isPresent()) {
-            joinRepository.save(join);
-            return join.getId();
-        } else {
-            throw new EntityExistsException("이미 존재하는 요청입니다 id: " + exist.get().getId());
-        }
+    public Long applyJoin(Long memberId, Long clubId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + memberId));
+        Club club = clubRepository.findById(clubId)
+                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + clubId));
+        Join join = Join.createJoin(member, club);
+        joinRepository.save(join);
+        return join.getId();
     }
 
     //가입 승인
@@ -44,12 +48,14 @@ public class JoinService {
     }
 
     //가입 거절
-    public void denyJoin(Member member, Club club) {
+    @Transactional
+    public void denyJoin(Long memberId, Long clubId) {
         /*권한 체크해야됨*/
-        Join join = joinRepository.findByMemberIdAndClubId(member.getId(), club.getId())
+        Join join = joinRepository.findByMemberIdAndClubId(memberId, clubId)
                 .orElseThrow(() -> new EntityNotFoundException("Club not found with id: "));
-        join.denied();
+        joinRepository.deleteById(join.getId());
     }
+
     //매니저 승격
     public void setManagerJoin(Member member, Club club) {
         /*권한 체크해야됨*/

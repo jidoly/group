@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/comhead :: common_header(~{::title})">
-  <title>그룹설계중</title>
+  <title>글쓰기</title>
 </head>
 
 <body class="bodyCustom">
@@ -18,53 +18,72 @@
     <div class="navi">
       <div class="top_navi"><a href="javascript:history.back();"><img src="/images/_img/cont/navi_arrow.png"></a>
           <h2 class="text-2xl">글쓰기</h2>
-<!--        <c:if test="${tradeInfo != null }">-->
-<!--          <h2>중고 거래 수정하기</h2>-->
-<!--        </c:if>-->
       </div>
     </div>
     <div class="bbs_write w_box top no_line">
-      <form name="frm" id="frm" autocomplete="off" method="post" enctype="multipart/form-data">
+      <form action="" th:id="frm" th:action th:object="${writeDto}" method="post" enctype="multipart/form-data">
 
-        <input type="hidden" name="trdIdx" value="${tradeInfo.trdIdx }"/>
-        <input type="hidden" name="mode" id="mode" />
+        <label class="write-img">
+          <input type="file" class="hidden" th:field="*{attachFile}" onchange="displayImage(this)" />
+          <img
+                  src="/images/noImage.jpg"
+                  alt="no-image"
+                  style="aspect-ratio:100/100;object-fit:cover"
+                  id="profileImage"
+                  th:field="*{attachFile}"
+          />
+        </label>
 
-        <textarea type="text" rows="7" id="trdContent" name="trdContent" placeholder="내용을 입력하세요."></textarea>
 
-        <div class="add_photo">
-          <input type="uploadFile"  accept="image/*" class="uploadFile" name="input_usr_file" id="input_usr_file" onchange="addFile(this);" style="display: none" multiple/>
-          <a href="javascript:openFile();" class="add">
-            <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M194.6 32H317.4C338.1 32 356.4 45.22 362.9 64.82L373.3 96H448C483.3 96 512 124.7 512 160V416C512 451.3 483.3 480 448 480H64C28.65 480 0 451.3 0 416V160C0 124.7 28.65 96 64 96H138.7L149.1 64.82C155.6 45.22 173.9 32 194.6 32H194.6zM256 384C309 384 352 341 352 288C352 234.1 309 192 256 192C202.1 192 160 234.1 160 288C160 341 202.1 384 256 384z"/></svg></span>
-              <span class="count" id="count"><b>0</b> /5</span>
-          </a>
 
-          <ul class="file_wrap">
-              <li id="file_id_${uploadFile.fileIdx }" class="filebox">
-                <!--
-                    <span class="file_name">${fn:split(uploadFile.fileUsrFile,'|')[0]}</span>
-                -->
-<!--                <span><img src="/images/_img/board.png" width="65" height="65"></span>-->
-<!--                <a href="javascript:delfile(${uploadFile.fileIdx });" class="close"></a>-->
-                <input type="hidden" name="fileIdxArr" value="${uploadFile.fileIdx }"/>
-                <input type="hidden"  name="delArr" value="N" id="${uploadFile.fileIdx }_del"/>
-              </li>
-            </td>
+        <select class="write-select create-group" th:field="*{category}">
+          <option th:each="category : ${categories}" th:value="${category.name()}" th:selected="${category.name() eq 'BOARD'}">
+            <span th:if="${category.name() eq 'BOARD'}" th:selected="seleted">그루프 게시판</span>
+            <span th:if="${category.name() eq 'NOTICE'}">공지사항</span>
+          </option>
+        </select>
 
-          </ul>
-        </div>
+        <input class="create-group"
+               th:field="*{title}"
+               type="text"
+               placeholder="그루프 이름"
+               th:errorclass="field-error"
+               required=""
+        />
+        <div class="field-error" th:errors="*{title}"/>
 
-      </form>
+        <textarea class="font-base-nosize text-xl"
+                  type="text"
+                  rows="7"
+                  th:field="*{content}"
+                  placeholder="내용을 입력하세요."
+                  required=""
+                  th:errorclass="field-error"
+        >
+        </textarea>
+        <div class="field-error" th:errors="*{content}"/>
+        <input type="hidden" th:field="*{groupId}">
+
       <p class="btn mt25">
-          <a href="#" onclick="javascript:submitForm('mod');" class="btn">저장</a>
+<!--        <button type="button" onclick="validateAndSubmit()" class="write-btn">저장</button>-->
+        <button type="submit" class="write-btn">저장</button>
       </p>
 
+      </form>
     </div>
 
   </div>
 
 
-
-
+  <div class="layer" id="send_Pop">
+    <div class="bg"></div>
+    <div class="pop-layer" id="sendPop">
+      <div class="pop_cont text" id="popContOne">
+        <p class="mb20 c">카테고리를 선택해주세요.</p>
+        <p class="btn"><a href="#" class="cbtn">확인</a></p>
+      </div>
+    </div>
+  </div>
 
 
   <div class="m-24"></div>
