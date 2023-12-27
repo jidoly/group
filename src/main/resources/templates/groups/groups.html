@@ -63,7 +63,7 @@
     <div class="deal_wrap w-full">
         <ul class="mp_list mydeal vers">
 
-            <li th:each="club, index : ${groupList}"
+            <li th:each="club : ${groupList}"
                 th:onclick="|location.href='@{/groups/group(groupId=${club.groupId}) }'|">
                 <div class="w-full">
             <span class="groups-img-box-gra">

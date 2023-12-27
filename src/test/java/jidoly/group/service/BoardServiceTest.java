@@ -1,7 +1,9 @@
 package jidoly.group.service;
 
 import jakarta.persistence.EntityManager;
+import jidoly.group.controller.board.BoardDto;
 import jidoly.group.controller.board.BoardWriteDto;
+import jidoly.group.controller.board.CommentDto;
 import jidoly.group.domain.*;
 import jidoly.group.repository.BoardRepository;
 import jidoly.group.repository.ClubRepository;
@@ -11,7 +13,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -151,11 +152,21 @@ class BoardServiceTest {
         BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
         Long boardId = boardService.writePost(boardWriteDto);
 
-        Comment comment = Comment.createComment("hihi", member, board);
-        Comment comment2 = Comment.createComment("hihi", member, board);
+
+
+        CommentDto commentDto1 = new CommentDto();
+        commentDto1.setBoardId(club.getId());
+        commentDto1.setContent("hihi");
+        commentDto1.setWriter(member.getNickname());
+
+        CommentDto commentDto2 = new CommentDto();
+        commentDto2.setBoardId(club.getId());
+        commentDto2.setContent("nono");
+        commentDto2.setWriter(member.getNickname());
+
         //when
-        boardService.addCommentToBoard(boardId, comment);
-        boardService.addCommentToBoard(boardId, comment2);
+        boardService.addCommentToBoard(commentDto1);
+        boardService.addCommentToBoard(commentDto2);
 
         em.flush();
         em.clear();

@@ -45,6 +45,9 @@ public class Init {
             UploadFile uploadFile = new UploadFile("유저파일이름", "1f1c32ff-8ffd-43ab-8e44-8ad90afbf5af.png");
             Member member = Member.createMember("test@test.com", "1234", "nick", uploadFile);
             memberService.registerMember(member);
+            UploadFile uploadFile22 = new UploadFile("유저파일이름", "1f1c32ff-8ffd-43ab-8e44-8ad90afbf5af.png");
+            Member member2 = Member.createMember("test@test.com0", "1234", "nick0", uploadFile22);
+            memberService.registerMember(member2);
 
             /**
              * 파일들
@@ -56,7 +59,7 @@ public class Init {
             /**
              * 멤버 초기화 데이터 10개
              */
-            for (int i = 0; i < 10; i++) {
+            for (int i = 1; i < 10; i++) {
                 UploadFile uploadFile1 = new UploadFile("유저파일이름", "1f1c32ff-8ffd-43ab-8e44-8ad90afbf5af.png");
                 Member member1 = Member.createMember("test@test.com" + i, "1234", "nick"+i,uploadFile1);
                 memberService.registerMember(member1);
@@ -76,6 +79,9 @@ public class Init {
                 Club club = Club.createClub("club" + i, "info" + i, uploadFile1);
                 clubService.createClub(member.getId(), club);
             }
+
+            joinService.applyJoin(member2.getId(), club2.getId());
+            joinService.acceptJoin(member2, club2);
 
             /**
              * 좋아요

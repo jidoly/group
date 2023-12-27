@@ -3773,7 +3773,7 @@ li.nodata {
     width: 100%;
 }
 
-.club_box .club_user .user_name {
+.club_box .club_user .notice-title {
     margin-bottom: 8px;
     font: 500 15px/16px"Roboto", "Noto Sans KR", sans-serif;
     color: #333;
@@ -3785,7 +3785,7 @@ li.nodata {
     height: 16px;
 }
 
-.club_box .club_user .club_text {
+.club_box .club_user .notice-text {
     font: 300 14px/20px"Roboto", "Noto Sans KR", sans-serif;
     color: #888;
     overflow: hidden;

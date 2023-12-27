@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/comhead :: common_header(~{::title})">
-    <title>메인설계중</title>
+    <title>그룹페이지</title>
 </head>
 <!--이거 3줄은 공통! -->
 <body class="bodyCustom group-body">
@@ -36,7 +36,7 @@
                 <p class="photo gradient-border">
 						<span>
                             <img class="w-full"
-                                 th:src="@{'/images/noImage.jpg'}"
+                                 th:src="${group.storeFileName != null} ? '/upload/' + ${group.storeFileName} : '/images/test2.gif'"
                                  th:alt="${group.groupName}">
 						</span>
                 </p>
@@ -62,61 +62,78 @@
 
 
         <!-- 상단 끝 -->
+        <!-- 가입된 유저만 보여야됨-->
+        <div th:unless="${joinStatus eq 'WAIT' or joinStatus eq 'no'}">
 
 
-        <!-- 공지사항 -->
-        <div class="club_box">
-            <div class="tit_btn">
-                <p class="club_tit">공지사항</p>
+            <!-- 공지사항 -->
+            <div class="club_box" >
+                <div class="tit_btn">
+                    <p class="club_tit">공지사항</p>
+                </div>
+
+                <ul class="club_notice">
+                    <li>
+                        <div class="club_user">
+                            <div class="fm_profile" onclick="location.href='#'">
+                                <p class="img">
+                                    <img alt="공지프로필"
+                                    th:src="${lastNotice != null && lastNotice.userImage != null} ? '/upload/' + ${lastNotice.userImage} : '/images/test2.gif'"
+                                    >
+                                </p>
+                                <p class="notice-title ml8" th:text="${lastNotice != null} ? ${lastNotice.writer} : 'user'"></p>
+                            </div>
+                            <div class="ml5">
+                                <p class="notice-title" th:text="${lastNotice != null} ? ${lastNotice.title} : '공지사항을'" }>공지사항을</p>
+                                <p class="notice-text" th:text="${lastNotice != null} ? ${lastNotice.content} : '작성해보세요'">
+                                    작성해보세요
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
-            <ul class="club_notice">
-                <li>
-                    <div class="club_user">
-                        <div class="fm_profile" onclick="location.href='.html'">
-                            <p class="img"><img alt="유저프로필" src="/images/test2.gif"></p>
-                        </div>
-                        <div>
-                            <p class="user_name">유저닉네임</p>
-                            <p class="club_text">
-                                공지사항입니다.
-                            </p>
-                        </div>
+            <!-- 갤러리 -->
+
+
+            <div th:if="${#lists.isEmpty(all.?[boardCategory.toString() eq 'BOARD'])}" class="empty-message font-base text-center">
+                갤러리 목록이 비었습니다. 글을 등록해보세요!
+            </div>
+            <div class="container mx-auto my-8">
+                <div class="gallery">
+                    <div th:each="board : ${all}" th:if="${board.boardCategory.toString() eq 'BOARD'}" class="gallery-item"
+                        th:onclick="|location.href='@{/groups/group/board(groupId=${group.groupId}, boardId= ${board.boardId})}'|">
+                        <img th:src="${board.lastStoreFileName != null} ? '/upload/' + ${board.lastStoreFileName} : '/images/noImage.jpg'"
+                        class="gallery-img">
                     </div>
-                </li>
-            </ul>
-        </div>
 
-        <!-- 갤러리 -->
-
-        <div class="container mx-auto my-8">
-            <div class="gallery">
-
-                <div class="gallery-item"
-                     th:onclick="|location.href='@{/groups/group/board (groupId=${1}, boardId=${2})}'|">
-                    <img src="https://placekitten.com/300/300" alt="Image 1" class="gallery-img">
                 </div>
-                <div class="gallery-item">
-                    <img src="https://placekitten.com/300/301" alt="Image 2" class="gallery-img">
-                </div>
-                <div class="gallery-item">
-                    <img src="https://placekitten.com/301/300" alt="Image 3" class="gallery-img">
-                </div>
-                <!-- 추가적인 이미지들 -->
-
             </div>
+
+            <!-- 갤러리 -->
+
+
+            <div class="add-sticky">
+                <a th:href="@{/groups/group/write(groupId=${group.groupId})}" class="add_btn"></a>
+            </div>
+
         </div>
 
-        <!-- 갤러리 -->
+        <div th:if="${joinStatus eq 'WAIT' or joinStatus eq 'no'}">
+
+            <div class="empty-message font-base text-center">
+                클럽에 가입하고 글을 볼수있어요!
+            </div>
 
 
-        <div class="add-sticky">
-            <a th:href="@{/groups/group/write(groupId=${1})}" class="add_btn"></a>
+            <div class="m-44"></div>
+
         </div>
+
         <div th:replace="fragments/com/footer"/>
         <div th:replace="fragments/com/bottom"/>
     </div>
 </div>
-<h1 class="test text-cyan-500">안녕</h1>
 </body>
 </html>

@@ -1,6 +1,6 @@
 package jidoly.group.controller.group;
 
-import jakarta.persistence.EntityNotFoundException;
+import jidoly.group.controller.board.BoardDto;
 import jidoly.group.controller.board.BoardWriteDto;
 import jidoly.group.domain.*;
 import jidoly.group.repository.JoinRepository;
@@ -18,9 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -106,9 +104,7 @@ public class GroupController {
         model.addAttribute("group", group);
 
         /* 가입 정보 - 관리자, 가입여부용 */
-        String joinStatus = joinRepository.findByMemberIdAndClubId(sessionUser.getId(), groupId)
-                .map(join -> join.getStatus() != null ? join.getStatus().toString() : "no")
-                .orElse("no");
+        String joinStatus = getJoinStatus(groupId, sessionUser);
         model.addAttribute("joinStatus", joinStatus);
         model.addAttribute("memberId", sessionUser.getId());
 
@@ -116,10 +112,20 @@ public class GroupController {
         boolean isLikeExist = likeRepository.findByMemberIdAndClubId(sessionUser.getId(), groupId)
                 .isPresent();
         model.addAttribute("isLikeExist", isLikeExist);
+
         /* 게시판 정보 */
+        List<BoardDto> all = boardService.findAllByGroupId(groupId);
+        Optional<BoardDto> lastNotice = all.stream()
+                .filter(board -> board.getBoardCategory() == BoardCategory.NOTICE)
+                .findFirst();
+
+        model.addAttribute("all", all);
+        model.addAttribute("lastNotice", lastNotice.orElse(null));
 
         return "groups/group";
     }
+
+
 
     /**
      * 그룹 가입 / 취소 페이지
@@ -143,12 +149,17 @@ public class GroupController {
 
     @GetMapping("/group/write")
     public String groupWrite(@ModelAttribute("writeDto") BoardWriteDto writeDto,
+                             @AuthenticationPrincipal CustomUser sessionUser,
                              @RequestParam(name = "groupId") Long groupId,
                              Model model) {
 
         BoardCategory[] categories = writeDto.getCategory().values();
         model.addAttribute("categories", categories);
         model.addAttribute("groupId", groupId);
+
+        /* 공지사항 작성가능 여부 check */
+        String joinStatus = getJoinStatus(groupId, sessionUser);
+        model.addAttribute("joinStatus", joinStatus);
 
         return "groups/group-write";
     }
@@ -164,9 +175,11 @@ public class GroupController {
         }
 
         writeDto.setMemberId(sessionUser.getId());
+        if (writeDto.getCategory() == null) {
+            writeDto.setCategory(BoardCategory.BOARD);
+        }
         Long aLong = boardService.writePost(writeDto);
-
-        System.err.println("글 등록완료 : " + aLong);
+        log.debug("글 등록완료 = {}", aLong);
         redirectAttributes.addAttribute("groupId", writeDto.getGroupId());
 
 
@@ -176,8 +189,21 @@ public class GroupController {
     @GetMapping("/group/board")
     public String groupBoard(
             @RequestParam(name = "groupId") Long groupId,
-            @RequestParam(name = "boardId") Long boardId) {
+            @RequestParam(name = "boardId") Long boardId,
+            Model model) {
+
+        /* 게시글 상세 */
+        BoardDto findBoard = boardService.findBoardById(boardId);
+        model.addAttribute("board", findBoard);
+
         return "groups/group-board";
+    }
+
+    private String getJoinStatus(Long groupId, CustomUser sessionUser) {
+        String joinStatus = joinRepository.findByMemberIdAndClubId(sessionUser.getId(), groupId)
+                .map(join -> join.getStatus() != null ? join.getStatus().toString() : "no")
+                .orElse("no");
+        return joinStatus;
     }
 
 

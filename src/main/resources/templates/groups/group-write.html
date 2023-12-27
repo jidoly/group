@@ -35,13 +35,15 @@
         </label>
 
 
-
-        <select class="write-select create-group" th:field="*{category}">
-          <option th:each="category : ${categories}" th:value="${category.name()}" th:selected="${category.name() eq 'BOARD'}">
-            <span th:if="${category.name() eq 'BOARD'}" th:selected="seleted">그루프 게시판</span>
-            <span th:if="${category.name() eq 'NOTICE'}">공지사항</span>
-          </option>
-        </select>
+        <div th:if="${joinStatus eq 'MANAGED'}">
+          <select class="write-select create-group" th:field="*{category}">
+            <option th:each="category : ${categories}" th:value="${category.name()}" th:selected="${category.name() eq 'BOARD'}">
+                <span th:if="${category.name() eq 'BOARD'}" th:selected="seleted">그루프 게시판</span>
+                <span th:if="${category.name() eq 'NOTICE'}">공지사항</span>
+              </span>
+            </option>
+          </select>
+        </div>
 
         <input class="create-group"
                th:field="*{title}"
@@ -62,7 +64,7 @@
         >
         </textarea>
         <div class="field-error" th:errors="*{content}"/>
-        <input type="hidden" th:field="*{groupId}">
+        <input type="hidden" th:field="*{groupId}" th:value="*{groupId}">
 
       <p class="btn mt25">
 <!--        <button type="button" onclick="validateAndSubmit()" class="write-btn">저장</button>-->

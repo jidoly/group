@@ -370,8 +370,8 @@ span.important-star svg {
     left: 40%;
     padding: 10px;
     background: rgba(253, 224, 71, 0.5);
-
 }
+
 .group-like {
     margin-top: 10px;
     font-weight: bold;
@@ -414,4 +414,19 @@ span.important-star svg {
 .write-img > img{
     width: 100%;
     height: 100%;
+}
+
+.empty-message {
+    background-color: #adf3f3;
+    padding: 54px
+}
+
+.board-content .toast-message {
+    font-family: BMJUA;
+    font-size: small;
+    position: absolute;
+    top: 60%;
+    left: 35%;
+    padding: 10px;
+    background: rgba(253, 224, 71, 0.5);
 }

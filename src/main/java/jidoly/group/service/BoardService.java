@@ -1,11 +1,10 @@
 package jidoly.group.service;
 import jakarta.persistence.EntityNotFoundException;
+import jidoly.group.controller.board.BoardDto;
 import jidoly.group.controller.board.BoardWriteDto;
+import jidoly.group.controller.board.CommentDto;
 import jidoly.group.domain.*;
-import jidoly.group.repository.BoardRepository;
-import jidoly.group.repository.ClubRepository;
-import jidoly.group.repository.LikeRepository;
-import jidoly.group.repository.MemberRepository;
+import jidoly.group.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +22,7 @@ public class BoardService {
     private final MemberRepository memberRepository;
     private final LikeRepository likeRepository;
     private final ClubRepository clubRepository;
+    private final CommentRepository commentRepository;
     private final FileStore fileStore;
 
     public BoardDto findBoardById(Long id) {
@@ -35,7 +35,17 @@ public class BoardService {
 
     public List<BoardDto> findAll() {
 
-        List<Board> all = boardRepository.findAll();
+        List<Board> all = boardRepository.findAllByOrderByLastModifiedDateDesc();
+
+        List<BoardDto> collect = all.stream()
+                .map(a -> new BoardDto(a))
+                .collect(Collectors.toList());
+
+        return collect;
+    }
+    public List<BoardDto> findAllByGroupId(Long groupId) {
+
+        List<Board> all = boardRepository.findAllByGroupId(groupId);
 
         List<BoardDto> collect = all.stream()
                 .map(a -> new BoardDto(a))
@@ -95,8 +105,9 @@ public class BoardService {
 
     }
 
+    /* 처음 눌렀을때 -> 좋아요 저장, true 반환 / 두번째 -> 좋아요 취소, false반환 */
     @Transactional
-    public void likeBoard(Long memberId, Long boardId) {
+    public boolean likeBoard(Long memberId, Long boardId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
 
@@ -109,18 +120,25 @@ public class BoardService {
             Long likeId = likeExist.get().getId();
             board.removeLike(member);
             likeRepository.deleteById(likeId);
+            return false;
         } else {
             board.addLike(member);
             boardRepository.save(board);
+            return true;
         }
     }
     
     @Transactional
-    public void addCommentToBoard(Long boardId, Comment comment) {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new EntityNotFoundException("Board not found"));
+    public void addCommentToBoard(CommentDto commentDto) {
+        Board board = boardRepository.findById(commentDto.getBoardId())
+                .orElseThrow(() -> new EntityNotFoundException("Board with ID " + commentDto.getBoardId() + " not found"));
+        Member member = memberRepository.findByNickname(commentDto.getWriter())
+                .orElseThrow(() -> new EntityNotFoundException("Member with nickname " + commentDto.getWriter() + " not found"));
+
+        Comment comment = Comment.createComment(commentDto.getContent(), member, board);
         board.addComment(comment);
-        boardRepository.save(board);
+
+        commentRepository.save(comment);
     }
 
 

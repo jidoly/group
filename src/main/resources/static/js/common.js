@@ -149,5 +149,53 @@ function layer_open(layer_id, pop_id){
         $('#' + pop_id).fadeOut();
         e.preventDefault();
     });
+}
+//
+// function addComment() {
+//     const commentInput = document.querySelector('.comment-input');
+//     const commentText = commentInput.value;
+//
+//     if (commentText.trim() !== '') {
+//         const commentsContainer = document.querySelector('.comments');
+//         const newComment = document.createElement('div');
+//         newComment.classList.add('comment');
+//         newComment.innerHTML = `<p class="comment-user">YourUsername:</p> <p class="font-content"> ${commentText} </p>`;
+//         commentsContainer.appendChild(newComment);
+//
+//         // 댓글 작성 후 입력 폼 초기화
+//         commentInput.value = '';
+//     }
+// }
 
+function addComment() {
+    const commentInput = document.querySelector('.comment-input');
+    const commentText = commentInput.value;
+    const boardId = document.getElementById('boardId').value;
+
+    if (commentText.trim() !== '') {
+        // Fetch API를 사용한 비동기 호출
+        fetch('/rest/comment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ content: commentText,
+                                         boardId: boardId}),
+        })
+            .then(response => response.text())
+            .then(data => {
+                // 성공적으로 댓글이 저장된 후의 처리
+                const commentsContainer = document.querySelector('.comments');
+                const newComment = document.createElement('div');
+                newComment.classList.add('comment');
+                newComment.innerHTML = `<p class="comment-user">${data}:</p> <p class="font-content">${commentText}</p>`;
+                commentsContainer.appendChild(newComment);
+
+                // 댓글 작성 후 입력 폼 초기화
+                commentInput.value = '';
+            })
+            .catch(error => {
+                console.error('Error saving comment:', error);
+            });
+    }
 }

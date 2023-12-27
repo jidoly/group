@@ -13,7 +13,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = "boards")
 public class Club extends BaseEntity {
 
     @Id @GeneratedValue
