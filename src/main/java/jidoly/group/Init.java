@@ -2,8 +2,10 @@ package jidoly.group;
 
 import jakarta.annotation.PostConstruct;
 import jidoly.group.domain.Club;
+import jidoly.group.domain.Join;
 import jidoly.group.domain.Member;
 import jidoly.group.domain.UploadFile;
+import jidoly.group.repository.JoinRepository;
 import jidoly.group.service.ClubService;
 import jidoly.group.service.JoinService;
 import jidoly.group.service.MemberService;
@@ -80,8 +82,9 @@ public class Init {
                 clubService.createClub(member.getId(), club);
             }
 
-            joinService.applyJoin(member2.getId(), club2.getId());
-            joinService.acceptJoin(member2, club2);
+
+            Long joinId = joinService.applyJoin(member2.getId(), club2.getId());
+            joinService.acceptJoin(joinId);
 
             /**
              * 좋아요
@@ -96,6 +99,20 @@ public class Init {
             clubService.likeClub(3L, club2.getId());
             clubService.likeClub(4L, club2.getId());
             clubService.likeClub(5L, club2.getId());
+
+            /**
+             * 클럽 가입
+             */
+            for (Long i = 5L; i < 10L; i++) {
+                Long joinId1 = joinService.applyJoin(i, club3.getId());
+                Long joinId2 = joinService.applyJoin(i, club2.getId());
+                if (i / 2 == 0) {
+                    joinService.acceptJoin(joinId1);
+                } else {
+                    joinService.acceptJoin(joinId2);
+                }
+            }
+
         }
     }
 

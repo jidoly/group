@@ -39,28 +39,30 @@ public class JoinService {
     }
 
     //가입 승인
-    public void acceptJoin(Member member, Club club) {
-        /*권한 체크해야됨*/
-        Join join = joinRepository.findByMemberIdAndClubId(member.getId(), club.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: "));
+    @Transactional
+    public void acceptJoin(Long joinId) {
+
+        Join join = joinRepository.findById(joinId)
+                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + joinId));
 
         join.agree();
     }
 
     //가입 거절
     @Transactional
-    public void denyJoin(Long memberId, Long clubId) {
+    public void denyJoin(Long joinId) {
         /*권한 체크해야됨*/
-        Join join = joinRepository.findByMemberIdAndClubId(memberId, clubId)
-                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: "));
+        Join join = joinRepository.findById(joinId)
+                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + joinId));
         joinRepository.deleteById(join.getId());
     }
 
     //매니저 승격
-    public void setManagerJoin(Member member, Club club) {
+    @Transactional
+    public void setManagerJoin(Long joinId) {
         /*권한 체크해야됨*/
-        Join join = joinRepository.findByMemberIdAndClubId(member.getId(), club.getId())
-                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: "));
+        Join join = joinRepository.findById(joinId)
+                .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + joinId));
         join.setManager();
     }
 

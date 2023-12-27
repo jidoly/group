@@ -72,12 +72,12 @@ class JoinServiceTest {
         Club club1 = clubRepository.findByClubName("헬스").get();
         Club club2 = clubRepository.findByClubName("음악").get();
         //given
-        joinService.applyJoin(member1.getId(), club1.getId());
-        joinService.applyJoin(member1.getId(), club2.getId());
+        Long joinId = joinService.applyJoin(member1.getId(), club1.getId());
+        Long joinId2 = joinService.applyJoin(member1.getId(), club2.getId());
 
         //when
-        joinService.acceptJoin(member1, club1);
-        joinService.denyJoin(member1.getId(), club2.getId());
+        joinService.acceptJoin(joinId);
+        joinService.denyJoin(joinId2);
 
         //then
         Join findJoin = joinRepository.findByMemberIdAndClubId(member1.getId(), club1.getId()).get();

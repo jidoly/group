@@ -12,6 +12,7 @@ import jidoly.group.service.ClubService;
 import jidoly.group.service.JoinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -138,7 +140,7 @@ public class GroupController {
         /* repository 에서 조회 -> 존재 X 신청, 존재 O 취소 */
         joinRepository.findByMemberIdAndClubId(memberId, groupId)
                 .ifPresentOrElse(
-                        join -> joinService.denyJoin(memberId, groupId),
+                        join -> joinService.denyJoin(join.getId()),
                         () -> joinService.applyJoin(memberId, groupId)
                 );
 
@@ -188,15 +190,82 @@ public class GroupController {
 
     @GetMapping("/group/board")
     public String groupBoard(
-            @RequestParam(name = "groupId") Long groupId,
             @RequestParam(name = "boardId") Long boardId,
+            @AuthenticationPrincipal CustomUser sessionUser,
             Model model) {
 
         /* 게시글 상세 */
         BoardDto findBoard = boardService.findBoardById(boardId);
         model.addAttribute("board", findBoard);
 
+        /* 좋아요 여부 */
+        boolean isLikeExist = likeRepository.findByMemberIdAndBoardId(sessionUser.getId(), boardId)
+                .isPresent();
+        System.err.println(isLikeExist);
+        model.addAttribute("isLikeExist", isLikeExist);
+
+
         return "groups/group-board";
+    }
+
+    @GetMapping("/group/member")
+    public String groupMember(@RequestParam("groupId") Long groupId,
+                              Model model) {
+
+        List<Join> findJoins = joinRepository.findByClubId(groupId);
+
+        List<JoinMemberDto> joinList = findJoins.stream()
+                .map(join -> new JoinMemberDto(join))
+                .collect(Collectors.toList());
+
+
+        Map<JoinStatus, List<JoinMemberDto>> groupedByStatus = joinList.stream()
+                .collect(Collectors.groupingBy(JoinMemberDto::getStatus));
+
+        // 모든 상태에 대한 리스트 생성
+        List<JoinMemberDto> manages = groupedByStatus.getOrDefault(JoinStatus.MANAGED, List.of());
+        List<JoinMemberDto> waits = groupedByStatus.getOrDefault(JoinStatus.WAIT, List.of());
+        List<JoinMemberDto> joins = groupedByStatus.getOrDefault(JoinStatus.JOINED, List.of());
+
+        int memberCount = manages.size() + joins.size();
+
+        model.addAttribute("groupId", groupId);
+        model.addAttribute("manages", manages);
+        model.addAttribute("waits", waits);
+        model.addAttribute("joins", joins);
+        model.addAttribute("memberCount", memberCount);
+
+        return "groups/group-member";
+    }
+
+    @GetMapping("/group/member/applyJoin")
+    public String applyJoin(@RequestParam("joinId") Long joinId,
+                            @RequestParam("groupId") Long groupId,
+                            RedirectAttributes redirectAttributes) {
+
+        joinService.acceptJoin(joinId);
+
+        redirectAttributes.addAttribute("groupId", groupId);
+
+        return "redirect:/groups/group/member";
+    }
+    @GetMapping("/group/member/cancelJoin")
+    public String cancelJoin(@RequestParam("joinId") Long joinId,
+                            @RequestParam("groupId") Long groupId,
+                            RedirectAttributes redirectAttributes) {
+
+        joinService.denyJoin(joinId);
+        redirectAttributes.addAttribute("groupId", groupId);
+
+        return "redirect:/groups/group/member";
+    }
+    @PostMapping("/group/member/setManager")
+    public ResponseEntity<String> setManager(@RequestParam("joinId") Long joinId) {
+
+        joinService.setManagerJoin(joinId);
+
+        return ResponseEntity.ok("OK");
+
     }
 
     private String getJoinStatus(Long groupId, CustomUser sessionUser) {
@@ -205,6 +274,5 @@ public class GroupController {
                 .orElse("no");
         return joinStatus;
     }
-
 
 }

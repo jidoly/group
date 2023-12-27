@@ -17,4 +17,8 @@ public interface JoinRepository extends JpaRepository<Join, Long> {
     @Query("SELECT j FROM Join j WHERE j.member.id = :userId AND (j.status = 'JOINED' OR j.status = 'MANAGED')")
     List<Join> findMyGroups(@Param("userId") Long userId);
 
+
+    @EntityGraph(attributePaths = "club")
+    List<Join> findByClubId(Long clubId);
+
 }

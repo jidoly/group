@@ -67,17 +67,6 @@ a.waiting {
     box-sizing: border-box
 }
 
-a.waiting::before {
-    content: '';
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #c4db75 url('static/images/_img/cont/waiting.png')no-repeat 52% 56% / 20px;
-    vertical-align: middle;
-    margin-right: 10px;
-}
-
 .fm_bottom.w_box {
     padding-top: 15px
 }
@@ -89,23 +78,7 @@ a.waiting::before {
     height: 62px;
 }
 
-.fm_list li span.star {
-    position: absolute;
-    bottom: -5px;
-    left: 36px;
-    background: #fdcf15;
-    width: 18px;
-    height: 18px;
-    border-radius: 20px;
-    border: 2px solid #fff;
-    text-align: center;
-    line-height: 16px;
-}
 
-.fm_list li span.star svg {
-    width: 10px;
-    fill: #fff;
-}
 
 .fm_list li span.president {
     position: absolute;
@@ -127,19 +100,11 @@ a.waiting::before {
     cursor: pointer;
 }
 
-.fm_list li p.img {
-    width: 50px;
-    height: 50px;
-    border-radius: 80px;
-    overflow: hidden;
-    background: #ddd;
-    border: 1px solid #ddd;
-    /* margin-bottom: 10px; */
-}
 
 .fm_list li p.img img {
     display: block;
     width: 100%;
+    height: 100%;
 }
 
 .fm_list li p.img img::before {

@@ -29,6 +29,7 @@
             <input type="hidden" name="groupId" th:value="${group.groupId}">
             <button class="btn" th:if="${joinStatus eq 'no'}">가입신청</button>
             <button class="btn" th:if="${joinStatus eq 'WAIT'}">신청취소</button>
+            <a th:href="@{/groups/group/member(groupId = ${group.groupId})}" class="btn" th:if="${joinStatus eq 'MANAGED'}">회원관리</a>
         </form>
         <div class="p-5">
             <div class="group-profile">
@@ -75,7 +76,7 @@
                 <ul class="club_notice">
                     <li>
                         <div class="club_user">
-                            <div class="fm_profile" onclick="location.href='#'">
+                            <div class="fm_profile">
                                 <p class="img">
                                     <img alt="공지프로필"
                                     th:src="${lastNotice != null && lastNotice.userImage != null} ? '/upload/' + ${lastNotice.userImage} : '/images/test2.gif'"

@@ -14,6 +14,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.MalformedURLException;
 
@@ -68,7 +69,7 @@ public class CommonRestController {
         commentDto.setWriter(nickname);
         boardService.addCommentToBoard(commentDto);
 
-
         return nickname;
     }
+
 }

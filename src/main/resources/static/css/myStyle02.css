@@ -418,7 +418,9 @@ span.important-star svg {
 
 .empty-message {
     background-color: #adf3f3;
-    padding: 54px
+    padding: 40px;
+    font-family: BMJUA;
+    border-radius: 20px;
 }
 
 .board-content .toast-message {
@@ -429,4 +431,106 @@ span.important-star svg {
     left: 35%;
     padding: 10px;
     background: rgba(253, 224, 71, 0.5);
+}
+
+
+a.waiting::before {
+    content: '';
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #c4db75 url('/images/_img/cont/waiting.png')no-repeat 52% 56% / 20px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+
+.fm_list li p.img {
+    width: 50px;
+    height: 50px;
+    border-radius: 80px;
+    overflow: hidden;
+    background: #ddd;
+    border: 1px solid #374ba8;
+    /* margin-bottom: 10px; */
+}
+
+.fm_list li span.star {
+    position: absolute;
+    top: 32px;
+    left: 36px;
+    background: #1a15fd;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid #fff;
+    text-align: center;
+    line-height: 16px;
+}
+
+
+.fm_list li span.star svg {
+    width: 16px;
+    fill: #fff;
+}
+
+.group-member-btn {
+    display: flex;
+    width: 32%;
+}
+
+.layer-btn {
+    width: 100% !important;
+    height: 49px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border: 1px solid #807edd;
+    padding: 13.5px 15px;
+    border-radius: 50px;
+    color: #fff;
+    font: 400 14px/14px "Poppins", "Noto Sans KR", sans-serif;
+    background: #807edd;
+    box-sizing: border-box;
+    text-align: center;
+    float: right;
+    margin: 5px;
+}
+
+.layer-text {
+    text-align: center;
+    font-family: BMJUA!important;
+    font-size: x-large!important;
+    padding: 15px;
+}
+
+.manage-btn {
+    width: 54px;
+    height: 42px;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 50px;
+    font-family: BMJUA;
+    background: #807edd;
+    text-align: center;
+    margin: 5px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.member-num {
+    padding: 7.5px 13px;
+    border-radius: 93px;
+    color: #fff;
+    font-family: BMJUA;
+    background: #8c87cb;
+    text-align: center;
+    justify-content: center;
+    width: 36px;
+    margin-left: 19px;
+    height: 36px;
+    display: flex;
+    margin-top: 5px;
 }

@@ -1,4 +1,3 @@
-
 let originalImageSrc; // 이전 이미지의 URL을 저장할 변수
 function displayImage(input) {
     const submitBtn = document.getElementById('submitBtn');
@@ -29,7 +28,7 @@ function displayImage(input) {
     // cancelBtn이 존재하는지 확인하고 스타일을 변경
     if (cancelBtn) {
         cancelBtn.style.display = 'inline-block';
-        cancelBtn.addEventListener('click', function() {
+        cancelBtn.addEventListener('click', function () {
             // 취소 버튼을 누르면 이전 이미지로 복원
             if (originalImageSrc) {
                 preview.src = originalImageSrc;
@@ -39,6 +38,7 @@ function displayImage(input) {
         });
     }
 }
+
 function toggleLike(element) {
 
     const content = $('.likes').data('content');
@@ -80,13 +80,13 @@ function toggleLike(element) {
 }
 
 /* file */
-function openFile(){
+function openFile() {
     $("#input_usr_file").trigger("click");
 }
 
 
 /* 첨부파일 검증 */
-function validation(obj){
+function validation(obj) {
     const fileTypes = ['image/gif', 'image/jpeg', 'image/png'];
     if (obj.name.length > 100) {
         alert("파일명이 100자 이상인 파일은 제외되었습니다.");
@@ -109,7 +109,7 @@ function validation(obj){
 function validateAndSubmit() {
     const categorySelect = document.getElementById("category");
     if (categorySelect.value === "") {
-        layer_open('sendPop','send_Pop');
+        layer_open('sendPop', 'send_Pop');
         $("#popContOne").show();
         return;
     }
@@ -120,52 +120,53 @@ function validateAndSubmit() {
 }
 
 
-function layer_open(layer_id, pop_id){
+function layer_open(element) {
+
+    const layer_id = 'send_Pop';
+    const pop_id = 'popContOne';
+    let joinId = element.getAttribute('data-join-id');
+    let groupId = element.getAttribute('data-group-id');
+
     var temp = $('#' + layer_id);
     var bg = temp.prev().hasClass('bg');	//dimmed 레이어를 감지하기 위한 boolean 변수
 
-    if(bg){
-        $( '#' + pop_id).fadeIn();	//'bg' 클래스가 존재하면 레이어가 나타나고 배경은 dimmed 된다.
-    }else{
+    if (bg) {
+        $('#' + pop_id).fadeIn();	//'bg' 클래스가 존재하면 레이어가 나타나고 배경은 dimmed 된다.
+    } else {
         temp.fadeIn();
     }
 
-    // 화면의 중앙에 레이어를 띄운다.
-    //if (temp.outerHeight() < $(document).height() ) temp.css('margin-top', '-'+temp.outerHeight()/2+'px');
-    //else temp.css('top', '0px');
-    //if (temp.outerWidth() < $(document).width() ) temp.css('margin-left', '-'+temp.outerWidth()/2+'px');
-    //else temp.css('left', '0px');
-
-    temp.find('a.cbtn').click(function(e){
-        if(bg){
-            $('#' + pop_id).fadeOut(); //'bg' 클래스가 존재하면 레이어를 사라지게 한다.
-        }else{
-            temp.fadeOut();
-        }
+    temp.find('a.cbtn').click(function (e) {
+        temp.fadeOut();
         e.preventDefault();
     });
 
-    $('#' + pop_id + ' .bg').click(function(e){	//배경을 클릭하면 레이어를 사라지게 하는 이벤트 핸들러
-        $('#' + pop_id).fadeOut();
+    //확인 눌렀을때, 매니저쪽으로 전송
+    temp.find('a.mbtn').click(function (e) {
+
+        // Fetch API를 사용한 비동기 호출
+        fetch(`/groups/group/member/setManager?joinId=${joinId}&groupId=${groupId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(data => {
+                console.log("성공 " + data);
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error saving comment:', error);
+                alert("요청이 실패했습니다");
+            });
+    });
+
+    $('.bg').click(function (e) {	//배경을 클릭하면 레이어를 사라지게 하는 이벤트 핸들러
+        temp.fadeOut();
         e.preventDefault();
     });
 }
-//
-// function addComment() {
-//     const commentInput = document.querySelector('.comment-input');
-//     const commentText = commentInput.value;
-//
-//     if (commentText.trim() !== '') {
-//         const commentsContainer = document.querySelector('.comments');
-//         const newComment = document.createElement('div');
-//         newComment.classList.add('comment');
-//         newComment.innerHTML = `<p class="comment-user">YourUsername:</p> <p class="font-content"> ${commentText} </p>`;
-//         commentsContainer.appendChild(newComment);
-//
-//         // 댓글 작성 후 입력 폼 초기화
-//         commentInput.value = '';
-//     }
-// }
+
 
 function addComment() {
     const commentInput = document.querySelector('.comment-input');
@@ -179,8 +180,10 @@ function addComment() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ content: commentText,
-                                         boardId: boardId}),
+            body: JSON.stringify({
+                content: commentText,
+                boardId: boardId
+            }),
         })
             .then(response => response.text())
             .then(data => {
@@ -197,5 +200,17 @@ function addComment() {
             .catch(error => {
                 console.error('Error saving comment:', error);
             });
+    }
+}
+
+function toggleList() {
+    // listContainer 요소를 가져옴
+    var listContainer = document.getElementById('listContainer');
+
+    // listContainer의 현재 표시 상태를 확인하여 토글
+    if (listContainer.style.display === 'none') {
+        listContainer.style.display = 'block'; // 펼치기
+    } else {
+        listContainer.style.display = 'none'; // 접기
     }
 }

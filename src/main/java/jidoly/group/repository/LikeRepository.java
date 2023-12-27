@@ -15,7 +15,12 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     Optional<Like> findByMemberIdAndBoardId(Long memberId, Long boardId);
     Optional<Like> findByMemberIdAndClubId(Long memberId, Long clubId);
 
-    @Query("SELECT l.club.id FROM Like l GROUP BY l.club.id ORDER BY COUNT(l) DESC")
+//    @Query("SELECT l.club.id FROM Like l GROUP BY l.club.id ORDER BY COUNT(l.club.id) DESC")
+    @Query("SELECT l.club.id " +
+            "FROM Like l " +
+            "WHERE l.club.id IS NOT NULL " +
+            "GROUP BY l.club.id " +
+            "ORDER BY COUNT(l.club.id) DESC")
     List<Long> findTop3ClubsByLikes();
 
     @Query("select l.club.id from Like l where l.member.id = :id")

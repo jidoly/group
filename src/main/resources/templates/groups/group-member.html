@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/comhead :: common_header(~{::title})">
+    <title>멤버목록페이지</title>
+</head>
+<body class="bodyCustom">
+<div class="parents">
+    <header th:replace="fragments/com/header"/>
+
+
+    <!-- CONTENTS BEGIN -->
+    <div id="sub_contents" class="head_mg mb140 w-full">
+        <div class="navi">
+            <div class="top_navi"><a th:href="@{/groups/group(groupId=${groupId})}"><img
+                    src="/images/_img/cont/navi_arrow.png"></a>
+                <h2>멤버목록</h2></div>
+        </div>
+        <div class="fm_top"></div>
+
+        <div class="w_box top no_line fm_bottom">
+            <div class="flex">
+                <a class="waiting" onclick="toggleList()" href="#">신청 대기 목록을 확인해보세요!</a>
+                <span class="member-num" th:if="${waits.size() != 0}" th:text="${waits.size()}">숫자</span>
+            </div>
+            <!-- 토글로 신청대기목록 보여짐-->
+            <div id="listContainer" style="display: none">
+
+                <ul class="fm_list">
+                    <div th:if="${#lists.isEmpty(waits)}">
+                        <p class="empty-message"> 신청 목록이 비었습니다! </p>
+                    </div>
+
+                    <li th:each="member : ${waits} ">
+                        <!-- 펼쳐질 목록 내용 -->
+                        <div class="fm_profile" onclick="location.href='../friend.html'">
+                            <p class="img">
+                                <img alt="유저프로필"
+                                     th:src="${member.storeFileName != null} ? '/upload/' + ${member.storeFileName} : '/images/noImage.jpg'"
+                                >
+                            </p>
+                            <p class="border blue"></p>
+                        </div>
+                        <div class="info">
+                            <p class="tt" th:text="${member.nickName}">닉네임</p>
+                            <span th:text="${member.username}">이메일</span>
+                        </div>
+                        <div class="group-member-btn">
+                            <a th:href="@{/groups/group/member/applyJoin(joinId=${member.joinId}, groupId=${groupId})}"
+                               class="mypage-imagebtn">수락</a>
+                            <a th:href="@{/groups/group/member/cancelJoin(joinId=${member.joinId}, groupId=${groupId})}"
+                               class="mypage-imagebtn cancelBtn">거절</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- 신청 대기목록 끝-->
+
+            <p class="num">그룹 <span th:text="${memberCount}"></span>명</p>
+
+            <!--리스트 시작 -->
+            <ul class="fm_list">
+                <li th:each="member : ${manages} ">
+                    <div class="fm_profile">
+							<span class="star">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path
+                                        d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"></path></svg>
+							</span>
+                        <p class="img">
+                            <img alt="유저프로필"
+                                 th:src="${member.storeFileName != null} ? '/upload/' + ${member.storeFileName} : '/images/noImage.jpg'"
+                            >
+                        </p>
+                        <p class="border blue"></p>
+                    </div>
+                    <div class="info">
+                        <p class="tt" th:text="${member.nickName}">닉네임</p>
+                        <span th:text="${member.username}">이메일</span>
+                    </div>
+                </li>
+                <li th:each="member : ${joins} ">
+                    <div class="fm_profile">
+                        <p class="img">
+                            <img alt="유저프로필"
+                                 th:src="${member.storeFileName != null} ? '/upload/' + ${member.storeFileName} : '/images/noImage.jpg'"
+                                 style="background: url('/images/_img/cont/ex_photo.jpg')no-repeat 50% 50% / cover;">
+                        </p>
+                        <p class="border blue"></p>
+                    </div>
+                    <div class="info">
+                        <p class="tt" th:text="${member.nickName}">닉네임</p>
+                        <span th:text="${member.username}">이메일</span>
+                    </div>
+                    <!--여기 매니저 승급 버튼-->
+                    <a class="manage-btn" href="#" th:attr="data-join-id=${member.joinId}, data-group-id=${groupId}" onclick="layer_open(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="27" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 19V5M5 12l7-7 7 7" />
+                        </svg>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="layer" id="send_Pop">
+        <div class="bg"></div>
+        <div class="pop-layer" id="sendPop">
+            <div class="pop_cont text" id="popContOne">
+                <p class="layer-text">매니저로 승격하시겠습니까?</p>
+                <div class="w-full flex">
+                    <p class="layer-btn"><a href="#" class="text-white font-base w-full mbtn">확인</a></p>
+                    <p class="layer-btn cancelBtn"><a href="#" class="cbtn font-base w-full">취소</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="fragments/com/footer"/>
+    <div th:replace="fragments/com/bottom"/>
+
+</div>
+</body>
+</html>
