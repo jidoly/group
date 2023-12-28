@@ -534,3 +534,40 @@ a.waiting::before {
     display: flex;
     margin-top: 5px;
 }
+
+.groups-sch {
+    margin: 6px 0px 8px 34px;
+    width: 285px;
+}
+
+.groups-sch-select {
+    width: 100%;
+    padding: 12px 40px 12px 22px;
+    border-radius: 50px;
+    color: #888;
+    transition: all .3s;
+    height: auto;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #f8f8f8 url(/images/_img/cont/sel_arrow.png)no-repeat right 22px top 50%/15px;
+    margin-left: 22px;
+    font-family: BMJUA;
+    font-style: normal;
+    margin-top: 5px;
+}
+
+.groups-sort {
+    font-family: BMJUA;
+    font-size: medium;
+    width: 100px;
+    margin: 7px 15px 1px auto;
+    background: #f8f8f8 url(/images/_img/cont/sel_arrow.png)no-repeat right 22px top 50%/15px;
+    padding: 10px 0px 13px 22px;
+    border-radius: 50px;
+    color: #888;
+    /* border: 1px solid #ddd; */
+    height: auto;
+}

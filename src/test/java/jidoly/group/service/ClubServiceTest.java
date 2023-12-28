@@ -1,5 +1,7 @@
 package jidoly.group.service;
 
+import jidoly.group.controller.group.SearchCondition;
+import jidoly.group.controller.group.SearchGroupDto;
 import jidoly.group.domain.Club;
 import jidoly.group.domain.Member;
 import jidoly.group.domain.UploadFile;
@@ -9,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -111,6 +115,10 @@ class ClubServiceTest {
         //when
 
         //then
+
+        List<SearchGroupDto> search1 = clubRepository.searchSlice();
+        System.err.println(search1);
+
 
     }
 

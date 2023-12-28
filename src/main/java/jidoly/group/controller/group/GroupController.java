@@ -12,6 +12,8 @@ import jidoly.group.service.ClubService;
 import jidoly.group.service.JoinService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -43,6 +45,13 @@ public class GroupController {
 
     @GetMapping
     public String groups(Model model) {
+
+        /**
+         * 테스트
+         */
+        List<SearchGroupDto> searchGroupDtos = clubRepository.searchSlice();
+        System.err.println(searchGroupDtos);
+
         /**
          * 여기 슬라이스랑, 검색 추가해야함. - 마지막
          */
@@ -60,6 +69,15 @@ public class GroupController {
         model.addAttribute("groupList", groupList);
         model.addAttribute("top3", top3);
         return "groups/groups";
+    }
+
+    /*테스트*/
+
+    /*테스트*/
+    @ResponseBody
+    @GetMapping("/search2")
+    public List<SearchGroupDto> searchTest2(SearchCondition condition, Pageable pageable) {
+        return clubRepository.searchSlice();
     }
 
     /**

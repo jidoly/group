@@ -1,8 +1,11 @@
 package jidoly.group.controller;
 
 import jidoly.group.controller.board.CommentDto;
+import jidoly.group.controller.group.SearchCondition;
+import jidoly.group.controller.group.SearchGroupDto;
 import jidoly.group.domain.FileStore;
 import jidoly.group.domain.Member;
+import jidoly.group.repository.ClubRepository;
 import jidoly.group.repository.MemberRepository;
 import jidoly.group.sequrity.CustomUser;
 import jidoly.group.service.BoardService;
@@ -11,6 +14,11 @@ import jidoly.group.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +35,7 @@ public class CommonRestController {
     private final BoardService boardService;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final ClubRepository clubRepository;
 
     @GetMapping("/upload/{filename}")
     public Resource downloadImaage(@PathVariable String filename) throws MalformedURLException {
@@ -70,6 +79,12 @@ public class CommonRestController {
         boardService.addCommentToBoard(commentDto);
 
         return nickname;
+    }
+
+    @GetMapping("/rest/search")
+    public Slice<SearchGroupDto> restSearch(SearchCondition condition, Pageable pageable) {
+
+        return clubRepository.searchSlice(condition, pageable);
     }
 
 }

@@ -214,3 +214,21 @@ function toggleList() {
         listContainer.style.display = 'none'; // 접기
     }
 }
+
+function searchByGroupName() {
+    const text = document.getElementById('groupNameInput').value;
+    const selected = document.getElementById('select').value;
+    const params = new URLSearchParams();
+
+    if (selected == "이름") {
+        params.append('groupName', encodeURIComponent(text));
+    } else {
+        params.append('info', encodeURIComponent(text));
+    }
+
+    const url = `/groups?${params.toString()}`;
+
+    // 새로운 URL을 사용하여 페이지 이동
+    window.location.href = url;
+}
+
