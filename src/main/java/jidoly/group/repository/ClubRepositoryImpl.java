@@ -47,42 +47,6 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
                 .fetch();
     }
 
-
-    @Override
-    public List<SearchGroupDto> searchSlice() {
-
-        return queryFactory
-                .select(new QSearchGroupDto(
-                        club.id,
-                        club.clubName,
-                        club.info,
-                        uploadFile.storeFileName,
-                        Expressions.asNumber(like.countDistinct()).coalesce(0L).as("likeCount"),
-                        Expressions.asNumber(join.countDistinct()).coalesce(0L).as("memberCount")
-                ))
-                .from(club)
-                .leftJoin(uploadFile)
-                .on(uploadFile.club.id.eq(club.id)
-                        .and(uploadFile.id.eq(
-                                JPAExpressions.select(uploadFile.id.max())
-                                        .from(uploadFile)
-                                        .where(uploadFile.club.id.eq(club.id))
-                        ))
-                )
-                .leftJoin(like)
-                .on(club.id.eq(like.club.id))
-                .leftJoin(join)
-                .on(club.id.eq(join.club.id).and(join.status.ne(JoinStatus.WAIT)))
-                .on(club.id.eq(join.club.id))
-                .groupBy(
-                        club.id,
-                        club.clubName,
-                        club.info,
-                        uploadFile.storeFileName
-                )
-                .fetch();
-    }
-
     @Override
     public Slice<SearchGroupDto> searchSlice(SearchCondition condition, Pageable pageable) {
 
@@ -148,23 +112,20 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
     }
 
     private BooleanExpression groupNameEq(String groupName) {
-        return StringUtils.hasText(groupName) ? club.clubName.eq(groupName) : null;
+        return StringUtils.hasText(groupName) ? club.clubName.like("%"+groupName +"%") : null;
     }
     private BooleanExpression infoEq(String info) {
-        return StringUtils.hasText(info) ? club.info.eq(info) : null;
+        return StringUtils.hasText(info) ? club.info.like("%" +info +"%") : null;
     }
 
     private OrderSpecifier<Long> orderEq(String getOrderCondition) {
 
         if (!StringUtils.hasText(getOrderCondition)) {
-            System.err.println("널임");
             return club.id.desc();
         }
         if (getOrderCondition.equals("like")) {
-            System.err.println("like임" + getOrderCondition);
             return like.countDistinct().desc();
         } else {
-            System.err.println("그룹인가?" + getOrderCondition);
             return join.countDistinct().desc();
         }
     }

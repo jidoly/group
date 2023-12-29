@@ -13,14 +13,16 @@
 
         <div class="flex relative">
             <a class="w-2.5 m-4" th:href="@{/groups}"><img src="/images/_img/cont/navi_arrow.png"></a>
-            <div class="likes group-like" th:attr="data-content-id=${group.groupId}" data-content="group" onclick="toggleLike(this)">
-                <svg class="heart-icon" th:classappend="${isLikeExist} ? 'active' : ''" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 21.35l-1.45-1.32C6.14 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C16.09 3.81 17.76 3 19.5 3 22.58 3 25 5.42 25 8.5c0 3.78-4.14 6.86-8.55 11.54L12 21.35z" stroke="black" stroke-width="2"/>
-                </svg>
+            <div class="group-title">
+                <div class="likes group-like" th:attr="data-content-id=${group.groupId}" data-content="group" onclick="toggleLike(this)">
+                    <svg class="heart-icon" th:classappend="${isLikeExist} ? 'active' : ''" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C6.14 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C16.09 3.81 17.76 3 19.5 3 22.58 3 25 5.42 25 8.5c0 3.78-4.14 6.86-8.55 11.54L12 21.35z" stroke="black" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h2 class="font-base-nosize text-2xl mt-3" th:text="${group.groupName}">
+                    그룹이름
+                </h2>
             </div>
-            <h2 class="font-base" th:text="${group.groupName}">
-                그룹이름
-            </h2>
         </div>
 
         <!-- 가입 된 유저가 아닐때 가입신청 form -->
@@ -37,7 +39,7 @@
                 <p class="photo gradient-border">
 						<span>
                             <img class="w-full"
-                                 th:src="${group.storeFileName != null} ? '/upload/' + ${group.storeFileName} : '/images/test2.gif'"
+                                 th:src="${group.storeFileName != null} ? '/upload/' + ${group.storeFileName} : '/images/noImage.jpg'"
                                  th:alt="${group.groupName}">
 						</span>
                 </p>
@@ -79,7 +81,7 @@
                             <div class="fm_profile">
                                 <p class="img">
                                     <img alt="공지프로필"
-                                    th:src="${lastNotice != null && lastNotice.userImage != null} ? '/upload/' + ${lastNotice.userImage} : '/images/test2.gif'"
+                                    th:src="${lastNotice != null && lastNotice.userImage != null} ? '/upload/' + ${lastNotice.userImage} : '/images/defaultUser.png'"
                                     >
                                 </p>
                                 <p class="notice-title ml8" th:text="${lastNotice != null} ? ${lastNotice.writer} : 'user'"></p>

@@ -13,6 +13,5 @@ public interface ClubRepositoryCustom {
 
     /* 페이징되고 list -> slice 로수정*/
     Slice<SearchGroupDto> searchSlice(SearchCondition condition, Pageable pageable);
-    List<SearchGroupDto> searchSlice();
 
 }

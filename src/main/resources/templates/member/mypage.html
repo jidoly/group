@@ -26,16 +26,16 @@
                       <label class="cursor-pointer">
                             <input type="file" class="hidden" th:field="*{attachFile}" onchange="displayImage(this)" />
                             <img
-                                    th:src="${member.getStoreFileName != null} ? '/upload/' + ${member.getStoreFileName} : '/images/test2.gif'"
+                                    th:src="${member.getStoreFileName != null} ? '/upload/' + ${member.getStoreFileName} : '/images/defaultUser.png'"
                                     alt="프로필 사진"
                                     id="profileImage"
                             >
                       </label>
                   </span>
           </p>
-            <div class="test2">
+            <div>
               <button type="submit" id="submitBtn" class="mypage-imagebtn sumitbtn">변경</button>
-              <button type="reset" id="cancelBtn" class="mypage-imagebtn canclebtn">취소</button>
+              <button type="reset" id="cancelBtn" class="mypage-imagebtn cancelBtn">취소</button>
             </div>
         </form>
 

@@ -12,6 +12,7 @@ import jidoly.group.service.BoardService;
 import jidoly.group.service.ClubService;
 import jidoly.group.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.PageRequest;
@@ -25,7 +26,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.MalformedURLException;
+import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 public class CommonRestController {
@@ -72,7 +75,6 @@ public class CommonRestController {
     public String addComment(@RequestBody CommentDto commentDto,
                               @AuthenticationPrincipal CustomUser sessionUser) {
 
-        System.err.println(commentDto);
         memberRepository.findById(sessionUser.getId());
         String nickname = memberService.findMemberByUsername(sessionUser.getUsername()).getNickname();
         commentDto.setWriter(nickname);

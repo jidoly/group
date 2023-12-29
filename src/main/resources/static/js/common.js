@@ -152,7 +152,6 @@ function layer_open(element) {
             },
         })
             .then(data => {
-                console.log("성공 " + data);
                 window.location.reload();
             })
             .catch(error => {
@@ -217,10 +216,15 @@ function toggleList() {
 
 function searchByGroupName() {
     const text = document.getElementById('groupNameInput').value;
-    const selected = document.getElementById('select').value;
+    const selectedId = document.getElementById('select')
+    const selected = selectedId !== null ? selectedId.value : "name";
+
     const params = new URLSearchParams();
 
-    if (selected == "이름") {
+
+    console.log(selected);
+
+    if (selected == "name") {
         params.append('groupName', encodeURIComponent(text));
     } else {
         params.append('info', encodeURIComponent(text));
@@ -232,3 +236,35 @@ function searchByGroupName() {
     window.location.href = url;
 }
 
+// 메뉴 오픈
+$(document).ready(function() {
+    $(".menu").click(function(){
+        $(".head").toggleClass("active");
+        $(".head_mg").toggleClass("active");
+        $(".menu_box").toggleClass("active");
+    });
+});
+
+// 메뉴 슬라이드 업 다운
+$(document).ready(function() {
+    $(".menu_box .down_btn").click(function(){
+        $(this).parent().next(".dep2").slideToggle(300);
+        $(this).parent().parent("li").toggleClass("active");
+    });
+});
+
+// 검색 오픈
+$(document).ready(function() {
+    $("header .search").click(function(){
+        $(".search_box").slideToggle(200);
+        $(".search_box").toggleClass("active");
+    });
+});
+
+// 검색 닫기
+$(document).ready(function() {
+    $(".search_box .x, .search_box a.icon").click(function(){
+        $(".search_box").slideUp(200);
+        $(".search_box").removeClass("active");
+    });
+});

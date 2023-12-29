@@ -134,7 +134,7 @@ a.waiting {
 }
 
 .fm_list li p.border.green {
-    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #0a8800 0%, #00bc1f 100%);
+    background-image: linear-gradient(#fff, #fff), linear-gradient(to right, #807edd 0%, #00bc1f 100%);
 }
 
 .fm_list li p.border.red {
@@ -240,7 +240,7 @@ a.waiting {
 /*    width: 50px;*/
 /*    height: 50px;*/
 /*    border-radius: 50%;*/
-/*    background: green url('static/images/_img/cont/w_plus.png')no-repeat 50% 50% /17px;*/
+/*    background: #807edd url('static/images/_img/cont/w_plus.png')no-repeat 50% 50% /17px;*/
 /*    position: fixed;*/
 /*    bottom: 85px;*/
 /*    right: 20px*/
@@ -572,7 +572,7 @@ a.waiting {
 }
 
 #chat_room .me_chat .balloon {
-    background: green;
+    background: #807edd;
     color: #fff
 }
 

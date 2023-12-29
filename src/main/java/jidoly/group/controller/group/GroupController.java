@@ -46,38 +46,14 @@ public class GroupController {
     @GetMapping
     public String groups(Model model) {
 
-        /**
-         * 테스트
-         */
-        List<SearchGroupDto> searchGroupDtos = clubRepository.searchSlice();
-        System.err.println(searchGroupDtos);
-
-        /**
-         * 여기 슬라이스랑, 검색 추가해야함. - 마지막
-         */
-        List<Club> all = clubService.findAll();
-        List<GroupDto> groupList = all.stream()
-                .map(club -> new GroupDto(club))
-                .collect(Collectors.toList());
-
         /* top 3 */
         List<GroupDto> top3 = likeRepository.findTop3ClubsByLikes().stream()
                 .map(clubService::findById)
                 .map(GroupDto::new)
                 .collect(Collectors.toList());
 
-        model.addAttribute("groupList", groupList);
         model.addAttribute("top3", top3);
         return "groups/groups";
-    }
-
-    /*테스트*/
-
-    /*테스트*/
-    @ResponseBody
-    @GetMapping("/search2")
-    public List<SearchGroupDto> searchTest2(SearchCondition condition, Pageable pageable) {
-        return clubRepository.searchSlice();
     }
 
     /**
@@ -219,7 +195,7 @@ public class GroupController {
         /* 좋아요 여부 */
         boolean isLikeExist = likeRepository.findByMemberIdAndBoardId(sessionUser.getId(), boardId)
                 .isPresent();
-        System.err.println(isLikeExist);
+
         model.addAttribute("isLikeExist", isLikeExist);
 
 

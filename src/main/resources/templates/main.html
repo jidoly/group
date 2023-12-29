@@ -11,10 +11,10 @@
 
     <!-- 배너 -->
     <div class="slide slide_wrap">
-        <div class="slide_item item1"><img th:src="@{/images/test.jpg}"/></div>
-        <div class="slide_item item3"><img th:src="@{/images/test.jpg}"/></div>
-        <div class="slide_item item4">4</div>
-        <div class="slide_item item5"><img th:src="@{/images/test.jpg}"/></div>
+        <div class="slide_item item1"><img th:src="@{/images/base/ad1.jpg}"/></div>
+        <div class="slide_item item2"><img th:src="@{/images/base/ad2.jpg}"/></div>
+        <div class="slide_item item3"><img th:src="@{/images/base/ad3.jpg}"/></div>
+        <div class="slide_item item4"><img th:src="@{/images/base/ad4.png}"/></div>
         <div class="slide_prev_button slide_button">◀</div>
         <div class="slide_next_button slide_button">▶</div>
         <ul class="slide_pagination"></ul>
@@ -26,7 +26,7 @@
 
     <div class="w-full">
         <h1 class="my-title2 w-full font-base"><a th:href="@{/groups}">
-            <span class="text-cyan-500" th:text="${member.nickname}">닉네임</span>님,
+            <span style="color:#807edd;" th:text="${member.nickname}">닉네임</span>님,
             <br> 현재 인기있는
             <br> 그룹들을 추천해드려요 ></a>
         </h1>
@@ -117,7 +117,6 @@
     <div th:replace="fragments/com/footer"/>
 
     <div th:replace="fragments/com/bottom"/>
-
 </div>
 </body>
 </html>

@@ -18,14 +18,14 @@
 
     <div class="post-header">
       <img class="user-avatar"
-           th:src="${board.userImage != null} ? '/upload/' + ${board.userImage} : '/images/test2.gif'"
+           th:src="${board.userImage != null} ? '/upload/' + ${board.userImage} : '/images/defaultUser.png'"
            alt="유저 이미지" >
       <div class="user-info">
         <p class="font-base-nosize text-lg" th:text="${board.writer}">username</p>
       </div>
     </div>
     <img class="post-image"
-            th:src="${board.lastStoreFileName != null} ? '/upload/' + ${board.lastStoreFileName} : '/images/test2.gif'"
+            th:src="${board.lastStoreFileName != null} ? '/upload/' + ${board.lastStoreFileName} : '/images/noImage.jpg'"
             alt="Post Image">
 
     <div class="post-content">

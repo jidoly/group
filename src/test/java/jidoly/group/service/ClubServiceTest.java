@@ -116,8 +116,6 @@ class ClubServiceTest {
 
         //then
 
-        List<SearchGroupDto> search1 = clubRepository.searchSlice();
-        System.err.println(search1);
 
 
     }

@@ -71,7 +71,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: green url(/images/_img/cont/w_plus.png)no-repeat 50% 50% /24px;
+    background: #807edd url(/images/_img/cont/w_plus.png)no-repeat 50% 50% /24px;
     margin-left: auto;
     margin-right: 20px;
 }
@@ -286,7 +286,7 @@ span.important-star svg {
     border-radius: 50px !important;
     color: #fff;
     font: 400 14px/14px "Poppins", "Noto Sans KR", sans-serif!important;
-    background: green!important;
+    background: #807edd!important;
     display: block!important;
     box-sizing: border-box!important;
     text-align: center!important;
@@ -302,7 +302,7 @@ span.important-star svg {
     border-radius: 50px;
     color: #fff;
     font: 400 14px/14px "Poppins", "Noto Sans KR", sans-serif;
-    background: green;
+    background: #807edd;
     display: block;
     box-sizing: border-box;
     text-align: center;
@@ -312,7 +312,7 @@ span.important-star svg {
 }
 .cancelBtn{
     background: white!important;
-    color: black;
+    color: black!important;
 }
 
 .create-group {
@@ -372,14 +372,20 @@ span.important-star svg {
     background: rgba(253, 224, 71, 0.5);
 }
 
+.group-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20%;
+    width: 100%;
+}
+
 .group-like {
     margin-top: 10px;
     font-weight: bold;
-    display: flex;
     align-items: center;
     color: #555;
     height: 41px;
-    margin-left: 117px;
 }
 
 .write-btn {
@@ -390,7 +396,7 @@ span.important-star svg {
     border-radius: 50px;
     color: #fff;
     font: 400 15px/17px "Poppins", "Noto Sans KR", sans-serif;
-    background: green;
+    background: #807edd;
     display: block;
     box-sizing: border-box;
     text-align: center;
