@@ -22,7 +22,7 @@ import java.io.IOException;
 public class Init {
 
     private final InitMemberService initMemberService;
-//    @PostConstruct
+    @PostConstruct
     public void init() throws IOException {
         initMemberService.init();
     }
