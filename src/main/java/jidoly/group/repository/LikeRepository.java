@@ -20,7 +20,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
             "FROM Like l " +
             "WHERE l.club.id IS NOT NULL " +
             "GROUP BY l.club.id " +
-            "ORDER BY COUNT(l.club.id) DESC")
+            "ORDER BY COUNT(l.club.id) DESC "+
+            "LIMIT 3")
     List<Long> findTop3ClubsByLikes();
 
     @Query("select l.club.id from Like l where l.member.id = :id")
