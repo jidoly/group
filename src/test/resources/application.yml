@@ -4,7 +4,7 @@ spring:
   profiles:
     active: test
   datasource:
-    url: jdbc:h2:tcp://localhost/~/group
+    url: jdbc:h2:tcp://localhost/~/groupTest
     username: sa
     password:
     driver-class-name: org.h2.Driver

@@ -27,6 +27,7 @@ function fetchData() {
         fetch(url)
             .then(response => response.json())
             .then(data => {
+                console.log(data.content)
                 if (data.content.length === 0) {
                     // 마지막 페이지에 도달한 경우
                     lastPageReached = true;

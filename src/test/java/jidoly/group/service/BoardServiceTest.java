@@ -11,6 +11,7 @@ import jidoly.group.repository.LikeRepository;
 import jidoly.group.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,6 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-
 @SpringBootTest
 @Transactional
 class BoardServiceTest {
@@ -51,14 +51,16 @@ class BoardServiceTest {
     @Test
     void writePostAndLikePostTest() throws IOException {
         // given
-        Member member = memberRepository.findByUsername("member1").get();
-        Club club = clubRepository.findByClubName("헬스").get();
+        Member member = memberRepository.findByUsername("member1")
+                .orElseThrow(() -> new RuntimeException("not found member"));;
+        Club club = clubRepository.findByClubName("헬스")
+                .orElseThrow(() -> new RuntimeException("not found club"));
         Board board = Board.createBoard(club, member, "제목", "내용", BoardCategory.BOARD);
         BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
         Long boardId = boardService.writePost(boardWriteDto);
         //when
         Board findBoard = boardRepository.findById(boardId)
-                .orElseThrow(() -> new RuntimeException("못 찾았음"));
+                .orElseThrow(() -> new RuntimeException("not found board"));
 
         //then
         assertThat(findBoard.getTitle()).isEqualTo("제목");
@@ -67,14 +69,16 @@ class BoardServiceTest {
 
     @Test
     public void updatePostTest() throws IOException {
-        Member member = memberRepository.findByUsername("member1").get();
-        Club club = clubRepository.findByClubName("헬스").get();
+        Member member = memberRepository.findByUsername("member1")
+                .orElseThrow(() -> new RuntimeException("not found member"));;
+        Club club = clubRepository.findByClubName("헬스")
+                .orElseThrow(() -> new RuntimeException("not found club"));
         Board board = Board.createBoard(club, member, "제목", "내용", BoardCategory.BOARD);
         BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
         Long boardId = boardService.writePost(boardWriteDto);
         //when
         Board findBoard = boardRepository.findById(boardId)
-                .orElseThrow(() -> new RuntimeException("못 찾았음"));
+                .orElseThrow(() -> new RuntimeException("not found board"));
         boardService.updatePost(boardId, "바뀐 제목", "바뀐 내용");
 
         Board updateBoard = boardRepository.findById(boardId)
@@ -84,18 +88,20 @@ class BoardServiceTest {
     }
     
     @Test
-    void 좋아요_갯수까지받아오는board정보() throws Exception {
+    void like_board_test() throws Exception {
         //given
-        Member member = memberRepository.findByUsername("member1").get();
-        Member member2 = memberRepository.findByUsername("member2").get();
-        Club club = clubRepository.findByClubName("헬스").get();
+        Member member = memberRepository.findByUsername("member1")
+                .orElseThrow(() -> new RuntimeException("not found member"));;
+        Member member2 = memberRepository.findByUsername("member2")
+                .orElseThrow(() -> new RuntimeException("not found member"));;
+        Club club = clubRepository.findByClubName("헬스")
+                .orElseThrow(() -> new RuntimeException("not found club"));
         Board board = Board.createBoard(club, member, "제목", "내용", BoardCategory.BOARD);
         BoardWriteDto boardWriteDto = new BoardWriteDto(member.getId(), club.getId(), board.getTitle(), board.getCategory(), board.getContent());
         Long boardId = boardService.writePost(boardWriteDto);
         Long boardId2 = boardService.writePost(boardWriteDto);
         //when
         boardService.likeBoard(member.getId(), boardId);
-        //위에 끝나고나서,
         boardService.likeBoard(member2.getId(), boardId);
 
         int likeCount = boardService.findBoardById(boardId).getLikeCount();
@@ -118,8 +124,10 @@ class BoardServiceTest {
         UploadFile uploadFile2 = new UploadFile("유저파일이름1", "저장파일이름2");
         UploadFile[] uploadFiles = {uploadFile1, uploadFile2};
 
-        Member member = memberRepository.findByUsername("member1").get();
-        Member member2 = memberRepository.findByUsername("member2").get();
+        Member member = memberRepository.findByUsername("member1")
+                .orElseThrow(() -> new RuntimeException("not found member1"));
+        Member member2 = memberRepository.findByUsername("member2")
+                .orElseThrow(() -> new RuntimeException("not found member2"));
         Club club = clubRepository.findByClubName("헬스").get();
         Board board = Board.createBoard(club, member, "제목", "내용", BoardCategory.BOARD, uploadFiles);
 
@@ -155,12 +163,12 @@ class BoardServiceTest {
 
 
         CommentDto commentDto1 = new CommentDto();
-        commentDto1.setBoardId(club.getId());
+        commentDto1.setBoardId(boardId);
         commentDto1.setContent("hihi");
         commentDto1.setWriter(member.getNickname());
 
         CommentDto commentDto2 = new CommentDto();
-        commentDto2.setBoardId(club.getId());
+        commentDto2.setBoardId(boardId);
         commentDto2.setContent("nono");
         commentDto2.setWriter(member.getNickname());
 

@@ -71,7 +71,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
                 .leftJoin(uploadFile)
                 .on(uploadFile.club.id.eq(club.id)
                         .and(uploadFile.id.eq(
-                                JPAExpressions.select(uploadFile.id.max())
+                                JPAExpressions.select(uploadFile.id.max()) //쿼리 결과 뻥튀기 방지 가장 최근 파일하나만 조인
                                         .from(uploadFile)
                                         .where(uploadFile.club.id.eq(club.id))
                         ))

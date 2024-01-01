@@ -70,7 +70,7 @@ public class Init {
             for (int i = 1; i < 11; i++) {
                 UploadFile uploadFile1 = new UploadFile("유저파일이름", "group" + i +".jpg");
                 Club club = Club.createClub("그룹이름" + i, "소개" + i, uploadFile1);
-                clubService.createClub(member.getId(), club);
+                Long clubid = clubService.createClub(member.getId(), club);
             }
 
             Club club1 = clubService.findById(1L);

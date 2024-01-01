@@ -6,6 +6,7 @@ import jidoly.group.domain.Club;
 import jidoly.group.domain.Member;
 import jidoly.group.domain.UploadFile;
 import jidoly.group.repository.ClubRepository;
+import jidoly.group.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,8 @@ class ClubServiceTest {
     @Autowired ClubService clubService;
     @Autowired ClubRepository clubRepository;
     @Autowired MemberService memberService;
+    @Autowired
+    MemberRepository memberRepository;
 
     @BeforeEach
     void before() {
@@ -105,19 +108,16 @@ class ClubServiceTest {
         clubService.createClub(member.getId(),club1);
         clubService.createClub(member.getId(),club2);
         clubService.createClub(member.getId(),club3);
-        clubService.likeClub(1L, club1.getId());
-        clubService.likeClub(2L, club1.getId());
-        clubService.likeClub(3L, club2.getId());
-        clubService.likeClub(4L, club2.getId());
-        clubService.likeClub(5L, club2.getId());
-        //given
+        for (int i = 0; i < 5; i++) {
+            Member member1 = memberRepository.findByUsername("test@test.com" + i)
+                    .orElseThrow(() -> new RuntimeException("not found member"));
+            if (i % 2 == 0) {
+                clubService.likeClub(member1.getId(), club1.getId());
+            } else {
+                clubService.likeClub(member1.getId(), club2.getId());
+            }
 
-        //when
-
-        //then
-
-
-
+        }
     }
 
 
