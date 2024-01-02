@@ -44,7 +44,7 @@ public class GroupController {
     private final BoardService boardService;
 
     @GetMapping
-    public String groups(Model model) {
+    public String groups(Model model, @RequestParam(value = "orderCondition", required = false) String orderCondition) {
 
         /* top 3 */
         List<GroupDto> top3 = likeRepository.findTop3ClubsByLikes().stream()
@@ -52,6 +52,7 @@ public class GroupController {
                 .map(GroupDto::new)
                 .collect(Collectors.toList());
 
+        model.addAttribute("orderCondition", orderCondition);
         model.addAttribute("top3", top3);
         return "groups/groups";
     }

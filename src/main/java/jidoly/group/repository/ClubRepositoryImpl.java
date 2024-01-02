@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static jidoly.group.domain.QClub.*;
@@ -90,9 +91,7 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
                         groupNameEq(condition.getGroupName()),
                         infoEq(condition.getInfo())
                 )
-                .orderBy(
-                        orderEq(condition.getOrderCondition())
-                )
+                .orderBy(orderEq(condition.getOrderCondition()).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
 
@@ -118,16 +117,33 @@ public class ClubRepositoryImpl implements ClubRepositoryCustom{
         return StringUtils.hasText(info) ? club.info.like("%" +info +"%") : null;
     }
 
-    private OrderSpecifier<Long> orderEq(String getOrderCondition) {
+//    private OrderSpecifier<Long> orderEq(String getOrderCondition) {
+//
+//        if (!StringUtils.hasText(getOrderCondition)) {
+//            return club.id.desc();
+//        }
+//        if (getOrderCondition.equals("like")) {
+//            return like.countDistinct().desc();
+//        } else {
+//            return join.countDistinct().desc();
+//        }
+//    } //아래 방법으로 다중정렬 페이징 시 정렬중복문제 해결
+    private List<OrderSpecifier<Long>> orderEq(String getOrderCondition) {
+        List<OrderSpecifier<Long>> orders = new ArrayList<>();
 
         if (!StringUtils.hasText(getOrderCondition)) {
-            return club.id.desc();
-        }
-        if (getOrderCondition.equals("like")) {
-            return like.countDistinct().desc();
+            orders.add(club.id.desc());
         } else {
-            return join.countDistinct().desc();
+            if (getOrderCondition.equals("like")) {
+                orders.add(like.countDistinct().desc());
+            } else if(getOrderCondition.equals("member")){
+                orders.add(join.countDistinct().desc());
+            }
+            // Add additional conditions for multiple sorting
+            orders.add(club.id.desc());
         }
+
+        return orders;
     }
 
 

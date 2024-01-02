@@ -13,7 +13,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @EnableJpaAuditing
-//@EnableWebSecurity
 @SpringBootApplication
 public class GroupApplication {
 

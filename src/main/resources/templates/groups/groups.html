@@ -59,9 +59,9 @@
     </div>
 
     <select class="groups-sort">
-        <option value="">정렬</option>
-        <option value="like">좋아요</option>
-        <option value="member">멤버수</option>
+        <option value="normal">정렬</option>
+        <option value="like" th:selected="${orderCondition == 'like'}">좋아요</option>
+        <option value="member" th:selected="${orderCondition == 'member'}">멤버수</option>
     </select>
 
 
