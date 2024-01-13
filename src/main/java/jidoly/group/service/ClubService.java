@@ -48,7 +48,6 @@ public class ClubService {
         Club club = clubRepository.findById(clubId)
                 .orElseThrow(() -> new EntityNotFoundException("Club not found with id: " + clubId));
 
-        // 클럽 이름 변경 로직 또는 규칙 적용 필요 MVC시 @Valided랑 같이 고민해보자
         // 예를 들어, 중복 체크, 유효성 검사
         if (clubRepository.findByClubName(newClubName).isPresent()) {
             throw new RuntimeException("Club name already exists: " + newClubName);
